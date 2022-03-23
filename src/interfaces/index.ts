@@ -1,0 +1,6 @@
+export * from './Profile.interface'
+export * from './Package.interface'
+export * from './Service.interface'
+export * from './Hotel.interface'
+export * from './Gallery.interface'
+export * from './Category.interface'

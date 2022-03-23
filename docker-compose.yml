@@ -1,0 +1,46 @@
+version: "3.8"
+networks:
+  msnetwork:
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.21.0.0/24
+services:
+  db:
+    container_name: db-travel
+    image: 'postgres:latest'
+    ports:
+      - '5432:5432'
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=12345
+      - POSTGRES_DB=defaultdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      msnetwork:
+        ipv4_address: 172.21.0.2
+  app:
+    container_name: travel-js
+    build: 
+      context: ./
+      dockerfile: ./Dockerfile
+    restart: unless-stopped
+    tty: true
+    ports:
+      - 8080:80
+      - 443:443
+    volumes:
+      - ./:/home/travel
+    environment:
+      - PGUSER=root
+      - PGPASSWORD=12345
+      - PGDATABASE=defaultdb
+      - PGHOST=db
+    depends_on: 
+      - db
+    networks:
+      msnetwork:
+        ipv4_address: 172.21.0.3
+volumes:
+  pgdata: {}
