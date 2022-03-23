@@ -10,8 +10,8 @@ export const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
     console.log(req.baseUrl);
 
-    const banner = req.baseUrl;
-    const dir = './public/images/' + banner;
+    const des = req.baseUrl;
+    const dir = './public/images/' + des;
     fs.exists(dir, (exist: any) => {
       if (!exist) {
         return fs.mkdirSync(dir, { recursive: true });

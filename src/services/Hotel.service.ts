@@ -1,20 +1,42 @@
-import * as HotelDall from '../dal/Hotel.dal'
+import HotelRepository from '../../src/database/repository/Hotel-repository'
 import { getAllDataFilters, paginate } from '../dto'
-import { HotelInput, HotelOutput } from '../interfaces'
+import { HotelInput } from '../interfaces'
 
-export const createHotel = (payload:HotelInput): Promise<HotelOutput> => {
-  return HotelDall.createHotel(payload)
-}
-export const updateHotel = (id: string, payload: Partial<HotelInput>): Promise<HotelOutput> => {
-  return HotelDall.updateHotel(id, payload)
-}
-export const getHotelById = (id: string): Promise<HotelOutput> => {
-  return HotelDall.getHotelById(id)
-}
-export const deleteHotelById = (id: string): Promise<boolean> => {
-  return HotelDall.deleteHotelById(id)
-}
-
-export const getAllHotel = (filters: getAllDataFilters): Promise<paginate> => {
-  return HotelDall.getAllHotel(filters)
-}
+class HotelService{
+    repository: HotelRepository;
+  
+    constructor(){
+      this.repository = new HotelRepository();
+    }
+  
+    async GetHotel(filters: getAllDataFilters): Promise<paginate> {
+      return this.repository.Hotel(filters);
+    }
+  
+    async CreateHotel(payload: HotelInput) {
+      return this.repository.Create(payload);
+    }
+  
+    async UpdateHotel(id:string, payload: HotelInput) {
+      return this.repository.UpdateById(id, payload);
+    }
+  
+    async DeleteHotel(id:string){
+      return this.repository.DeleteById(id);
+    }
+  
+    async GetHotelById(id: string) {
+      return this.repository.FindById(id);
+    }
+  
+    async GetHotelPayload(Hotel:any){
+  
+      if(Hotel){
+          return Hotel;
+      }else{
+          return ({error: 'No Hotel Available'});
+      }
+    }
+  }
+  
+  export default HotelService;

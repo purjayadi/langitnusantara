@@ -1,20 +1,42 @@
-import * as GalleryDall from '../dal/Gallery.dal'
+import GalleryRepository from '../../src/database/repository/Gallery-repository'
 import { getAllDataFilters, paginate } from '../dto'
-import { GalleryInput, GalleryOutput } from '../interfaces'
+import { GalleryInput } from '../interfaces'
 
-export const createGallery = (payload:GalleryInput): Promise<GalleryOutput> => {
-  return GalleryDall.createGallery(payload)
-}
-export const updateGallery = (id: string, payload: Partial<GalleryInput>): Promise<GalleryOutput> => {
-  return GalleryDall.updateGallery(id, payload)
-}
-export const getGalleryById = (id: string): Promise<GalleryOutput> => {
-  return GalleryDall.getGalleryById(id)
-}
-export const deleteGalleryById = (id: string): Promise<boolean> => {
-  return GalleryDall.deleteGalleryById(id)
-}
-
-export const getAllGallery = (filters: getAllDataFilters): Promise<paginate> => {
-  return GalleryDall.getAllGallery(filters)
-}
+class GalleryService{
+    repository: GalleryRepository;
+  
+    constructor(){
+      this.repository = new GalleryRepository();
+    }
+  
+    async Gallery(filters: getAllDataFilters): Promise<paginate> {
+      return this.repository.Gallery(filters);
+    }
+  
+    async CreateGallery(payload: GalleryInput) {
+      return this.repository.Create(payload);
+    }
+  
+    async UpdateGallery(id:string, payload: GalleryInput) {
+      return this.repository.UpdateById(id, payload);
+    }
+  
+    async DeleteGallery(id:string){
+      return this.repository.DeleteById(id);
+    }
+  
+    async GetGalleryById(id: string) {
+      return this.repository.FindById(id);
+    }
+  
+    async GetGalleryPayload(Gallery:any){
+  
+      if(Gallery){
+          return Gallery;
+      }else{
+          return ({error: 'No Gallery Available'});
+      }
+    }
+  }
+  
+  export default GalleryService;

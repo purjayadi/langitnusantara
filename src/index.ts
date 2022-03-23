@@ -1,6 +1,6 @@
 import express from 'express'
-import Router from './api'
 import db from '../config/db'
+import { Category, Gallery, Hotel, Service  } from './api'
 
 
 const app = express()
@@ -19,7 +19,10 @@ db.authenticate()
   })
 
 // Connection()
-app.use('/api/v1', Router)
+Category(app);
+Gallery(app);
+Service(app);
+Hotel(app);
 
 app.listen(3000, () => {
   console.log('App is listening on port 3000!')
