@@ -1,6 +1,6 @@
-import GalleryRepository from '../../src/database/repository/Gallery-repository'
-import { getAllDataFilters, paginate } from '../dto'
-import { GalleryInput } from '../interfaces'
+import { GalleryRepository } from '../../src/database';
+import { getAllDataFilters, paginate } from '../dto';
+import { GalleryInput } from '../interfaces';
 
 class GalleryService{
     repository: GalleryRepository;

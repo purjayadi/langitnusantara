@@ -1,19 +1,21 @@
-'use strict'
-import { DataTypes, Model } from 'sequelize'
-import db from '../../../config/db'
-import { v4 as uuid } from 'uuid'
+'use strict';
+import { DataTypes, Model } from 'sequelize';
+import db from '../../../config/db';
+import { v4 as uuid } from 'uuid';
 import { ICategory, CategoryInput } from 'src/interfaces';
 
 class Category
   extends Model<ICategory, CategoryInput>
   implements ICategory {
-  public id!: string
-  public name!: string
+  public id!: string;
+  public name!: string;
+  public icon!: string;
+  public color!: string;
 
   // timestamps!
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
-  public readonly deletedAt!: Date
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+  public readonly deletedAt!: Date;
 }
 
 Category.init(
@@ -26,15 +28,23 @@ Category.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
+    icon: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    color: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    }
   },
   {
     timestamps: true,
     sequelize: db
   }
-)
+);
 
 Category.beforeCreate((category) => {
-  category.id = uuid()
-})
+  category.id = uuid();
+});
 
-export default Category
+export default Category;

@@ -1,15 +1,15 @@
-import { Optional } from 'sequelize'
+import { Optional } from 'sequelize';
 
 export interface IProfile{
-    id: string;
+    id?: string;
     name: string;
     phone: string;
     email: string;
     address: string;
-    logo: string;
-    favicon: string;
+    logo?: string;
+    favicon?: string;
     description: string;
 }
 
 export interface ProfileInput extends Optional<IProfile, 'id'> {}
-export interface ProfileOutput extends Required<IProfile[]> {}
+export interface ProfileOutput extends Required<IProfile> {}

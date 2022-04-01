@@ -8,10 +8,17 @@ module.exports = {
         type: Sequelize.UUID
       },
       name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      icon: {
         type: Sequelize.STRING
       },
       isActive: {
         type: Sequelize.BOOLEAN
+      },
+      color: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,
@@ -23,7 +30,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Categories');
   }
 };

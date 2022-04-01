@@ -4,6 +4,8 @@ import { HotelService } from '../services';
 import { getAllDataFilters } from 'src/dto';
 import multer from 'multer';
 import { fileFilter, fileStorage } from '../utils/multer';
+import { paginate } from '../utils/paginate';
+import { isAdmin, auth } from '../utils/auth';
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
 export = (app: any) => {
@@ -13,9 +15,10 @@ export = (app: any) => {
     const filters: getAllDataFilters = req.query;
     try {
       const data = await service.GetHotel(filters);
+      const results = paginate(data, filters?.page, filters?.limit);
       return res.status(200).send({
         success: true,
-        data: data,
+        data: results,
       });
     } catch (err: any) {
       return res.status(500).send({
@@ -25,7 +28,7 @@ export = (app: any) => {
     }
   });
 
-  app.post('/hotel', upload.single('banner'), async (req: Request, res: Response) => {
+  app.post('/hotel', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
     const payload: IHotel = {
       name: req.body.name,
       address: req.body.address,
@@ -48,7 +51,7 @@ export = (app: any) => {
     }
   });
 
-  app.patch('/hotel/:id', upload.single('banner'), async (req: Request, res: Response) => {
+  app.patch('/hotel/:id', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
     const payload: IHotel = {
       name: req.body.name,
       address: req.body.address,
@@ -71,7 +74,7 @@ export = (app: any) => {
     }
   });
 
-  app.delete('Hotel/:id', async (req: Request, res: Response) => {
+  app.delete('/hotel/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
       await service.DeleteHotel(req.params.id);
       return res.status(201).send({
@@ -86,7 +89,7 @@ export = (app: any) => {
     }
   });
 
-  app.get('/hotel/:id', async (req: Request, res: Response) => {
+  app.get('/hotel/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
       const data = await service.GetHotelById(req.params.id);
       return res.status(200).send({

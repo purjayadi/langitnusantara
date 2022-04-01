@@ -1,4 +1,5 @@
 export class getAllDataFilters {
-    limit?: number;
-    page?:number;
-};
+    public readonly limit?: number;
+    public readonly page?:number;
+    public readonly isFeatured?: boolean;
+}

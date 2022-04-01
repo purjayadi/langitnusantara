@@ -1,25 +1,25 @@
-'use strict'
-import { DataTypes, Model } from 'sequelize'
-import db from '../../../config/db'
-import { v4 as uuid } from 'uuid'
+'use strict';
+import { DataTypes, Model } from 'sequelize';
+import db from '../../../config/db';
+import { v4 as uuid } from 'uuid';
 import { IHotel, HotelInput } from 'src/interfaces';
 
 //dto
 class Hotel
   extends Model<IHotel, HotelInput>
   implements IHotel {
-  public id!: string
-  public name!: string
-  public address!: string
+  public id!: string;
+  public name!: string;
+  public address!: string;
   public description!: string;
-  public banner!: string
+  public banner!: string;
   public price!: number;
-  public isActive!: boolean
+  public isActive!: boolean;
 
   // timestamps!
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
-  public readonly deletedAt!: Date
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+  public readonly deletedAt!: Date;
 }
 
 Hotel.init(
@@ -56,10 +56,10 @@ Hotel.init(
     timestamps: true,
     sequelize: db
   }
-)
+);
 
 Hotel.beforeCreate((type) => {
-  type.id = uuid()
-})
+  type.id = uuid();
+});
 
-export default Hotel
+export default Hotel;

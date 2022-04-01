@@ -1,16 +1,10 @@
-import { Request } from 'express';
-import multer, { FileFilterCallback } from 'multer';
+import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-type DestinationCallback = (error: Error | null, destination: string) => void;
-type FileNameCallback = (error: Error | null, filename: string) => void;
-
 export const fileStorage = multer.diskStorage({
   destination: function (req, file, cb) {
-    console.log(req.baseUrl);
-
-    const des = req.baseUrl;
+    const des = req.path;
     const dir = './public/images/' + des;
     fs.exists(dir, (exist: any) => {
       if (!exist) {

@@ -1,6 +1,6 @@
-import HotelRepository from '../../src/database/repository/Hotel-repository'
-import { getAllDataFilters, paginate } from '../dto'
-import { HotelInput } from '../interfaces'
+import { HotelRepository } from '../../src/database';
+import { getAllDataFilters, paginate } from '../dto';
+import { HotelInput } from '../interfaces';
 
 class HotelService{
     repository: HotelRepository;

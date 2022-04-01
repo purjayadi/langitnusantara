@@ -19,6 +19,10 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      slug: {
+        type: Sequelize.STRING,
+        unique: true
+      },
       description: {
         type: Sequelize.TEXT
       },
@@ -44,7 +48,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Packages');
   }
 };

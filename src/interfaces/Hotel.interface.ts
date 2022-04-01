@@ -1,4 +1,4 @@
-import { Optional } from 'sequelize'
+import { Optional } from 'sequelize';
 
 export interface IHotel{
     id?: string;

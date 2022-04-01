@@ -1,6 +1,6 @@
-import ServiceRepository from '../../src/database/repository/Service-repository'
-import { getAllDataFilters, paginate } from '../dto'
-import { ServiceInput } from '../interfaces'
+import { ServiceRepository } from '../../src/database';
+import { getAllDataFilters, paginate } from '../dto';
+import { ServiceInput } from '../interfaces';
 
 class OurService{
     repository: ServiceRepository;

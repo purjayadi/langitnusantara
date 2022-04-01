@@ -1,6 +1,6 @@
-import CategoryRepository from '../../src/database/repository/Category-repository'
-import { getAllDataFilters, paginate } from '../dto'
-import { CategoryInput } from '../interfaces'
+import { CategoryRepository } from '../database';
+import { getAllDataFilters, paginate } from '../dto';
+import { CategoryInput } from '../interfaces';
 
 class CategoryService{
     repository: CategoryRepository;
@@ -30,7 +30,6 @@ class CategoryService{
     }
   
     async GetCategoryPayload(Category:any){
-  
       if(Category){
           return Category;
       }else{

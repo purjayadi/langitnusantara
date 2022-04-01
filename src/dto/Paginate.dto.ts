@@ -1,4 +1,4 @@
 export class paginate {
-    public readonly rows!: any[]
-    public readonly count!: number
+    public readonly rows!: any[];
+    public readonly count!: number;
 }

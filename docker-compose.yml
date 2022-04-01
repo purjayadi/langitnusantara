@@ -8,6 +8,7 @@ networks:
 services:
   db:
     container_name: db-travel
+    restart: unless-stopped
     image: 'postgres:latest'
     ports:
       - '5432:5432'
@@ -21,14 +22,14 @@ services:
       msnetwork:
         ipv4_address: 172.21.0.2
   app:
-    container_name: travel-js
+    container_name: travel
     build: 
       context: ./
       dockerfile: ./Dockerfile
     restart: unless-stopped
     tty: true
     ports:
-      - 8080:80
+      - 8081:80
       - 443:443
     volumes:
       - ./:/home/travel
@@ -42,5 +43,34 @@ services:
     networks:
       msnetwork:
         ipv4_address: 172.21.0.3
+  nginx-proxy:
+    container_name: travel-proxy
+    restart: unless-stopped
+    build:
+      dockerfile: Dockerfile
+      context: ./proxy
+    depends_on:
+      - app
+      - db
+    ports:
+      - "80:80"
+    networks:
+      msnetwork:
+        ipv4_address: 172.21.0.4
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    restart: unless-stopped
+    ports:
+      - "5050:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: password
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin,
+    networks:
+      msnetwork:
+        ipv4_address: 172.21.0.5
 volumes:
   pgdata: {}
+  pgadmin-data: {}

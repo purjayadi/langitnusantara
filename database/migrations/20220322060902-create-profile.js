@@ -10,6 +10,9 @@ module.exports = {
       name: {
         type: Sequelize.STRING
       },
+      email: {
+        type: Sequelize.STRING
+      },
       address: {
         type: Sequelize.STRING
       },

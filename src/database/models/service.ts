@@ -1,19 +1,20 @@
-'use strict'
-import { DataTypes, Model } from 'sequelize'
-import db from '../../../config/db'
-import { v4 as uuid } from 'uuid'
+'use strict';
+import { DataTypes, Model } from 'sequelize';
+import db from '../../../config/db';
+import { v4 as uuid } from 'uuid';
 import { IService, ServiceInput } from 'src/interfaces';
+import PackageService from './packageService';
 
 class Service
   extends Model<IService, ServiceInput>
   implements IService {
-  public id!: string
-  public name!: string
+  public id!: string;
+  public name!: string;
 
   // timestamps!
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
-  public readonly deletedAt!: Date
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+  public readonly deletedAt!: Date;
 }
 
 Service.init(
@@ -31,10 +32,12 @@ Service.init(
     timestamps: true,
     sequelize: db
   }
-)
+);
 
 Service.beforeCreate((type) => {
-  type.id = uuid()
-})
+  type.id = uuid();
+});
 
-export default Service
+Service.belongsTo(PackageService, { foreignKey: 'id', targetKey: 'serviceId', as: 'details' });
+
+export default Service;

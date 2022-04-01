@@ -1,2 +1,2 @@
-export * from './Filters.dto'
-export * from './Paginate.dto'
+export * from './Filters.dto';
+export * from './Paginate.dto';

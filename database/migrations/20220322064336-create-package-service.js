@@ -8,14 +8,30 @@ module.exports = {
         type: Sequelize.UUID
       },
       packageId: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        references: {
+          model: 'Packages', // name of Target model
+          key: 'id' // key in Target model that we're referencing
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE' 
       },
       serviceId: {
-        type: Sequelize.STRING
+        type: Sequelize.UUID,
+        references: {
+          model: 'Services', // name of Target model
+          key: 'id' // key in Target model that we're referencing
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL' 
       },
       type: {
         type: Sequelize.ENUM,
         values: ['inc', 'exc']
+      },
+      description: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       createdAt: {
         allowNull: false,
@@ -27,7 +43,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('PackageServices');
   }
 };

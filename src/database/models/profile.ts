@@ -1,25 +1,25 @@
-'use strict'
-import { DataTypes, Model } from 'sequelize'
-import db from '../../../config/db'
-import { v4 as uuid } from 'uuid'
+'use strict';
+import { DataTypes, Model } from 'sequelize';
+import db from '../../../config/db';
+import { v4 as uuid } from 'uuid';
 import { IProfile, ProfileInput } from 'src/interfaces';
 
 class Profile
   extends Model<IProfile, ProfileInput>
   implements IProfile {
-  public id!: string
-  public name!: string
-  public phone!: string
-  public email!: string
-  public address!: string
-  public logo!: string
-  public favicon!: string
-  public description!: string
+  public id!: string;
+  public name!: string;
+  public phone!: string;
+  public email!: string;
+  public address!: string;
+  public logo!: string;
+  public favicon!: string;
+  public description!: string;
 
   // timestamps!
-  public readonly createdAt!: Date
-  public readonly updatedAt!: Date
-  public readonly deletedAt!: Date
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+  public readonly deletedAt!: Date;
 }
 
 Profile.init(
@@ -58,10 +58,10 @@ Profile.init(
     timestamps: true,
     sequelize: db
   }
-)
+);
 
 Profile.beforeCreate((type) => {
-  type.id = uuid()
-})
+  type.id = uuid();
+});
 
-export default Profile
+export default Profile;

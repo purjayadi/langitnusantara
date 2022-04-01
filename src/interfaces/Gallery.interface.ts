@@ -1,8 +1,8 @@
-import { Optional } from 'sequelize'
+import { Optional } from 'sequelize';
 
 export interface IGallery{
-    id: string;
-    name: string;
+    id?: string;
+    name?: string;
     isSlider: boolean;
 }
 

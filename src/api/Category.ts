@@ -2,17 +2,22 @@ import { Request, Response } from 'express';
 import { ICategory } from '../interfaces';
 import { CategoryService } from '../services';
 import { getAllDataFilters } from 'src/dto';
+import { paginate } from '../utils/paginate';
+import { isAdmin, auth } from '../utils/auth';
 
+// TODO fix this
 export = (app:any) => {
   const service = new CategoryService();
 
   app.get('/category', async (req: Request, res: Response) => {
-    const filters: getAllDataFilters = req.query
+    
+    const filters: getAllDataFilters = req.query;
     try {
       const data = await service.GetCategory(filters);
+      const results = paginate(data, filters?.page, filters?.limit);
       return res.status(200).send({
         success: true,
-        data: data
+        data: results
       });
     } catch (err:any) {
       return res.status(500).send({
@@ -22,7 +27,7 @@ export = (app:any) => {
     }
   });
 
-  app.post('/category', async (req: Request, res: Response) => {
+  app.post('/category', auth, isAdmin, async (req: Request, res: Response) => {
       const category:ICategory = req.body;
       try {
         const data = await service.CreateCategory(category);
@@ -38,7 +43,7 @@ export = (app:any) => {
       }
   });
 
-  app.patch('/category/:id', async (req: Request, res: Response) => {
+  app.patch('/category/:id', auth, isAdmin, async (req: Request, res: Response) => {
       const category:ICategory = req.body;
       try {
         await service.UpdateCategory(req.params.id, category);
@@ -54,7 +59,7 @@ export = (app:any) => {
       }
   });
 
-  app.delete('category/:id', async (req: Request, res: Response) => {
+  app.delete('/category/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
         await service.DeleteCategory(req.params.id);
         return res.status(201).send({

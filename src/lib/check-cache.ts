@@ -1,21 +1,21 @@
-import { Request, Response, NextFunction } from 'express'
-import LocalCache from './local-cache'
+import { Request, Response, NextFunction } from 'express';
+import LocalCache from './local-cache';
 
 export const checkCache = (req: Request, res: Response, next: NextFunction) => {
   try {
-    const { baseUrl, method } = req
-    const [, , , cacheKey] = baseUrl.split('/')
+    const { baseUrl, method } = req;
+    const [, , , cacheKey] = baseUrl.split('/');
 
     if (method === 'GET' && LocalCache.hasKey(cacheKey)) {
-      const data = LocalCache.get(cacheKey)
+      const data = LocalCache.get(cacheKey);
 
-      return res.status(200).send(data)
+      return res.status(200).send(data);
     }
 
-    next()
+    next();
   } catch (err) {
     // do some logging
-    res.status(500).send(err)
-    throw err
+    res.status(500).send(err);
+    throw err;
   }
-}
+};
