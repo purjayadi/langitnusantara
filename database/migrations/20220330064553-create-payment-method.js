@@ -24,7 +24,7 @@ module.exports = {
         onDelete: 'CASCADE' 
       },
       chanelCode: {
-        type: Sequelize.UUID,
+        type: Sequelize.STRING,
         references: {
           model: 'PaymentChanels', // name of Target model
           key: 'chanelCode' // key in Target model that we're referencing
