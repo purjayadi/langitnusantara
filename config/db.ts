@@ -17,7 +17,7 @@ const db = new Sequelize(dbName, dbUser, dbPassword, {
   dialect: dbDriver,
   dialectOptions: {
     ssl: {
-      require: false,
+      require: true,
       rejectUnauthorized: false
     }
   },
