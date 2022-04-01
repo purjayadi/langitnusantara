@@ -7,6 +7,7 @@ import Logger from './utils/logger';
 import morganMiddleware from './middleware/morganMiddleware';
 // import sessionMiddleware from './middlewares/session.middlware';
 
+const PORT : string|number = process.env.PORT || 3001;
 
 const app = express();
 app.use(express.json()); // to support JSON-encoded bodies
@@ -49,6 +50,6 @@ Event(app);
 PaymentChanel(app);
 Test(app);
 
-app.listen(3000, () => {
+app.listen(PORT, () => {
   Logger.info('App is listening on port 3000!');
 });
