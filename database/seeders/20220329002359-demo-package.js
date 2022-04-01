@@ -4,9 +4,9 @@ const { faker } = require('@faker-js/faker');
 module.exports = {
   // eslint-disable-next-line no-unused-vars
   async up (queryInterface, Sequelize) {
-    let category = [];
-      for (let index = 0; index < 10; index++) {
-        category.push({
+    let categories = [];
+      for (let index = 1; index < 10; index++) {
+        categories.push({
           id: faker.datatype.uuid(),
           name: faker.name.title(),
           icon: 'flaticon-driver',
@@ -16,7 +16,7 @@ module.exports = {
         });
     }
     let packages = [];
-    for (let index = 0; index < 20; index++) {
+    for (let index = 1; index < 20; index++) {
       packages.push({
         id: faker.datatype.uuid(),
         name: faker.address.city(),
@@ -25,13 +25,13 @@ module.exports = {
         description: faker.lorem.lines(5),
         isFeatured: faker.random.arrayElement([true, false]),
         banner: 'public/images/package/banner-1648262647133.jpg',
-        categoryId: category[index].id,
+        categoryId: categories[index].id,
         createdAt: new Date(),
         updatedAt: new Date()
       });
     }
     let services = [];
-      for (let index = 0; index < 20; index++) {
+      for (let index = 1; index < 20; index++) {
         services.push({
           id: faker.datatype.uuid(),
           name: faker.name.findName(),
