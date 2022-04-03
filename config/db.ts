@@ -2,6 +2,7 @@
 import diff from 'microdiff';
 import { Dialect, Model, Sequelize } from 'sequelize';
 import localCache from '../src/lib/local-cache';
+import Logger from '../src/utils/logger';
 require('dotenv').config();
 
 const isTest = process.env.NODE_ENV === 'test';
@@ -16,12 +17,12 @@ const db = new Sequelize(dbName, dbUser, dbPassword, {
   host: dbHost,
   dialect: dbDriver,
   dialectOptions: {
-    ssl: {
-      require: true,
-      rejectUnauthorized: false
-    }
+    // ssl: {
+    //   require: false,
+    //   rejectUnauthorized: false
+    // }
   },
-  logging: console.log,
+  logging: (msg) => Logger.debug(msg),
   define: {
     hooks: {
       afterUpdate: (instance: Model<any, any>) => {

@@ -12,8 +12,12 @@ class VaRepository {
     }
 
     async Create(payload: IVa) {
-        const fixedAcc = await va.createFixedVA(payload);
-        return fixedAcc;
+        try {
+            const fixedAcc = await va.createFixedVA(payload);
+            return fixedAcc;
+        } catch (error:any) {
+            return error;
+        }
     }
 
     async Update(id: string, expectedAmt: number)

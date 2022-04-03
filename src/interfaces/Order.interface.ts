@@ -12,7 +12,12 @@ export interface IOrder{
     price: number,
     discount: number,
     amount: number,
-    status?: string
+    status?:  string;
+    payment?: {
+        source: string;
+        chanelCode: string;
+        chanelCategory: string;
+    };
 }
 
 export interface OrderInput extends Optional<IOrder, 'id'> {}

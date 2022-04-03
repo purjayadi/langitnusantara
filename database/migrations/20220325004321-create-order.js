@@ -54,11 +54,6 @@ module.exports = {
         values: ['Unpaid', 'Paid', 'Done', 'Canceled'],
         defaultValue: 'Unpaid'
       },
-      paymentMethod: {
-        type: Sequelize.ENUM,
-        values: ['Direct', 'Payment Gateway'],
-        allowNull: false
-      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

@@ -12,10 +12,10 @@ module.exports = {
     port: 5432,
     dialect: 'postgres',
     dialectOptions: {
-      ssl: {
-          require: true,
-          rejectUnauthorized: false
-      }
+      // ssl: {
+      //     require: false,
+      //     rejectUnauthorized: false
+      // }
     }
   },
   test: {

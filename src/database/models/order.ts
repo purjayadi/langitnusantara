@@ -22,6 +22,11 @@ class Order
   public discount!: number;
   public amount!: number;
   public status!: string;
+  public payment!: {
+    source: string;
+    chanelCode: string;
+    chanelCategory: string;
+  };
 
   // timestamps!
   public readonly createdAt!: Date;
@@ -46,7 +51,7 @@ Order.init(
             key: 'id' // key in Target model that we're referencing
         },
         onUpdate: 'CASCADE',
-        onDelete: 'CASCADE' 
+        onDelete: 'CASCADE',
     },
     in: {
         type: DataTypes.DATEONLY,

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { IOrder, IUser } from '../interfaces';
-import { OrderService, VaService } from '../services';
+import { OrderService, paymentEvent, VaService } from '../services';
 import { getAllDataFilters } from 'src/dto';
 import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
@@ -9,6 +9,7 @@ import Logger from '../utils/logger';
 
 export = (app: any) => {
   const service = new OrderService();
+  const event = new paymentEvent();
   // eslint-disable-next-line no-unused-vars
   const va = new VaService();
 
@@ -35,7 +36,21 @@ export = (app: any) => {
   app.post('/order', auth, async (req: Request, res: Response) => {
     const payload: IOrder = req.body;
     try {
+      if (!payload.payment) {
+        return res.status(400).json({
+          success: false,
+          message: 'Silahkan pilih metode pembayaran',
+        });
+      }
       const data = await service.CreateOrder(payload);
+      if (data) {
+        const makePayment = await event.MakePayment(payload.payment, data);
+        return res.status(200).send({
+          success: true,
+          message: 'Booking created successfully',
+          data: makePayment,
+        });
+      }
       return res.status(200).send({
         success: true,
         data: data,
@@ -54,7 +69,7 @@ export = (app: any) => {
       await service.UpdateOrder(req.params.id, payload);
       return res.status(200).send({
         success: true,
-        message: 'Update order successfully',
+        message: 'Update booking successfully',
       });
     } catch (error: any) {
       return res.status(500).send({

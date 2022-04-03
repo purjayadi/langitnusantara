@@ -1,5 +1,5 @@
 import { VaRepository } from '../../database';
-import { VaInput } from '../../interfaces';
+import Logger from '../../utils/logger';
 
 class VaService{
     repository: VaRepository;
@@ -12,7 +12,16 @@ class VaService{
         return this.repository.getVABanks();
     }
 
-    async CreateVa(payload: VaInput) {
+    async CreateVa(payment: any, data: any) {
+        const payload = {
+            externalID: data.noInvoice,
+            name:'Traveler',
+            bankCode: payment.chanelCode,
+            isClosed: true,
+            suggestedAmt: data.amount,
+            expectedAmt: data.amount,
+        };
+        Logger.debug(payload);
         return this.repository.Create(payload);
     }
 
