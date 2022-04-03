@@ -17,10 +17,10 @@ const db = new Sequelize(dbName, dbUser, dbPassword, {
   host: dbHost,
   dialect: dbDriver,
   dialectOptions: {
-    // ssl: {
-    //   require: false,
-    //   rejectUnauthorized: false
-    // }
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
   },
   logging: (msg) => Logger.debug(msg),
   define: {
