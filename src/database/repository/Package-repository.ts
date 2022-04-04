@@ -11,7 +11,7 @@ class PackageRepository {
     ): Promise<paginate> {
         const limit = filters?.limit ? +filters?.limit : 10;
         const offset = filters?.page ? (+filters?.page * limit) - limit : 1;
-        const allPackage = Package.scope(['category', 'services', 'itinerary', 'price', 'reviews']).findAndCountAll({
+        const allPackage = Package.scope(['destination', 'category', 'services', 'itinerary', 'price', 'reviews']).findAndCountAll({
             attributes: ['id', 'name', 'slug', 'description', 'noOfDay', 'isFeatured', 'banner'],
             distinct: true,
             col: 'Package.id',
@@ -156,7 +156,7 @@ class PackageRepository {
     }
 
     async FindById(id: string) {
-        const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews']).findOne({
+        const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews', 'destination']).findOne({
             where: { id: id },
             attributes: ['id', 'name', 'slug', 'description', 'noOfDay', 'isFeatured', 'banner']
         });
@@ -168,7 +168,7 @@ class PackageRepository {
     }
 
     async FindBySlug(slug: string) {
-        const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews']).findOne({
+        const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews', 'destination']).findOne({
             where: { slug: slug },
             attributes: ['id', 'name', 'slug', 'description', 'noOfDay', 'isFeatured', 'banner'],
         });

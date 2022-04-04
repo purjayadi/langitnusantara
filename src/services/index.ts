@@ -16,6 +16,7 @@ import EwalletService from './paymentGateway/Ewallet.service';
 import TransactionService from './paymentGateway/Transaction.service';
 import paymentEvent from './paymentGateway/PaymentEvent.service';
 import OrderPaymentService from './payment/OrderPaymentService';
+import DestinationService from './Destination.service';
 
 export {
     CategoryService,
@@ -35,5 +36,6 @@ export {
     EwalletService,
     TransactionService,
     paymentEvent,
-    OrderPaymentService
+    OrderPaymentService,
+    DestinationService,
 };

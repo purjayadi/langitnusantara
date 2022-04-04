@@ -9,6 +9,7 @@ import Itinerary from './itinerary';
 import Review from './review';
 import PackageService from './packageService';
 import PackagePrice from './packagePrice';
+import Destination from './destination';
 var slug = require('slug');
 
 //dto
@@ -22,6 +23,7 @@ class Package
   public noOfDay!: number;
   public description!: string;
   public categoryId!: string;
+  public destinationId!: string;
   public isFeatured?: boolean;
 
   // timestamps!
@@ -41,6 +43,15 @@ Package.init(
       type: DataTypes.UUID,
       references: {
         model: 'Categories', // name of Target model
+        key: 'id' // key in Target model that we're referencing
+      },
+      onUpdate: 'CASCADE',
+      onDelete: 'SET NULL' 
+    },
+    destinationId: { 
+      type: DataTypes.UUID,
+      references: {
+        model: 'Destinations', // name of Target model
         key: 'id' // key in Target model that we're referencing
       },
       onUpdate: 'CASCADE',
@@ -86,6 +97,11 @@ Package.belongsTo(Category, {
   as: 'category',
 });
 
+Package.belongsTo(Destination, {
+  foreignKey: 'destinationId',
+  as: 'destination',
+});
+
 
 Service.belongsToMany(Package, 
   { 
@@ -117,6 +133,17 @@ Package.addScope('itinerary', {
       attributes: ['day', 'title', 'meta', 'description']
     }
   ],
+});
+
+Package.addScope('destination', {
+  include: [
+    {
+      model: Destination,
+      as: 'destination',
+      attributes: ['name'],
+      required: true
+    },
+  ]
 });
 
 Package.addScope('services', {

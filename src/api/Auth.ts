@@ -34,8 +34,8 @@ AuthApi.post('/login', async (req: Request, res: Response, next: NextFunction) =
         });
         req.logIn(user, (err) => {
             if (err) throw err;
-            const accessToken = jwt.sign({ user }, JWT_SECRET || '7C282E899FA4A9D9', { expiresIn: '1h' });
-            const refreshToken = jwt.sign({ user }, JWT_SECRET || '7C282E899FA4A9D9', { expiresIn: '1d' });
+            const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1h' });
+            const refreshToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
             return res.status(200).json({
                 success: true,
                 message: 'Login successfully',

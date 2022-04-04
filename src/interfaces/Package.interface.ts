@@ -8,6 +8,7 @@ export interface IPackage{
     noOfDay: number;
     banner?: string;
     categoryId: string;
+    destinationId: string;
     isFeatured?: boolean;
     services?: any[];
     itinerary?: [{

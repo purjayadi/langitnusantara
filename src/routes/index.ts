@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Gallery, Category, Auth, Feature, Hotel, Order, Package, Partner, Profile, Review, Service, Team, User, Event, PaymentChanel, Test } from '../api';
+import { Gallery, Category, Auth, Feature, Hotel, Order, Package, Partner, Profile, Review, Service, Team, User, Event, PaymentChanel, Test, Destination } from '../api';
 
 const routers = Router();
 routers.use('/category', Category);
@@ -17,6 +17,7 @@ routers.use('/user', User);
 routers.use('/event', Event);
 routers.use('/payment-chanel', PaymentChanel);
 routers.use('/auth', Auth);
+routers.use('/destination', Destination);
 // router for test
 routers.use('/test', Test);
 

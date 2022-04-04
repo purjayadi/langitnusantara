@@ -15,6 +15,7 @@ import PaymentChanelRepository from './repository/payment/PaymentChanelRepositor
 import EwalletRepository from './repository/paymentGateway/EwalletRepository';
 import TransactionRepository from './repository/paymentGateway/TransactionRepository';
 import OrderPaymentRepository from './repository/payment/OrderPaymentRepository';
+import DestinationRepository from './repository/DestinationRepository';
 
 export {
     ServiceRepository,
@@ -33,5 +34,6 @@ export {
     PaymentChanelRepository,
     EwalletRepository,
     TransactionRepository,
-    OrderPaymentRepository
+    OrderPaymentRepository,
+    DestinationRepository,
 };

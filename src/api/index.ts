@@ -11,6 +11,7 @@ import Team from './Team';
 import Order from './Order';
 import User from './User';
 import Auth from './Auth';
+import Destination from './Destination';
 import Event from './payment/Event';
 import PaymentChanel from './payment/PaymentChanel';
 import Test from './payment/Test';
@@ -31,5 +32,6 @@ export {
     Auth,
     Event,
     PaymentChanel,
-    Test
+    Test,
+    Destination,
 };

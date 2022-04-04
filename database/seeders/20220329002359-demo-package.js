@@ -21,6 +21,7 @@ module.exports = {
         id: faker.datatype.uuid(),
         name: faker.address.city(),
         slug: faker.lorem.slug(4),
+        destinationId: faker.random.arrayElement(['1036e7d5-1901-46fd-9097-0a525344d076', '3417ac67-3461-4a13-9b4f-259b1e0853b6', '78659d53-2790-4814-9f89-08fd5e07eccb', '4056a48d-a2e8-4179-a568-ef9f22d476f8']),
         noOfDay: faker.random.arrayElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         description: faker.lorem.lines(5),
         isFeatured: faker.random.arrayElement([true, false]),
