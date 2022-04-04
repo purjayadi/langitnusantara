@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { IService } from '../interfaces';
 import { OurService } from '../services';
 import { getAllDataFilters } from 'src/dto';
 import { paginate } from '../utils/paginate';
 import { auth, isAdmin } from '../utils/auth';
 
-export = (app:any) => {
+const ServiceApi = Router();
   const service = new OurService();
 
-  app.get('/service', async (req: Request, res: Response) => {
+  ServiceApi.get('', async (req: Request, res: Response) => {
     const filters: getAllDataFilters = req.query;
     try {
       const data = await service.GetService(filters);
@@ -25,7 +25,7 @@ export = (app:any) => {
     }
   });
 
-  app.post('/service', auth, isAdmin, async (req: Request, res: Response) => {
+  ServiceApi.post('', auth, isAdmin, async (req: Request, res: Response) => {
       const payload:IService = req.body;
       try {
         const data = await service.CreateService(payload);
@@ -41,7 +41,7 @@ export = (app:any) => {
       }
   });
 
-  app.patch('/service/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  ServiceApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
       const payload:IService = req.body;
       try {
         await service.UpdateService(req.params.id, payload);
@@ -57,7 +57,7 @@ export = (app:any) => {
       }
   });
 
-  app.delete('/service/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  ServiceApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
         await service.DeleteService(req.params.id);
         return res.status(201).send({
@@ -72,7 +72,7 @@ export = (app:any) => {
     }
   });
 
-  app.get('/service/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  ServiceApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
         const data = await service.GetServiceById(req.params.id);
         return res.status(200).send({
@@ -86,4 +86,5 @@ export = (app:any) => {
         });
     }
   });
-}
+
+export default ServiceApi;

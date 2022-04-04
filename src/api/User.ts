@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { IUser } from '../interfaces';
 import { UserService } from '../services';
 import { getAllDataFilters } from 'src/dto';
 import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
 
-export = (app:any) => {
+const UserApi = Router();
   const service = new UserService();
 
-  app.get('/user', auth, isAdmin, async (req: Request, res: Response) => {
+  UserApi.get('', auth, isAdmin, async (req: Request, res: Response) => {
     const filters: getAllDataFilters = req.query;
     try {
       const data = await service.GetUser(filters);
@@ -25,7 +25,7 @@ export = (app:any) => {
     }
   });
 
-  app.post('/user', auth, isAdmin, async (req: Request, res: Response) => {
+  UserApi.post('', auth, isAdmin, async (req: Request, res: Response) => {
       const User:IUser = req.body;
       try {
         const data = await service.CreateUser(User);
@@ -41,7 +41,7 @@ export = (app:any) => {
       }
   });
 
-  app.patch('/user/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  UserApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
       const User:IUser = req.body;
       try {
         await service.UpdateUser(req.params.id, User);
@@ -57,7 +57,7 @@ export = (app:any) => {
       }
   });
 
-  app.delete('/user/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  UserApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
         await service.DeleteUser(req.params.id);
         return res.status(201).send({
@@ -72,7 +72,7 @@ export = (app:any) => {
     }
   });
 
-  app.get('/user/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  UserApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
         const data = await service.GetUserById(req.params.id);
         return res.status(200).send({
@@ -86,4 +86,5 @@ export = (app:any) => {
         });
     }
   });
-}
+
+export default UserApi;

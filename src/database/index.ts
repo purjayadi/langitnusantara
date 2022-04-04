@@ -14,6 +14,7 @@ import VaRepository from './repository/paymentGateway/VaRepository';
 import PaymentChanelRepository from './repository/payment/PaymentChanelRepository';
 import EwalletRepository from './repository/paymentGateway/EwalletRepository';
 import TransactionRepository from './repository/paymentGateway/TransactionRepository';
+import OrderPaymentRepository from './repository/payment/OrderPaymentRepository';
 
 export {
     ServiceRepository,
@@ -32,4 +33,5 @@ export {
     PaymentChanelRepository,
     EwalletRepository,
     TransactionRepository,
+    OrderPaymentRepository
 };

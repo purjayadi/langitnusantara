@@ -8,10 +8,11 @@ class OrderPayment
   extends Model<IOrderPayment, OrderPaymentInput>
   implements IOrderPayment {
   public id!: string;
-  public source?: string | undefined;
-  public externalId?: string;
+  public source!: string;
+  public externalId!: string;
   public orderId!: string;
   public chanelCode!: string;
+  public accountNumber!: string;
   public amount!: number;
 
   // timestamps!
@@ -51,6 +52,10 @@ OrderPayment.init(
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
+    },
+    accountNumber: {
+      type: DataTypes.STRING,
+      allowNull: true
     },
     amount: {
       type: DataTypes.NUMBER,

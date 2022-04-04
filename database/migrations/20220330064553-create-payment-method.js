@@ -32,6 +32,10 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
+      accountNumber: {
+        type: Sequelize.STRING,
+        allowNull: true
+      },
       amount: {
         type: Sequelize.DECIMAL,
         allowNull: false

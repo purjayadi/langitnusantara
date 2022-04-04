@@ -1,12 +1,14 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
+import { OrderPaymentInput } from 'src/interfaces';
 import { isXendit } from '../../middleware/xendit.middleware';
-import { OrderService } from '../../services';
+import { OrderService, OrderPaymentService } from '../../services';
 import Logger from '../../utils/logger';
 
-export = (app: any) => {
+const EventApi = Router();
     const service = new OrderService();
+    const orderPayment = new OrderPaymentService();
 
-    app.post('/event/payment/va/success', isXendit, async (req: Request, res: Response) => {
+    EventApi.post('/payment/va/success', isXendit, async (req: Request, res: Response) => {
         const status = 'Paid';
         try {
             await service.UpdateStatusOrder(req.body.external_id, status);
@@ -22,7 +24,7 @@ export = (app: any) => {
         }
     });
 
-    app.post('/event/payment/ewallet/success', isXendit, async (req: Request, res: Response) => {
+    EventApi.post('/payment/ewallet/success', isXendit, async (req: Request, res: Response) => {
         const status = 'Paid';
         Logger.info(req.body.data);
         try {
@@ -39,11 +41,28 @@ export = (app: any) => {
         }
     });
 
-    app.post('/event/order/create', isXendit, async (req: Request, res: Response) => {
-        return res.status(200).send({
-            success: true,
-            message: 'success create va',
-        });
+    EventApi.post('/payment/va/create', isXendit, async (req: Request, res: Response) => {
+        Logger.info(req.body);
+        const payload: OrderPaymentInput = {
+            source: 'Xendit',
+            externalId: req.body.id,
+            orderId: req.body.external_id,
+            chanelCode: req.body.bank_code,
+            accountNumber: req.body.account_number,
+            amount: req.body.amount,
+        };
+        try {
+            await orderPayment.CreateOrderPayment(payload);
+            return res.status(200).send({
+                success: true,
+                message: 'Generate virtual account berhasil',
+            });
+        } catch (error: any) {
+            return res.status(500).send({
+                success: true,
+                message: error.message,
+            });
+        }
     });
-
-};
+    
+export default EventApi;

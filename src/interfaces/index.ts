@@ -17,3 +17,4 @@ export * from './paymentGateway/VaInterface';
 export * from './Payment.interface';
 export * from './paymentGateway/Ewallet.interface';
 export * from './paymentGateway/GeneralPayment.interface';
+export * from './paymentGateway/RoInterface';

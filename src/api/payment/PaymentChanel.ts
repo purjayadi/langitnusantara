@@ -1,18 +1,21 @@
-import { Request, Response } from 'express';
+import { Request, Response, Router } from 'express';
 import { IPaymentChanel } from '../../interfaces';
 import { PaymentChanelService } from '../../services';
 import { getAllDataFilters } from 'src/dto';
 import { paginate } from '../../utils/paginate';
 import { isAdmin, auth } from '../../utils/auth';
+import Logger from '../../../src/utils/logger';
 
-export = (app:any) => {
+
+const PaymentChanelApi = Router();
   const service = new PaymentChanelService();
 
-  app.get('/payment/chanel', async (req: Request, res: Response) => {
+  PaymentChanelApi.get('/', async (req: Request, res: Response) => {
     
     const filters: getAllDataFilters = req.query;
     try {
       const data = await service.GetPaymentChanel(filters);
+      Logger.debug(data);
       const results = paginate(data, filters?.page, filters?.limit);
       return res.status(200).send({
         success: true,
@@ -26,7 +29,7 @@ export = (app:any) => {
     }
   });
 
-  app.post('/payment/chanel', auth, isAdmin, async (req: Request, res: Response) => {
+  PaymentChanelApi.post('/', auth, isAdmin, async (req: Request, res: Response) => {
       const PaymentChanel:IPaymentChanel = req.body;
       try {
         const data = await service.CreatePaymentChanel(PaymentChanel);
@@ -42,7 +45,7 @@ export = (app:any) => {
       }
   });
 
-  app.patch('/payment/chanel/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  PaymentChanelApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
       const PaymentChanel:IPaymentChanel = req.body;
       try {
         await service.UpdatePaymentChanel(req.params.id, PaymentChanel);
@@ -58,7 +61,7 @@ export = (app:any) => {
       }
   });
 
-  app.delete('/payment/chanel/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  PaymentChanelApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
         await service.DeletePaymentChanel(req.params.id);
         return res.status(201).send({
@@ -73,7 +76,7 @@ export = (app:any) => {
     }
   });
 
-  app.get('/payment/chanel/:id', async (req: Request, res: Response) => {
+  PaymentChanelApi.get('/:id', async (req: Request, res: Response) => {
     try {
         const data = await service.GetPaymentChanelById(req.params.id);
         return res.status(200).send({
@@ -87,4 +90,5 @@ export = (app:any) => {
         });
     }
   });
-}
+
+export default PaymentChanelApi;

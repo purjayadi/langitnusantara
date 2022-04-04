@@ -10,5 +10,16 @@ export interface IVa{
     expectedAmt: number;
 }
 
+export interface IVirtualAccount{
+    id?: string;
+    status: string;
+    externalId: string;
+    orderId: string;
+    expectedAmount: number;
+    bankCode: string;
+    accountNumber: string;
+}
+
 export interface VaInput extends Optional<IVa, 'id'> {}
+export interface VirtualAccountInput extends Optional<IVa, 'id'> {}
 export interface VaOutput extends Required<IVa> {}
