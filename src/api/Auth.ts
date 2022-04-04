@@ -81,4 +81,17 @@ AuthApi.get('/facebook', async (req: Request, res: Response, next: NextFunction)
     });
 });
 
+AuthApi.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+
+AuthApi.get('/google/callback',
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    function (req, res) {
+        // Successful authentication, redirect to the app.
+        return res.status(200).send({
+            success: true,
+            message: 'Login successfully',
+            user: req.user
+        });
+    });
+
 export default AuthApi;
