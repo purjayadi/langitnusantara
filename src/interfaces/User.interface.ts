@@ -2,13 +2,14 @@ import { Optional } from 'sequelize';
 
 export interface IUser{
     id?: string;
+    provider?: string;
     firstName: string;
     lastName: string;
     fullName?: string;
     email: string;
-    password: string;
-    phone: string;
-    isAdmin: boolean;
+    password?: string;
+    phone?: string;
+    isAdmin?: boolean;
 }
 
 export interface UserInput extends Optional<IUser, 'id'> {}

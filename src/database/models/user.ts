@@ -9,6 +9,7 @@ class User
   extends Model<IUser, UserInput>
   implements IUser {
   public id!: string;
+  public provider!: string;
   public firstName!: string;
   public lastName!: string;
   public fullName!: string;
@@ -30,6 +31,10 @@ User.init(
     id: {
       type: DataTypes.UUID,
       primaryKey: true
+    },
+    provider: {
+      type: DataTypes.ENUM,
+      values: ['local', 'google', 'facebook', 'twitter', 'github'],
     },
     firstName: {
       type: DataTypes.STRING,
@@ -70,14 +75,23 @@ User.init(
     },
     password: {
       type: DataTypes.STRING,
-      allowNull: false
+      allowNull: true,
+      validate: {
+        userValidation(){
+          if(this.provider === null || this.provider === 'local'){
+            throw new Error('Password is required');
+          }
+        }
+      }
     },
     phone: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: true,
       validate: {
-        notNull: {
-          msg: 'Phone number is required'
+        userValidation(){
+          if(this.provider === null || this.provider === 'local'){
+            throw new Error('Phone number is required');
+          }
         }
       }
     },

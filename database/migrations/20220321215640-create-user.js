@@ -7,6 +7,11 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID
       },
+      provider: {
+        type: Sequelize.ENUM,
+        values: ['local', 'google', 'facebook', 'twitter', 'github'],
+        defaultValue: 'local'
+      },
       firstName: {
         type: Sequelize.STRING
       },
@@ -18,10 +23,12 @@ module.exports = {
         unique: true
       },
       password: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       phone: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: true
       },
       isAdmin: {
         type: Sequelize.BOOLEAN,

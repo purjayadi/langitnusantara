@@ -1,10 +1,12 @@
 import { Request } from 'express';
 import passport from 'passport';
 import { Strategy as LocalStrategy } from 'passport-local';
-import { Strategy as FacebookStrategy } from 'passport-facebook';
 import { Strategy as GoogleStrategy } from 'passport-google-oauth2';
 import { ExtractJwt, Strategy as JwtStrategy } from 'passport-jwt';
 import User from '../database/models/user';
+import { UserInput } from 'src/interfaces';
+import Logger from '../utils/logger';
+import { Op } from 'sequelize';
 require('dotenv').config();
 
 passport.use(
@@ -46,22 +48,6 @@ passport.use(
 );
 
 passport.use(
-    'facebook',
-    new FacebookStrategy(
-        {
-            clientID: process.env['FACEBOOK_CLIENT_ID'] || 'clientID',
-            clientSecret: process.env['FACEBOOK_CLIENT_SECRET'] || 'clientSecret',
-            callbackURL: process.env['FACEBOOK_CALLBACK_URL'] || 'callbackURL',
-            profileFields: ['id', 'displayName', 'email'],
-        },
-        async (accessToken, refreshToken, profile, done) => {
-            // const user = await User.findOrCreate({ where: { email: email }, });
-            //@ts-ignore
-            return done(null, profile);
-        }
-    ));
-
-passport.use(
     'google',
     new GoogleStrategy({
         clientID: process.env['clientID'] || 'clientID',
@@ -69,9 +55,29 @@ passport.use(
         callbackURL: process.env['callbackURL'] || 'clientSecret',
         passReqToCallback: true
     },
-    // @ts-ignore
-        async (accessToken, refreshToken, profile, done) => {
-            return done(null, profile);
+        // @ts-ignore
+        async function (accessToken, refreshToken, profile, cb, done) {
+            Logger.debug(cb);
+            const payload: UserInput = {
+                firstName: cb.given_name as string,
+                lastName: cb.family_name as string,
+                email: cb.email as string,
+                provider: cb.provider as string
+            };
+            const user = await User.findOne({ where: { 
+                [Op.and]: [{ email: payload.email }, { provider: payload.provider }]
+             }});
+            if (!user) {
+                await User.create(payload)
+                    .then(user => {
+                        done(null, user);
+                    })
+                    .catch(err => {
+                        done(err);
+                    });
+            } else {
+                done(null, user);
+            }
         }
 
     ));

@@ -65,10 +65,15 @@ AuthApi.get('/me', auth, async (req: Request, res: Response) => {
 
 AuthApi.get('/test', auth, isAdmin, async (req: Request, res: Response) => {
     // isTraveller(req, res, next);
+    Logger.info(req);
+    const user = req.user;
+    const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1h' });
+    const refreshToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
     return res.status(200).json({
         success: true,
-        message: 'Get user successfully',
-        user: req.user
+        message: 'Login successfully',
+        accessToken: accessToken,
+        refreshToken: refreshToken
     });
 });
 
@@ -81,14 +86,30 @@ AuthApi.get('/facebook', async (req: Request, res: Response, next: NextFunction)
     });
 });
 
-AuthApi.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+AuthApi.get('/google', 
+    passport.authenticate('google', { scope: ['profile', 'email']} )
+);
 
 AuthApi.get('/google/callback',
-    async(req: Request, res: Response, next: NextFunction) =>{
-        passport.authenticate('google', { session: false }, (err, user) => {
-            if (err) throw err;
-            return user;
-        })(req, res, next);
+    passport.authenticate('google', { failureRedirect: '/api/v1/auth/google/failure' }),
+    async (req: Request, res: Response) => {
+        const user = req.user;
+        const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1h' });
+        const refreshToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
+        return res.status(200).json({
+            success: true,
+            message: 'Login successfully',
+            accessToken: accessToken,
+            refreshToken: refreshToken
+        });
+    }
+);
+
+AuthApi.get('/google/failure', (req: Request, res: Response) => {
+    return res.status(500).json({
+        success: false,
+        message: 'Login failed, please try again',
     });
+});
 
 export default AuthApi;
