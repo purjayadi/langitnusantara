@@ -29,7 +29,7 @@ services:
     restart: unless-stopped
     tty: true
     ports:
-      - 8081:80
+      - 3000:3000
       - 443:443
     volumes:
       - ./:/home/travel
