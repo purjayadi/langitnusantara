@@ -8,6 +8,8 @@ class DestinationRepository {
             const limit = filters?.limit ? +filters?.limit : 10;
             const offset = filters?.page ? (+filters?.page * limit) - limit : 1;
             const allDestination = Destination.scope('packages').findAndCountAll({
+                distinct: true,
+                col: 'Destination.id',
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
                 where: {
