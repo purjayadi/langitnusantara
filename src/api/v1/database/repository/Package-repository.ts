@@ -156,7 +156,7 @@ class PackageRepository {
     }
 
     async FindById(id: string) {
-        const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews', 'destination']).findOne({
+        const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews']).findOne({
             where: { id: id },
             attributes: ['id', 'name', 'slug', 'description', 'noOfDay', 'isFeatured', 'banner']
         });
@@ -168,7 +168,7 @@ class PackageRepository {
     }
 
     async FindBySlug(slug: string) {
-        const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews', 'destination']).findOne({
+        const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews']).findOne({
             where: { slug: slug },
             attributes: ['id', 'name', 'slug', 'description', 'noOfDay', 'isFeatured', 'banner'],
         });
