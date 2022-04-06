@@ -10,7 +10,7 @@ module.exports = {
         name: 'BCA virtual account',
         chanelCode: 'BCA',
         chanelCategory: 'VIRTUAL_ACCOUNT',
-        logo: 'public/images/payment/bca-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/bca-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -19,7 +19,7 @@ module.exports = {
         name: 'BRI virtual account',
         chanelCode: 'BRI',
         chanelCategory: 'VIRTUAL_ACCOUNT',
-        logo: 'public/images/payment/bri-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/bri-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -28,7 +28,7 @@ module.exports = {
         name: 'BNI virtual account',
         chanelCode: 'BNI',
         chanelCategory: 'VIRTUAL_ACCOUNT',
-        logo: 'public/images/payment/bni-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/bni-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -37,7 +37,7 @@ module.exports = {
         name: 'Mandiri virtual account',
         chanelCode: 'MANDIRI',
         chanelCategory: 'VIRTUAL_ACCOUNT',
-        logo: 'public/images/payment/mandiri-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/mandiri-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -46,7 +46,7 @@ module.exports = {
         name: 'Permata virtual account',
         chanelCode: 'PERMATA',
         chanelCategory: 'VIRTUAL_ACCOUNT',
-        logo: 'public/images/payment/permata-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/permata-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -55,7 +55,7 @@ module.exports = {
         name: 'Alfamart retail outlet',
         chanelCode: 'ALFAMART',
         chanelCategory: 'RETAIL_OUTLET',
-        logo: 'public/images/payment/alfamart-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/alfamart-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -64,7 +64,7 @@ module.exports = {
         name: 'Indomaret retail outlet',
         chanelCode: 'INDOMARET',
         chanelCategory: 'RETAIL_OUTLET',
-        logo: 'public/images/payment/indomaret-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/indomaret-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -73,7 +73,7 @@ module.exports = {
         name: 'OVO e-wallet',
         chanelCode: 'ID_OVO',
         chanelCategory: 'EWALLET',
-        logo: 'public/images/payment/ovo-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/ovo-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -82,7 +82,7 @@ module.exports = {
         name: 'DANA e-wallet',
         chanelCode: 'ID_DANA',
         chanelCategory: 'EWALLET',
-        logo: 'public/images/payment/dana-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/dana-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -91,7 +91,7 @@ module.exports = {
         name: 'LinkAja e-wallet',
         chanelCode: 'ID_LINKAJA',
         chanelCategory: 'EWALLET',
-        logo: 'public/images/payment/linkaja-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/linkaja-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -100,7 +100,7 @@ module.exports = {
         name: 'ShopeePay e-wallet',
         chanelCode: 'ID_SHOPEEPAY',
         chanelCategory: 'EWALLET',
-        logo: 'public/images/payment/shopeepay-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/shopeepay-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -109,7 +109,7 @@ module.exports = {
         name: 'QR Codes',
         chanelCode: 'QRIS',
         chanelCategory: 'QRIS',
-        logo: 'public/images/payment/qris-logo.svg',
+        logo: 'https://apilangitnusantara.herokuapp.com/images/payment/qris-logo.svg',
         createdAt: new Date(),
         updatedAt: new Date()
       }

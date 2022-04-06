@@ -7,7 +7,7 @@ module.exports = {
       for (let index = 0; index < 10; index++) {
         gallery.push({
           id: faker.datatype.uuid(),
-          name: 'public/images/gallery/name-1648515288952.jpg',
+          name: 'https://apilangitnusantara.herokuapp.com/images/gallery/name-1648515288952.jpg',
           isSlider: faker.random.arrayElement([true, false]),
           createdAt: new Date(),
           updatedAt: new Date()

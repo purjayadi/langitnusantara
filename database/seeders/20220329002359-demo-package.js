@@ -25,7 +25,7 @@ module.exports = {
         noOfDay: faker.random.arrayElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         description: faker.lorem.lines(5),
         isFeatured: faker.random.arrayElement([true, false]),
-        banner: 'public/images/package/banner-1648262647133.jpg',
+        banner: 'https://apilangitnusantara.herokuapp.com/images/package/banner-1648262647133.jpg',
         categoryId: category[index].id,
         createdAt: new Date(),
         updatedAt: new Date()

@@ -9,7 +9,7 @@ module.exports = {
           id: faker.datatype.uuid(),
           name: faker.name.findName(),
           position: faker.name.jobTitle(),
-          photo: 'public/images/team/photo-1648435705711.jpg',
+          photo: 'https://apilangitnusantara.herokuapp.com/images/team/photo-1648435705711.jpg',
           facebook: 'https://www.facebook.com/',
           twitter: 'https://www.twitter.com/',
           instagram: 'https://instagram.com/',
