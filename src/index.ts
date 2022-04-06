@@ -1,10 +1,10 @@
 import express from 'express';
-import db from '../config/db';
 import cors from 'cors';
-import passport from './middleware/passport.middleware';
-import Logger from './utils/logger';
-import morganMiddleware from './middleware/morganMiddleware';
-import routers from './routes';
+import db from './config/db';
+import passport from './api/v1/middleware/passport.middleware';
+import Logger from './api/v1/utils/logger';
+import morganMiddleware from './api/v1/middleware/morganMiddleware';
+import routers from './api/v1/routes';
 // import sessionMiddleware from './middlewares/session.middlware';
 
 const PORT : string|number = process.env.PORT || 3001;
