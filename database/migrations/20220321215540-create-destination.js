@@ -8,6 +8,10 @@ module.exports = {
         type: Sequelize.UUID
       },
       name: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      slug: {
         type: Sequelize.STRING
       },
       banner: {

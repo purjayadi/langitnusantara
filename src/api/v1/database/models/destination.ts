@@ -4,12 +4,13 @@ import db from '../../../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IDestination, DestinationInput } from '../../interfaces';
 import Package from './package';
-
+var slug = require('slug');
 class Destination
     extends Model<IDestination, DestinationInput>
     implements IDestination {
     public id!: string;
     public name!: string;
+    public slug!: string;
     public banner!: string;
     public isFeatured!: boolean;
 
@@ -17,6 +18,7 @@ class Destination
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
+    dataValues: any;
 }
 
 Destination.init(
@@ -28,6 +30,10 @@ Destination.init(
         name: {
             type: DataTypes.STRING,
             allowNull: false,
+        },
+        slug: {
+            type: DataTypes.STRING,
+            unique: true
         },
         banner: {
             type: DataTypes.STRING,
@@ -52,6 +58,7 @@ Destination.init(
 
 Destination.beforeCreate((destination) => {
     destination.id = uuid();
+    destination.slug = slug(destination.dataValues?.name);
 });
 
 Destination.hasMany(Package, {

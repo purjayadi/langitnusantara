@@ -3,6 +3,7 @@ import { Optional } from 'sequelize';
 export interface IDestination{
     id?: string;
     name: string;
+    slug?: string;
     banner?: string;
     isFeatured: boolean;
 }
