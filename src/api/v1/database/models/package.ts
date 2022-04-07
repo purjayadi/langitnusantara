@@ -100,7 +100,7 @@ Package.belongsTo(Category, {
 Service.belongsToMany(Package, 
   { 
     through: 'PackageServices', 
-    foreignKey: 'serviceId',
+    foreignKey: 'packageId',
     otherKey: 'packageId', 
     as: 'packages' 
   }
@@ -118,6 +118,7 @@ Package.belongsToMany(Service,
 Package.hasMany(Itinerary, { foreignKey: 'packageId', as: 'itinerary'});
 Package.hasMany(Review, { foreignKey: 'packageId', as: 'reviews' });
 Package.hasMany(PackagePrice, { foreignKey: 'packageId', as: 'price' });
+Package.hasMany(PackageService, { foreignKey: 'packageId', as: 'packageServices' });
 
 Package.addScope('itinerary', {
   include: [
@@ -133,22 +134,15 @@ Package.addScope('itinerary', {
 Package.addScope('services', {
   include: [
     {
-      model: Service,
-      as: 'services',
-      attributes: ['name'],
+      model: PackageService,
+      as: 'packageServices',
+      attributes: ['type', 'description'],
       include: [
         {
-          model: PackageService,
-          attributes: ['type', 'description'],
-          as: 'details',
-          nested: true
-        },
-      ],
-      through: {
-          attributes: []
-      },
-      order: [
-        [Service, PackageService, 'type', 'DESC']
+          model: Service,
+          as: 'service',
+          attributes: ['name']
+        }
       ]
     }
   ],

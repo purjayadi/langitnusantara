@@ -3,7 +3,7 @@ import { DataTypes, Model } from 'sequelize';
 import db from '../../../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IService, ServiceInput } from '../../interfaces';
-import PackageService from './packageService';
+// import PackageService from './packageService';
 
 class Service
   extends Model<IService, ServiceInput>
@@ -38,6 +38,6 @@ Service.beforeCreate((type) => {
   type.id = uuid();
 });
 
-Service.belongsTo(PackageService, { foreignKey: 'id', targetKey: 'serviceId', as: 'details' });
+// Service.belongsTo(PackageService, { foreignKey: 'id', targetKey: 'serviceId', as: 'details' });
 
 export default Service;
