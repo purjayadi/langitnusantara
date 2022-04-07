@@ -8,12 +8,11 @@ export class OrderRepository {
     async Order(filters?: getAllDataFilters, user: IUser): Promise<paginate> {
             const limit = filters?.limit ? +filters?.limit : 10;
             const offset = filters?.page ? (+filters?.page * limit) - limit : 1;
-            const allOrder = Order.scope(['package','user']).findAndCountAll({
+            const allOrder = Order.scope(['package','user', 'payment']).findAndCountAll({
                 attributes: ['id', 'noInvoice', 'in', 'out', 'adult', 'children', 'price', 'discount', 'amount', 'status'],
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
-                ...user?.isAdmin === false && { where: { userId: user.id } },
-                raw: true,
+                ...user?.isAdmin === false && { where: { userId: user.id } }
             });
             return allOrder;
     }

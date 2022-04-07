@@ -31,6 +31,14 @@ db.authenticate()
   });
 
 app.use('/api/v1', routers);
+app.get('/', async (req, res) => {
+  const tes = req.hostname;
+  res.status(200).send({
+    status: 'OK',
+    message: 'Welcome',
+    tes: tes
+  });
+});
 
 app.listen(PORT, () => {
   Logger.info('App is listening on port 3000!');

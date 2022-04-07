@@ -4,6 +4,9 @@ import db from '../../../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IDestination, DestinationInput } from '../../interfaces';
 import Package from './package';
+import Review from './review';
+import PackagePrice from './packagePrice';
+import Category from './category';
 var slug = require('slug');
 class Destination
     extends Model<IDestination, DestinationInput>
@@ -71,7 +74,36 @@ Destination.addScope('packages', {
         {
             model: Package,
             as: 'packages',
-            attributes: ['name']
+            attributes: ['name'],
+            include: [
+                {
+                    model: Review,
+                    as: 'reviews',
+                }
+            ]
+        },
+    ]
+});
+
+Destination.addScope('packagesAllAttributes', {
+    include: [
+        {
+            model: Package,
+            as: 'packages',
+            attributes: ['name'],
+            include: [
+
+                {
+                    model: PackagePrice,
+                    as: 'price',
+                    attributes: ['description', 'price'],
+                },
+                {
+                    model: Category,
+                    as: 'category',
+                    attributes: ['name']
+                }
+            ]
         },
     ]
 });

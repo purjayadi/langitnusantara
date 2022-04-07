@@ -18,6 +18,7 @@ module.exports = {
       },
       noInvoice: {
         type: Sequelize.STRING,
+        unique: true
       },
       in : {
         type: Sequelize.DATEONLY

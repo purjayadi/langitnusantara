@@ -15,10 +15,10 @@ const dbPassword = process.env.DB_PASSWORD;
 let dialectOptions;
 if (isTest) {
   dialectOptions = {
-      ssl: {
-        require: true,
-        rejectUnauthorized: false
-      }
+      // ssl: {
+      //   require: true,
+      //   rejectUnauthorized: false
+      // }
   };
 } else {
   dialectOptions = {};

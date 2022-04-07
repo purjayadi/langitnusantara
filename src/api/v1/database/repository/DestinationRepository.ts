@@ -49,6 +49,20 @@ class DestinationRepository {
         }
         return destination;
     }
+
+    async FindBySlug(slug: string): Promise<DestinationOutput> {
+        console.log(slug);
+        
+        const destination = await Destination.scope('packagesAllAttributes').findOne({
+            attributes: ['name', 'banner'],
+            where: { slug: slug }
+        });
+        if (!destination) {
+            // @todo throw custom error
+            throw new Error('not found');
+        }
+        return destination;
+    }
 }
 
 export default DestinationRepository;

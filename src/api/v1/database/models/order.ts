@@ -6,6 +6,7 @@ import { IOrder, OrderInput } from '../../interfaces';
 import Package from './package';
 import Category from './category';
 import User from './user';
+import OrderPayment from './OrderPayment';
 
 class Order
   extends Model<IOrder, OrderInput>
@@ -107,6 +108,8 @@ Order.beforeCreate((order) => {
 });
 
 Order.belongsTo(Package, {  foreignKey: 'packageId', as: 'package' });
+Order.hasOne(OrderPayment, { sourceKey: 'noInvoice', foreignKey: 'orderId', as: 'payment'});
+OrderPayment.belongsTo(Order, { foreignKey: 'orderId', targetKey: 'noInvoice' });
 Order.belongsTo(User, {  foreignKey: 'userId', as: 'user' });
 
 Order.addScope('package', {
@@ -122,6 +125,16 @@ Order.addScope('package', {
           attributes: ['name']
         } 
       ]
+    }
+  ]
+});
+
+Order.addScope('payment', {
+  include: [
+    {
+      model: OrderPayment,
+      as: 'payment',
+      attributes: ['externalId', 'chanelCode', 'accountNumber','amount']
     }
   ]
 });

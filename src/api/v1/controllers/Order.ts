@@ -126,4 +126,42 @@ OrderApi.get('/:id', auth, async (req: Request, res: Response) => {
   }
 });
 
+OrderApi.get('/payment/detail/:id', auth, async (req: Request, res: Response) => {
+  try {
+    const payment = await va.GetVaById(req.params.id);
+    payment && res.status(200).send({
+      success: true,
+      data: payment
+    });
+    return res.status(404).send({
+      success: false,
+      message: 'payment not found'
+    });
+  } catch (error:any) {
+    return res.status(500).send({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
+OrderApi.get('/payment/status/:id', auth, async (req: Request, res: Response) => {
+  try {
+    const payment = await va.GetVaById(req.params.id);
+    payment && res.status(200).send({
+      success: true,
+      data: payment
+    });
+    return res.status(404).send({
+      success: false,
+      message: 'payment not found'
+    });
+  } catch (error:any) {
+    return res.status(500).send({
+      success: false,
+      message: error.message
+    });
+  }
+});
+
 export default OrderApi;

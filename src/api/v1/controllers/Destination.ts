@@ -32,7 +32,7 @@ DestinationApi.get('/', async (req: Request, res: Response) => {
 DestinationApi.post('/', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
     const payload: IDestination = {
         name: req.body.name,
-        banner: req.file?.path,
+        banner: req.baseUrl + req.file?.path,
         isFeatured: req.body.isFeatured
     };
     try {
@@ -87,6 +87,21 @@ DestinationApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response)
 DestinationApi.get('/:id', async (req: Request, res: Response) => {
     try {
         const data = await service.GetDestinationById(req.params.id);
+        return res.status(200).send({
+            success: true,
+            data: data
+        });
+    } catch (error: any) {
+        return res.status(500).send({
+            success: false,
+            message: error.message
+        });
+    }
+});
+
+DestinationApi.get('/detail/:slug', async (req: Request, res: Response) => {
+    try {
+        const data = await service.GetDestinationBySlug(req.params.slug);
         return res.status(200).send({
             success: true,
             data: data
