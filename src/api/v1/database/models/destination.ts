@@ -90,7 +90,6 @@ Destination.addScope('packagesAllAttributes', {
         {
             model: Package,
             as: 'packages',
-            attributes: ['name'],
             include: [
 
                 {
@@ -102,6 +101,10 @@ Destination.addScope('packagesAllAttributes', {
                     model: Category,
                     as: 'category',
                     attributes: ['name']
+                },
+                {
+                    model: Review,
+                    as: 'reviews',
                 }
             ]
         },
