@@ -5,6 +5,7 @@ import PackageService from '../models/packageService';
 import Itinerary from '../models/itinerary';
 import PackagePrice from '../models/packagePrice';
 import Logger from '../../utils/logger';
+import Destination from '../models/destination';
 
 class PackageRepository {
     async Package(filters?: getAllDataFilters
@@ -16,8 +17,17 @@ class PackageRepository {
             order: [
                 ['packageServices', 'type', 'ASC']
             ],
+            include: [
+                {
+                    model: Destination,
+                    as: 'destination',
+                    attributes: ['name', 'slug'],
+                    required: true,
+                    duplicating: false
+                }
+            ],
             distinct: true,
-            col: 'Package.id',
+            // col: 'Package.id',
             ...filters?.page && { offset: offset },
             ...filters?.limit && { limit: limit },
             where: {

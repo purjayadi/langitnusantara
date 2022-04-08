@@ -68,6 +68,7 @@ Destination.hasMany(Package, {
     foreignKey: 'destinationId',
     as: 'packages',
 });
+Package.belongsTo(Destination, { foreignKey: 'destinationId', targetKey: 'id', as: 'destination' });
 
 Destination.addScope('packages', {
     include: [
