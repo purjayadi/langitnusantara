@@ -184,6 +184,15 @@ class PackageRepository {
         const res = await Package.scope(['category', 'services', 'itinerary', 'price', 'reviews']).findOne({
             where: { slug: slug },
             attributes: ['id', 'name', 'slug', 'description', 'noOfDay', 'isFeatured', 'banner'],
+            include: [
+                {
+                    model: Destination,
+                    as: 'destination',
+                    attributes: ['name', 'slug'],
+                    required: true,
+                    duplicating: false
+                }
+            ],
         });
         if (!res) {
             // @todo throw custom error
