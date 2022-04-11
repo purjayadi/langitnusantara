@@ -5,6 +5,7 @@ import passport from './api/v1/middleware/passport.middleware';
 import Logger from './api/v1/utils/logger';
 import morganMiddleware from './api/v1/middleware/morganMiddleware';
 import routers from './api/v1/routes';
+import { errorHandler } from './api/v1/middleware/errorHandlerMiddleware';
 // import sessionMiddleware from './middlewares/session.middlware';
 
 const PORT : string|number = process.env.PORT || 3001;
@@ -16,6 +17,7 @@ app.use(express.urlencoded({
 })
 );
 app.use(morganMiddleware);
+app.use(errorHandler);
 app.use(cors());
 // app.use(sessionMiddleware);
 app.use(passport.initialize());

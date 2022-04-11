@@ -35,13 +35,11 @@ AuthApi.post('/login', async (req: Request, res: Response, next: NextFunction) =
         });
         req.logIn(user, (err) => {
             if (err) throw err;
-            const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1h' });
-            const refreshToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
+            const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
             return res.status(200).json({
                 success: true,
                 message: 'Login successfully',
                 accessToken: accessToken,
-                refreshToken: refreshToken
             });
         });
     })(req, res, next);
@@ -68,13 +66,11 @@ AuthApi.get('/test', auth, isAdmin, async (req: Request, res: Response) => {
     // isTraveller(req, res, next);
     Logger.info(req);
     const user = req.user;
-    const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1h' });
-    const refreshToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
+    const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
     return res.status(200).json({
         success: true,
         message: 'Login successfully',
-        accessToken: accessToken,
-        refreshToken: refreshToken
+        accessToken: accessToken
     });
 });
 

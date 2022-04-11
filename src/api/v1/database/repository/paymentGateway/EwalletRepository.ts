@@ -8,8 +8,12 @@ const ew = new EWallet(ewalletSpecificOptions);
 class EwalletRepository {
 
     async CreateCharge(payload: EwalletInput) {
-        const resp = await ew.createEWalletCharge(payload);
-        return resp;
+        try {
+            const resp = await ew.createEWalletCharge(payload);
+            return resp;
+        } catch (error:any) {
+            throw new Error(error.message);
+        }
     }
 
     async GetChargerById(chargeID: string) {

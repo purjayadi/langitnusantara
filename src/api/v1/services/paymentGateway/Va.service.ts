@@ -1,5 +1,4 @@
 import { VaRepository } from '../../database';
-import Logger from '../../utils/logger';
 
 class VaService{
     repository: VaRepository;
@@ -21,7 +20,6 @@ class VaService{
             suggestedAmt: data.amount,
             expectedAmt: data.amount,
         };
-        Logger.debug(payload);
         return this.repository.Create(payload);
     }
 

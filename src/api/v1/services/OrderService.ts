@@ -1,6 +1,7 @@
 import { OrderRepository } from '../database';
 import { getAllDataFilters, paginate } from '../dto';
 import { OrderInput, IUser } from '../interfaces';
+import { OrderPaymentInput } from '../interfaces/Payment.interface';
 
 class OrderService {
     repository: OrderRepository;
@@ -38,8 +39,12 @@ class OrderService {
         }
     }
 
-    async UpdateStatusOrder(noInvoice: string, status: string) {
-        return this.repository.UpdateStatusById(noInvoice, status);
+    async UpdateStatusOrder(payload: OrderPaymentInput) {
+        return this.repository.UpdateStatusOrder(payload);
+    }
+
+    async UpdateExternalId(noInvoice: string, externalId: string) {
+        return this.repository.UpdateExternalIdByNoInvoice(noInvoice, externalId);
     }
 
 }

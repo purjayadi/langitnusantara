@@ -6,8 +6,9 @@ export interface IVa{
     name: string;
     bankCode: string;
     isClosed: boolean;
-    suggestedAmt: number;
-    expectedAmt: number;
+    suggestedAmt?: number;
+    expectedAmt?: number;
+    amount?: number;
 }
 
 export interface IVirtualAccount{

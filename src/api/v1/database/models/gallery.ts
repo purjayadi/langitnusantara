@@ -10,6 +10,7 @@ class Gallery
   implements IGallery {
   public id!: string;
   public name!: string;
+  public image!: string;
   public isSlider!: boolean;
 
   // timestamps!
@@ -27,6 +28,15 @@ Gallery.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    image: {
+      type: DataTypes.VIRTUAL,
+      get() {
+        return `${this.name}`;
+      },
+      set() {
+        throw new Error('Do not try to set the `fullName` value!');
+      }
     },
     isSlider: {
       type: DataTypes.BOOLEAN,

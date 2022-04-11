@@ -3,10 +3,9 @@
 import fs from 'fs';
 import path from 'path';
 const Sequelize = require('sequelize');
-var SequelizeGuard = require('sequelize-guard');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../../config/config.js')[env];
+const config = require(__dirname + '../../../../config/config.js')[env];
 const db:any = {};
 
 let sequelize:any;
@@ -15,8 +14,6 @@ if (config.use_env_variable) {
 } else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
-
-var guard = new SequelizeGuard(sequelize);
 
 fs
   .readdirSync(__dirname)
@@ -36,6 +33,5 @@ Object.keys(db).forEach(modelName => {
 
 db[sequelize] = sequelize;
 db[Sequelize] = Sequelize;
-db.guard = guard; 
 
-module.exports = db;
+export default db;

@@ -1,46 +1,29 @@
-import { EwalletRepository } from '../../database';
-import { VaRepository } from '../../database';
-import { EwalletInput } from '../../interfaces';
-import User from '../../database/models/user';
+import { EwalletRepository, VaRepository, OutletRepository } from '../../database';
+import Logger from '../../utils/logger';
 
 class paymentEvent{
     ewallet: EwalletRepository;
     va: VaRepository;
+    outlet: OutletRepository;
 
     constructor(){
         this.ewallet = new EwalletRepository();
         this.va = new VaRepository();
+        this.outlet = new OutletRepository();
     }
 
-    async MakePayment(payment: any, data:any){
-        const payloadEwallet: EwalletInput = {
-            referenceID: data.noInvoice,
-            // @ts-ignore
-            currency: 'IDR',
-            amount: data.amount,
-            checkoutMethod: 'ONE_TIME_PAYMENT',
-            channelCode: payment.chanelCode,
-            channelProperties: {
-                successRedirectURL: 'https://dashboard.xendit.co/register/1'
-            },
-            metadata: {
-                branch_code: 'tree_branch'
-            }
-        };
-        const traveler = await User.findOne({where: { id: data.userId}});
-        const payloadVa = {
-            externalID: data.noInvoice,
-            name: traveler ? traveler.fullName: 'ELN',
-            bankCode: payment.chanelCode,
-            isClosed: true,
-            suggestedAmt: data.amount,
-            expectedAmt: data.amount,
-        };
-        switch (payment.chanelCategory) {
+    async MakePayment(method: any, payload:any){
+        switch (method) {
             case 'EWALLET':
-                return this.ewallet.CreateCharge(payloadEwallet);
+                Logger.info('EWALLET');
+                return this.ewallet.CreateCharge(payload);
             case 'VIRTUAL_ACCOUNT':
-                return this.va.Create(payloadVa);
+                Logger.info('VIRTUAL_ACCOUNT');
+                return this.va.Create(payload);
+            case 'RETAIL_OUTLET':
+                Logger.info('RETAIL_OUTLET');
+                return this.outlet.Create(payload);
+
         } 
     }
 }

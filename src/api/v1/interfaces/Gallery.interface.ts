@@ -3,6 +3,7 @@ import { Optional } from 'sequelize';
 export interface IGallery{
     id?: string;
     name?: string;
+    image?: string;
     isSlider: boolean;
 }
 

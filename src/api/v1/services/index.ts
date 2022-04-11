@@ -17,6 +17,7 @@ import TransactionService from './paymentGateway/Transaction.service';
 import paymentEvent from './paymentGateway/PaymentEvent.service';
 import OrderPaymentService from './payment/OrderPaymentService';
 import DestinationService from './Destination.service';
+import OutletService from './paymentGateway/OutletService';
 
 export {
     CategoryService,
@@ -38,4 +39,5 @@ export {
     paymentEvent,
     OrderPaymentService,
     DestinationService,
+    OutletService,
 };

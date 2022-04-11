@@ -18,7 +18,7 @@ export interface IOrderPayment{
     externalId?: string;
     orderId: string;
     chanelCode: string;
-    accountNumber?: string;
+    accountNumber?: string | undefined;
     amount: number;
 }
 

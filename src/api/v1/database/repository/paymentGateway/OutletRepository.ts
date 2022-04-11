@@ -4,7 +4,7 @@ import { RoInput } from '../../../interfaces';
 const RetailOutlet = x.RetailOutlet;
 const Ro = new RetailOutlet({});
 
-class RoRepository {
+class OutletRepository {
 
     async Create(payload: RoInput) {
         try {
@@ -28,4 +28,4 @@ class RoRepository {
 
 }
 
-export default RoRepository;
+export default OutletRepository;

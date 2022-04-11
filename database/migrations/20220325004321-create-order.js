@@ -52,8 +52,12 @@ module.exports = {
       },
       status: {
         type: Sequelize.ENUM,
-        values: ['Unpaid', 'Paid', 'Done', 'Canceled'],
+        values: ['Unpaid', 'Down Payment', 'Paid', 'Done', 'Canceled'],
         defaultValue: 'Unpaid'
+      },
+      externalPaymentId: {
+        type: Sequelize.STRING,
+        allowNull: true
       },
       createdAt: {
         allowNull: false,

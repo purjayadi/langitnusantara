@@ -8,7 +8,7 @@ import { isAdmin, auth } from '../utils/auth';
 const UserApi = Router();
   const service = new UserService();
 
-  UserApi.get('', auth, isAdmin, async (req: Request, res: Response) => {
+  UserApi.get('/', auth, isAdmin, async (req: Request, res: Response) => {
     const filters: getAllDataFilters = req.query;
     try {
       const data = await service.GetUser(filters);
@@ -25,7 +25,7 @@ const UserApi = Router();
     }
   });
 
-  UserApi.post('', auth, isAdmin, async (req: Request, res: Response) => {
+  UserApi.post('/', auth, isAdmin, async (req: Request, res: Response) => {
       const User:IUser = req.body;
       try {
         const data = await service.CreateUser(User);

@@ -40,6 +40,10 @@ module.exports = {
         type: Sequelize.DECIMAL,
         allowNull: false
       },
+      transactionTimestamp: {
+        type: Sequelize.DATE,
+        defaultValue: Sequelize.fn('NOW')
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE

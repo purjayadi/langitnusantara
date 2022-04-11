@@ -14,7 +14,7 @@ services:
       - '5432:5432'
     environment:
       - POSTGRES_USER=root
-      - POSTGRES_PASSWORD=12345
+      - POSTGRES_PASSWORD=qaz@2121
       - POSTGRES_DB=defaultdb
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -30,9 +30,9 @@ services:
     tty: true
     ports:
       - 3000:3000
-      - 443:443
     volumes:
       - ./:/home/travel
+      - ./proxy/ssl:/etc/nginx/certs
     environment:
       - PGUSER=root
       - PGPASSWORD=12345
@@ -54,6 +54,7 @@ services:
       - db
     ports:
       - "80:80"
+      - "443:443"
     networks:
       msnetwork:
         ipv4_address: 172.21.0.4

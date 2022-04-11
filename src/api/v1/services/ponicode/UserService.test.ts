@@ -1,5 +1,4 @@
 import UserService from '../UserService';
-import UserRepository from '../../database/repository/UserRepository';
 import * as Filters_dto from '../../dto/Filters.dto';
 import db from '../../../../config/db';
 import { UserInput } from '../../interfaces';
@@ -37,11 +36,8 @@ describe('UserService', () => {
             password: 'test',
         };
         const result = await service.CreateUser(payload);
-        console.log(result);
         
-        expect(result).toEqual({
-            error: { status: 500, message: 'phone number is required' }
-        });
+        expect(result).toBe(500);
     });
 
     afterAll(async () => {

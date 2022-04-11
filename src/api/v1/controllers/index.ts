@@ -12,9 +12,9 @@ import Order from './Order';
 import User from './User';
 import Auth from './Auth';
 import Destination from './Destination';
-import Event from './payment/Event';
+import Callback from './payment/Callback';
 import PaymentChanel from './payment/PaymentChanel';
-import Test from './payment/Test';
+import Payment from './payment/Payment';
 
 export {
     Category,
@@ -30,8 +30,8 @@ export {
     Order,
     User,
     Auth,
-    Event,
+    Callback,
     PaymentChanel,
-    Test,
     Destination,
+    Payment
 };

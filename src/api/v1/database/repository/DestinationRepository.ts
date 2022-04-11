@@ -1,6 +1,7 @@
 import Destination from '../models/destination';
 import { getAllDataFilters, paginate } from '../../dto';
 import { DestinationInput, DestinationOutput } from '../../interfaces';
+import { NotFoundError } from '../../utils/not-found-error';
 
 class DestinationRepository {
     async Destination(filters?: getAllDataFilters
@@ -45,7 +46,7 @@ class DestinationRepository {
         const destination = await Destination.findByPk(id);
         if (!destination) {
           // @todo throw custom error
-            throw new Error('not found');
+            throw new NotFoundError();
         }
         return destination;
     }
@@ -59,7 +60,7 @@ class DestinationRepository {
         });
         if (!destination) {
             // @todo throw custom error
-            throw new Error('not found');
+            throw new NotFoundError();
         }
         return destination;
     }

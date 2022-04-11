@@ -4,14 +4,22 @@ import { isXendit } from '../../middleware/xendit.middleware';
 import { OrderService, OrderPaymentService } from '../../services';
 import Logger from '../../utils/logger';
 
-const EventApi = Router();
+const CallbackApi = Router();
     const service = new OrderService();
     const orderPayment = new OrderPaymentService();
 
-    EventApi.post('/payment/va/success', isXendit, async (req: Request, res: Response) => {
-        const status = 'Paid';
+    CallbackApi.post('/va/success', isXendit, async (req: Request, res: Response) => {
+        const payload: OrderPaymentInput= {
+            orderId: req.body.external_id,
+            source: 'Xendit',
+            externalId: req.body.payment_id,
+            chanelCode: req.body.bank_code,
+            accountNumber: req.body.account_number,
+            amount: req.body.amount
+        };
+        Logger.debug(req.body);
         try {
-            await service.UpdateStatusOrder(req.body.external_id, status);
+            await service.UpdateStatusOrder(payload);
             return res.status(200).send({
                 success: true,
                 message: 'Pembayaran berhasil',
@@ -24,29 +32,21 @@ const EventApi = Router();
         }
     });
 
-    EventApi.post('/payment/ewallet/success', isXendit, async (req: Request, res: Response) => {
-        const status = 'Paid';
+    CallbackApi.post('/ewallet/success', isXendit, async (req: Request, res: Response) => {
         const payload: OrderPaymentInput = {
             source: 'Xendit',
             externalId: req.body.data.id,
             orderId: req.body.data.reference_id,
             chanelCode: req.body.data.channel_code,
-            accountNumber: req.body.data.channel_code,
+            accountNumber: undefined,
             amount: req.body.data.capture_amount,
         };
         Logger.info(req.body.data);
         try {
-            const pay = await orderPayment.CreateOrderPayment(payload);
-            if (pay) {
-                await service.UpdateStatusOrder(req.body.data.reference_id, status);
-                return res.status(200).send({
-                    success: true,
-                    message: 'Pembayaran berhasil',
-                });
-            }
-            return res.status(500).send({
-                success: false,
-                message: 'Terjadi kesalahan',
+            await orderPayment.CreateOrderPayment(payload);
+            return res.status(200).send({
+                success: true,
+                message: 'Pembayaran berhasil',
             });
         } catch (error: any) {
             return res.status(500).send({
@@ -56,18 +56,33 @@ const EventApi = Router();
         }
     });
 
-    EventApi.post('/payment/va/create', isXendit, async (req: Request, res: Response) => {
-        Logger.debug(req.body);
+    CallbackApi.post('/outlet/success', isXendit, async (req: Request, res: Response) => {
         const payload: OrderPaymentInput = {
             source: 'Xendit',
             externalId: req.body.id,
             orderId: req.body.external_id,
-            chanelCode: req.body.bank_code,
-            accountNumber: req.body.account_number,
-            amount: req.body.expected_amount,
+            chanelCode: req.body.retail_outlet_name,
+            accountNumber: req.body.payment_code,
+            amount: req.body.amount,
         };
+        Logger.info(req.body.data);
         try {
-            const payment = await orderPayment.CreateOrderPayment(payload);
+            await orderPayment.CreateOrderPayment(payload);
+            return res.status(200).send({
+                success: true,
+                message: 'Pembayaran berhasil',
+            });
+        } catch (error: any) {
+            return res.status(500).send({
+                success: true,
+                message: error.message,
+            });
+        }
+    });
+
+    CallbackApi.post('/va/create', isXendit, async (req: Request, res: Response) => {
+        try {
+            const payment = await service.UpdateExternalId(req.body.external_id, req.body.id);
             Logger.debug(payment);
             return res.status(200).send({
                 success: true,
@@ -77,9 +92,9 @@ const EventApi = Router();
         } catch (error: any) {
             return res.status(500).send({
                 success: true,
-                message: error,
+                message: error.message,
             });
         }
     });
     
-export default EventApi;
+export default CallbackApi;

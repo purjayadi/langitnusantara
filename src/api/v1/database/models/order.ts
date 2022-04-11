@@ -7,6 +7,7 @@ import Package from './package';
 import Category from './category';
 import User from './user';
 import OrderPayment from './OrderPayment';
+import OrderDetail from './OrderDetail';
 
 class Order
   extends Model<IOrder, OrderInput>
@@ -23,6 +24,7 @@ class Order
   public discount!: number;
   public amount!: number;
   public status!: string;
+  public externalPaymentId!: string;
   public payment!: {
     source: string;
     chanelCode: string;
@@ -64,7 +66,15 @@ Order.init(
     },
     adult: {
       type: DataTypes.NUMBER,
-      allowNull: false
+      allowNull: false,
+      validate: {
+        isNumeric: {
+          msg: 'Adult must be a number'
+        },
+        notNull: {
+          msg: 'Adult field is required'
+        }
+      }
     },
     children: {
       type: DataTypes.NUMBER,
@@ -80,7 +90,7 @@ Order.init(
     },
     discount: {
       type: DataTypes.DECIMAL,
-      allowNull: false
+      allowNull: true
     },
     amount: {
         type: DataTypes.DECIMAL,
@@ -88,8 +98,12 @@ Order.init(
     },
     status: {
         type: DataTypes.ENUM,
-        values: ['Unpaid', 'Paid', 'Done', 'Canceled']
-    }
+        values: ['Unpaid', 'Down Payment', 'Paid', 'Done', 'Canceled']
+    },
+    externalPaymentId: {
+      type: DataTypes.STRING,
+      allowNull: true
+  },
   },
   {
     timestamps: true,
@@ -108,9 +122,10 @@ Order.beforeCreate((order) => {
 });
 
 Order.belongsTo(Package, {  foreignKey: 'packageId', as: 'package' });
-Order.hasOne(OrderPayment, { sourceKey: 'noInvoice', foreignKey: 'orderId', as: 'payment'});
+Order.hasMany(OrderPayment, { sourceKey: 'noInvoice', foreignKey: 'orderId', as: 'payment'});
 OrderPayment.belongsTo(Order, { foreignKey: 'orderId', targetKey: 'noInvoice' });
 Order.belongsTo(User, {  foreignKey: 'userId', as: 'user' });
+Order.belongsTo(OrderDetail, { foreignKey: 'id', targetKey: 'orderId', as: 'paymentMethod' });
 
 Order.addScope('package', {
   include: [
@@ -134,7 +149,17 @@ Order.addScope('payment', {
     {
       model: OrderPayment,
       as: 'payment',
-      attributes: ['externalId', 'chanelCode', 'accountNumber','amount']
+      attributes: ['externalId', 'chanelCode', 'amount', 'transactionTimestamp']
+    }
+  ]
+});
+
+Order.addScope('detail', {
+  include: [
+    {
+      model: OrderDetail,
+      as: 'paymentMethod',
+      attributes: ['externalId', 'chanelCategory', 'chanelCode']
     }
   ]
 });

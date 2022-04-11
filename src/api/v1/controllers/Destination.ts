@@ -92,7 +92,7 @@ DestinationApi.get('/:id', async (req: Request, res: Response) => {
             data: data
         });
     } catch (error: any) {
-        return res.status(500).send({
+        return res.status(error.statusCode).send({
             success: false,
             message: error.message
         });
@@ -107,7 +107,7 @@ DestinationApi.get('/detail/:slug', async (req: Request, res: Response) => {
             data: data
         });
     } catch (error: any) {
-        return res.status(500).send({
+        return res.status(error.statusCode).send({
             success: false,
             message: error.message
         });

@@ -41,7 +41,106 @@ module.exports = {
         });
     }
     let packageService = [];
-    for (let index = 1; index < 15; index++) {
+    for (let index = 1; index < 20; index++) {
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
+      packageService.push({
+        id: faker.datatype.uuid(),
+        packageId: packages[index].id,
+        serviceId: services[index].id,
+        type: faker.random.arrayElement(['inc', 'exc']),
+        description: faker.lorem.lines(3),
+        createdAt: new Date(),
+        updatedAt: new Date()
+      });
       packageService.push({
         id: faker.datatype.uuid(),
         packageId: packages[index].id,

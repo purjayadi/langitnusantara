@@ -1,5 +1,6 @@
 import x from '../../../../../config/xendit';
 import { IVa } from '../../../interfaces';
+import { NotFoundError } from '../../../utils/not-found-error';
 
 const VirtualAcc = x.VirtualAcc;
 const va = new VirtualAcc({});
@@ -28,6 +29,9 @@ class VaRepository {
 
     async getById(id: string) {
         const fixedAcc = await va.getFixedVA({ id: id });
+        if (!fixedAcc) {
+            throw new NotFoundError();
+        }
         return fixedAcc;
     }
 
