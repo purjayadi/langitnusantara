@@ -147,6 +147,8 @@ class PackageRepository {
             payload.price.map(price => {
                 prices.push({
                     packageId: res.id,
+                    min: price.min,
+                    max: price.max,
                     description: price.description,
                     price: price.price
                 });
@@ -200,6 +202,28 @@ class PackageRepository {
         }
         return res;
     }
+
+    async FindPrice(id: string, value: number) {
+        const res = await PackagePrice.findAll({
+            where: { packageId: id }
+        });
+        if (!res) {
+            // @todo throw custom error
+            throw new Error('not found');
+        }
+
+        //make range between min and max
+        let range;
+        for (let i = res[0].min; i <= res[res.length - 1].max; i++) {
+            res.map(price => {
+                if (value >= price.min && i <= price.max) {
+                    range = price;
+                }
+            });
+        }
+        return range;
+    }
 }
+
 
 export default PackageRepository;

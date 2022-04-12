@@ -22,6 +22,8 @@ export interface IPackage{
         id?: string;
         description: string;
         price: number;
+        min: number;
+        max: number;
     }]
 }
 
@@ -41,6 +43,8 @@ export interface PackageServiceOutput extends Required<IPackageService> {}
 
 export interface IPackagePrice{
     id?:string;
+    min:number;
+    max:number;
     packageId:string;
     description?:string;
     price: number;

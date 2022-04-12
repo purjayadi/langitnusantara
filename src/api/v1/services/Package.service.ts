@@ -32,6 +32,10 @@ class PackageService {
     async GetPackageBySlug(slug: string) {
         return this.repository.FindBySlug(slug);
     }
+
+    async findPrice(id: string, value: number) {
+        return this.repository.FindPrice(id, value);
+    }
 }
 
 export default PackageService;
