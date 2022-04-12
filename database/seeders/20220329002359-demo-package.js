@@ -25,7 +25,7 @@ module.exports = {
         noOfDay: faker.random.arrayElement([1, 2, 3, 4, 5, 6, 7, 8, 9, 10]),
         description: faker.lorem.lines(5),
         isFeatured: faker.random.arrayElement([true, false]),
-        banner: 'https://apilangitnusantara.herokuapp.com/images/package/banner-1648262647133.jpg',
+        banner: 'public/images/package/banner-1648262647133.jpg',
         categoryId: category[index].id,
         createdAt: new Date(),
         updatedAt: new Date()
@@ -207,16 +207,20 @@ module.exports = {
       packagePrice.push({
         id: faker.datatype.uuid(),
         packageId: packages[index].id,
-        description: faker.random.arrayElement(['1-2 Pax', '3-5 Pax', '6-10 Pax']),
-        price: faker.finance.amount(1000, 100000, 0),
+        min: 1,
+        max: 3,
+        description: 'Pax',
+        price: 10000,
         createdAt: new Date(),
         updatedAt: new Date()
       });
       packagePrice.push({
         id: faker.datatype.uuid(),
         packageId: packages[index].id,
-        description: faker.random.arrayElement(['1-2 Pax', '3-5 Pax', '6-10 Pax']),
-        price: faker.finance.amount(1000, 100000, 0),
+        min: 4,
+        max: 6,
+        description: 'Pax',
+        price: 100000,
         createdAt: new Date(),
         updatedAt: new Date()
       });

@@ -16,11 +16,19 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE' 
       },
-      description: {
-        type: Sequelize.STRING
+      min: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      max: {
+        type: Sequelize.INTEGER,
+        allowNull: false
       },
       price: {
         type: Sequelize.DECIMAL
+      },
+      description: {
+        type: Sequelize.STRING
       },
       createdAt: {
         allowNull: false,

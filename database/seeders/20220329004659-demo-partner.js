@@ -8,7 +8,7 @@ module.exports = {
         partner.push({
           id: faker.datatype.uuid(),
           name: faker.company.companyName(),
-          image: 'https://apilangitnusantara.herokuapp.com/images/partner/image-1648514782984.png',
+          image: 'public/images/partner/image-1648514782984.png',
           createdAt: new Date(),
           updatedAt: new Date()
         });
