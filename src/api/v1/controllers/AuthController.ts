@@ -7,10 +7,10 @@ import { JWT_SECRET } from '../../../config/passport';
 import Logger from '../utils/logger';
 import { auth, isAdmin } from '../utils/auth';
 
-const AuthApi = Router();
+const AuthController = Router();
 const service = new UserService();
 //route register
-AuthApi.post('/register', async (req: Request, res: Response) => {
+AuthController.post('/register', async (req: Request, res: Response) => {
     const user: IUser = req.body;
     Logger.debug(user);
     try {
@@ -27,7 +27,7 @@ AuthApi.post('/register', async (req: Request, res: Response) => {
     }
 });
 
-AuthApi.post('/login', async (req: Request, res: Response, next: NextFunction) => {
+AuthController.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('local', { session: false }, (err, user) => {
         if (!user) return res.status(401).json({
             success: false,
@@ -45,7 +45,7 @@ AuthApi.post('/login', async (req: Request, res: Response, next: NextFunction) =
     })(req, res, next);
 });
 
-AuthApi.post('/logout', auth, async (req: Request, res: Response) => {
+AuthController.post('/logout', auth, async (req: Request, res: Response) => {
     req.logOut();
     return res.status(204).json({
         success: true,
@@ -53,7 +53,7 @@ AuthApi.post('/logout', auth, async (req: Request, res: Response) => {
     });
 });
 
-AuthApi.get('/me', auth, async (req: Request, res: Response) => {
+AuthController.get('/me', auth, async (req: Request, res: Response) => {
     Logger.info(req.user);
     return res.status(200).json({
         success: true,
@@ -62,7 +62,7 @@ AuthApi.get('/me', auth, async (req: Request, res: Response) => {
     });
 });
 
-AuthApi.get('/test', auth, isAdmin, async (req: Request, res: Response) => {
+AuthController.get('/test', auth, isAdmin, async (req: Request, res: Response) => {
     // isTraveller(req, res, next);
     Logger.info(req);
     const user = req.user;
@@ -76,18 +76,18 @@ AuthApi.get('/test', auth, isAdmin, async (req: Request, res: Response) => {
 
 
 // eslint-disable-next-line no-unused-vars
-AuthApi.get('/facebook', async (req: Request, res: Response, next: NextFunction) => {
+AuthController.get('/facebook', async (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('facebook', (err, user) => {
         if (err) throw err;
         return user;
     });
 });
 
-AuthApi.get('/google', 
+AuthController.get('/google', 
     passport.authenticate('google', { scope: ['profile', 'email']} )
 );
 
-AuthApi.get('/google/callback',
+AuthController.get('/google/callback',
     passport.authenticate('google', { failureRedirect: '/api/v1/auth/google/failure' }),
     async (req: Request, res: Response) => {
         const user = req.user;
@@ -102,11 +102,11 @@ AuthApi.get('/google/callback',
     }
 );
 
-AuthApi.get('/google/failure', (req: Request, res: Response) => {
+AuthController.get('/google/failure', (req: Request, res: Response) => {
     return res.status(500).json({
         success: false,
         message: 'Login failed, please try again',
     });
 });
 
-export default AuthApi;
+export default AuthController;

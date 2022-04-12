@@ -8,10 +8,10 @@ import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
-const PartnerApi = Router();
+const PartnerController = Router();
 const service = new PartnerService();
 
-PartnerApi.get('', async (req: Request, res: Response) => {
+PartnerController.get('', async (req: Request, res: Response) => {
   const filters: getAllDataFilters = req.query;
   try {
     const data = await service.Partner(filters);
@@ -28,7 +28,7 @@ PartnerApi.get('', async (req: Request, res: Response) => {
   }
 });
 
-PartnerApi.post('', upload.single('image'), auth, isAdmin, async (req: Request, res: Response) => {
+PartnerController.post('', upload.single('image'), auth, isAdmin, async (req: Request, res: Response) => {
   const payload: IPartner = {
     name: req.body.name,
     image: req.file?.path,
@@ -47,7 +47,7 @@ PartnerApi.post('', upload.single('image'), auth, isAdmin, async (req: Request, 
   }
 });
 
-PartnerApi.patch('/:id', upload.single('image'), auth, isAdmin, async (req: Request, res: Response) => {
+PartnerController.patch('/:id', upload.single('image'), auth, isAdmin, async (req: Request, res: Response) => {
   const payload: IPartner = {
     name: req.body.name,
     image: req.file?.path,
@@ -66,7 +66,7 @@ PartnerApi.patch('/:id', upload.single('image'), auth, isAdmin, async (req: Requ
   }
 });
 
-PartnerApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+PartnerController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
     await service.DeletePartner(req.params.id);
     return res.status(201).send({
@@ -81,7 +81,7 @@ PartnerApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => 
   }
 });
 
-PartnerApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+PartnerController.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
     const data = await service.GetPartnerById(req.params.id);
     return res.status(200).send({
@@ -96,4 +96,4 @@ PartnerApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-export default PartnerApi;
+export default PartnerController;

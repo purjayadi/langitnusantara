@@ -5,10 +5,10 @@ import { getAllDataFilters } from '../dto';
 import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
 
-const FeatureApi = Router();
+const FeatureController = Router();
 const service = new FeatureService();
 
-FeatureApi.get('/', async (req: Request, res: Response) => {
+FeatureController.get('/', async (req: Request, res: Response) => {
   const filters: getAllDataFilters = req.query;
   try {
     const data = await service.GetFeature(filters);
@@ -25,7 +25,7 @@ FeatureApi.get('/', async (req: Request, res: Response) => {
   }
 });
 
-FeatureApi.post('/', auth, isAdmin, async (req: Request, res: Response) => {
+FeatureController.post('/', auth, isAdmin, async (req: Request, res: Response) => {
   const feature: IFeature = req.body;
   try {
     const data = await service.CreateFeature(feature);
@@ -41,7 +41,7 @@ FeatureApi.post('/', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-FeatureApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+FeatureController.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   const feature: IFeature = req.body;
   try {
     await service.UpdateFeature(req.params.id, feature);
@@ -57,7 +57,7 @@ FeatureApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-FeatureApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+FeatureController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
     await service.DeleteFeature(req.params.id);
     return res.status(201).send({
@@ -72,7 +72,7 @@ FeatureApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => 
   }
 });
 
-FeatureApi.get('/:id', async (req: Request, res: Response) => {
+FeatureController.get('/:id', async (req: Request, res: Response) => {
   try {
     const data = await service.GetFeatureById(req.params.id);
     return res.status(200).send({
@@ -87,4 +87,4 @@ FeatureApi.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-export default FeatureApi;
+export default FeatureController;

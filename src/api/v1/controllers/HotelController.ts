@@ -1,22 +1,24 @@
 import { Request, Response, Router } from 'express';
-import { IProfile } from '../interfaces';
-import { ProfileService } from '../services';
+import { IHotel } from '../interfaces';
+import { HotelService } from '../services';
 import { getAllDataFilters } from '../dto';
 import multer from 'multer';
 import { fileFilter, fileStorage } from '../utils/multer';
+import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
-const ProfileApi = Router();
-const service = new ProfileService();
+const HotelController = Router();
+const service = new HotelService();
 
-ProfileApi.get('', async (req: Request, res: Response) => {
+HotelController.get('', async (req: Request, res: Response) => {
   const filters: getAllDataFilters = req.query;
   try {
-    const data = await service.GetProfile(filters);
+    const data = await service.GetHotel(filters);
+    const results = paginate(data, filters?.page, filters?.limit);
     return res.status(200).send({
       success: true,
-      data: data,
+      data: results,
     });
   } catch (err: any) {
     return res.status(500).send({
@@ -26,20 +28,17 @@ ProfileApi.get('', async (req: Request, res: Response) => {
   }
 });
 
-ProfileApi.post('', auth, isAdmin, upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'favicon', maxCount: 1 }]), async (req: any, res: Response) => {
-  console.log(req.files);
-
-  const payload: IProfile = {
+HotelController.post('', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
+  const payload: IHotel = {
     name: req.body.name,
-    phone: req.body.phone,
-    email: req.body.email,
     address: req.body.address,
-    logo: req.files?.logo[0].path,
-    favicon: req.files?.favicon[0].path,
     description: req.body.description,
+    price: req.body.price,
+    isActive: req.body.isActive,
+    banner: req.file?.path,
   };
   try {
-    const data = await service.CreateProfile(payload);
+    const data = await service.CreateHotel(payload);
     return res.status(200).send({
       success: true,
       data: data,
@@ -52,21 +51,20 @@ ProfileApi.post('', auth, isAdmin, upload.fields([{ name: 'logo', maxCount: 1 },
   }
 });
 
-ProfileApi.patch('/:id', auth, isAdmin, upload.fields([{ name: 'logo', maxCount: 1 }, { name: 'favicon', maxCount: 1 }]), async (req: any, res: Response) => {
-  const payload: IProfile = {
+HotelController.patch('/:id', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
+  const payload: IHotel = {
     name: req.body.name,
-    phone: req.body.phone,
-    email: req.body.email,
     address: req.body.address,
-    logo: req.files?.logo[0].path,
-    favicon: req.files?.favicon[0].path,
     description: req.body.description,
+    price: req.body.price,
+    isActive: req.body.isActive,
+    banner: req.file?.path,
   };
   try {
-    await service.UpdateProfile(req.params.id, payload);
+    await service.UpdateHotel(req.params.id, payload);
     return res.status(200).send({
       success: true,
-      message: 'Update Profile successfully',
+      message: 'Update hotel successfully',
     });
   } catch (error: any) {
     return res.status(500).send({
@@ -76,12 +74,12 @@ ProfileApi.patch('/:id', auth, isAdmin, upload.fields([{ name: 'logo', maxCount:
   }
 });
 
-ProfileApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+HotelController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
-    await service.DeleteProfile(req.params.id);
+    await service.DeleteHotel(req.params.id);
     return res.status(201).send({
       success: true,
-      message: 'Delete Profile successfully',
+      message: 'Delete Hotel successfully',
     });
   } catch (error: any) {
     return res.status(500).send({
@@ -91,9 +89,9 @@ ProfileApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => 
   }
 });
 
-ProfileApi.get('/:id', async (req: Request, res: Response) => {
+HotelController.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
-    const data = await service.GetProfileById(req.params.id);
+    const data = await service.GetHotelById(req.params.id);
     return res.status(200).send({
       success: true,
       data: data,
@@ -106,4 +104,4 @@ ProfileApi.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-export default ProfileApi;
+export default HotelController;

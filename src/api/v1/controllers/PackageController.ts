@@ -8,10 +8,10 @@ import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
-const PackageApi = Router();
+const PackageController = Router();
 const service = new PackageService();
 
-PackageApi.get('', async (req: Request, res: Response) => {
+PackageController.get('', async (req: Request, res: Response) => {
   const filters: getAllDataFilters = req.query;
   try {
     const data = await service.GetPackage(filters);
@@ -28,7 +28,7 @@ PackageApi.get('', async (req: Request, res: Response) => {
   }
 });
 
-PackageApi.post('', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
+PackageController.post('', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
   const payload: IPackage = {
     name: req.body.name,
     noOfDay: req.body.noOfDay,
@@ -55,7 +55,7 @@ PackageApi.post('', upload.single('banner'), auth, isAdmin, async (req: Request,
   }
 });
 
-PackageApi.patch('/:id', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
+PackageController.patch('/:id', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
   const payload: IPackage = {
     name: req.body.name,
     noOfDay: req.body.noOfDay,
@@ -82,7 +82,7 @@ PackageApi.patch('/:id', upload.single('banner'), auth, isAdmin, async (req: Req
   }
 });
 
-PackageApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+PackageController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
     await service.DeletePackage(req.params.id);
     return res.status(201).send({
@@ -97,7 +97,7 @@ PackageApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => 
   }
 });
 
-PackageApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+PackageController.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
     const data = await service.GetPackageById(req.params.id);
     return res.status(200).send({
@@ -112,7 +112,7 @@ PackageApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-PackageApi.get('/detail/:id', async (req: Request, res: Response) => {
+PackageController.get('/detail/:id', async (req: Request, res: Response) => {
   try {
     const data = await service.GetPackageBySlug(req.params.id);
     return res.status(200).send({
@@ -127,7 +127,7 @@ PackageApi.get('/detail/:id', async (req: Request, res: Response) => {
   }
 });
 
-PackageApi.get('/price/:id', async (req: Request, res: Response) => {
+PackageController.get('/price/:id', async (req: Request, res: Response) => {
   const pax: number = req.body.adult;  
   try {
     const data = await service.findPrice(req.params.id, pax);
@@ -143,4 +143,4 @@ PackageApi.get('/price/:id', async (req: Request, res: Response) => {
   }
 });
 
-export default PackageApi;
+export default PackageController;

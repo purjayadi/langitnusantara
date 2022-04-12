@@ -1,17 +1,17 @@
 import { Request, Response, Router } from 'express';
-import { IUser } from '../interfaces';
-import { UserService } from '../services';
+import { IService } from '../interfaces';
+import { OurService } from '../services';
 import { getAllDataFilters } from '../dto';
 import { paginate } from '../utils/paginate';
-import { isAdmin, auth } from '../utils/auth';
+import { auth, isAdmin } from '../utils/auth';
 
-const UserApi = Router();
-  const service = new UserService();
+const ServiceController = Router();
+  const service = new OurService();
 
-  UserApi.get('/', auth, isAdmin, async (req: Request, res: Response) => {
+  ServiceController.get('', async (req: Request, res: Response) => {
     const filters: getAllDataFilters = req.query;
     try {
-      const data = await service.GetUser(filters);
+      const data = await service.GetService(filters);
       const results = paginate(data, filters?.page, filters?.limit);
       return res.status(200).send({
         success: true,
@@ -25,10 +25,10 @@ const UserApi = Router();
     }
   });
 
-  UserApi.post('/', auth, isAdmin, async (req: Request, res: Response) => {
-      const User:IUser = req.body;
+  ServiceController.post('', auth, isAdmin, async (req: Request, res: Response) => {
+      const payload:IService = req.body;
       try {
-        const data = await service.CreateUser(User);
+        const data = await service.CreateService(payload);
         return res.status(200).send({
             success: true,
             data: data
@@ -41,13 +41,13 @@ const UserApi = Router();
       }
   });
 
-  UserApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
-      const User:IUser = req.body;
+  ServiceController.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+      const payload:IService = req.body;
       try {
-        await service.UpdateUser(req.params.id, User);
+        await service.UpdateService(req.params.id, payload);
         return res.status(200).send({
             success: true,
-            message: 'Update User successfully'
+            message: 'Update service successfully'
         });
       } catch (error:any) {
         return res.status(500).send({
@@ -57,12 +57,12 @@ const UserApi = Router();
       }
   });
 
-  UserApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  ServiceController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
-        await service.DeleteUser(req.params.id);
+        await service.DeleteService(req.params.id);
         return res.status(201).send({
             success: true,
-            message: 'Delete User successfully'
+            message: 'Delete service successfully'
         });
     } catch (error:any) {
         return res.status(500).send({
@@ -72,9 +72,9 @@ const UserApi = Router();
     }
   });
 
-  UserApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+  ServiceController.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
-        const data = await service.GetUserById(req.params.id);
+        const data = await service.GetServiceById(req.params.id);
         return res.status(200).send({
             success: true,
             data: data
@@ -87,4 +87,4 @@ const UserApi = Router();
     }
   });
 
-export default UserApi;
+export default ServiceController;

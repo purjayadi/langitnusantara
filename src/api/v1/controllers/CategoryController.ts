@@ -6,9 +6,9 @@ import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
 
 // TODO fix this
-const CategoryApi = Router();
+const CategoryController = Router();
 const service = new CategoryService();
-CategoryApi.get('/', async (req: Request, res: Response) => {
+CategoryController.get('/', async (req: Request, res: Response) => {
 
   const filters: getAllDataFilters = req.query;
   try {
@@ -26,7 +26,7 @@ CategoryApi.get('/', async (req: Request, res: Response) => {
   }
 });
 
-CategoryApi.post('/', auth, isAdmin, async (req: Request, res: Response) => {
+CategoryController.post('/', auth, isAdmin, async (req: Request, res: Response) => {
   const category: ICategory = req.body;
   try {
     const data = await service.CreateCategory(category);
@@ -42,7 +42,7 @@ CategoryApi.post('/', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-CategoryApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+CategoryController.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   const category: ICategory = req.body;
   try {
     await service.UpdateCategory(req.params.id, category);
@@ -58,7 +58,7 @@ CategoryApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => 
   }
 });
 
-CategoryApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+CategoryController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
     await service.DeleteCategory(req.params.id);
     return res.status(201).send({
@@ -73,7 +73,7 @@ CategoryApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) =>
   }
 });
 
-CategoryApi.get('/:id', async (req: Request, res: Response) => {
+CategoryController.get('/:id', async (req: Request, res: Response) => {
   try {
     const data = await service.GetCategoryById(req.params.id);
     return res.status(200).send({
@@ -88,4 +88,4 @@ CategoryApi.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-export default CategoryApi;
+export default CategoryController;

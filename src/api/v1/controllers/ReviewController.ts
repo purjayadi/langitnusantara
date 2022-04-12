@@ -5,10 +5,10 @@ import { getAllDataFilters } from '../dto';
 import { paginate } from '../utils/paginate';
 import { auth, isAdmin } from '../utils/auth';
 
-const ReviewApi = Router();
+const ReviewController = Router();
 const service = new ReviewService();
 
-ReviewApi.get('', async (req: Request, res: Response) => {
+ReviewController.get('', async (req: Request, res: Response) => {
   const filters: getAllDataFilters = req.query;
   try {
     const data = await service.Review(filters);
@@ -25,7 +25,7 @@ ReviewApi.get('', async (req: Request, res: Response) => {
   }
 });
 
-ReviewApi.post('', async (req: Request, res: Response) => {
+ReviewController.post('', async (req: Request, res: Response) => {
   const payload: IReview = req.body;
   try {
     const data = await service.CreateReview(payload);
@@ -41,7 +41,7 @@ ReviewApi.post('', async (req: Request, res: Response) => {
   }
 });
 
-ReviewApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+ReviewController.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   const payload: IReview = req.body;
   try {
     await service.UpdateReview(req.params.id, payload);
@@ -57,7 +57,7 @@ ReviewApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-ReviewApi.delete('/:id', async (req: Request, res: Response) => {
+ReviewController.delete('/:id', async (req: Request, res: Response) => {
   try {
     await service.DeleteReview(req.params.id);
     return res.status(201).send({
@@ -72,7 +72,7 @@ ReviewApi.delete('/:id', async (req: Request, res: Response) => {
   }
 });
 
-ReviewApi.get('/:id', async (req: Request, res: Response) => {
+ReviewController.get('/:id', async (req: Request, res: Response) => {
   try {
     const data = await service.GetReviewById(req.params.id);
     return res.status(200).send({
@@ -87,4 +87,4 @@ ReviewApi.get('/:id', async (req: Request, res: Response) => {
   }
 });
 
-export default ReviewApi;
+export default ReviewController;

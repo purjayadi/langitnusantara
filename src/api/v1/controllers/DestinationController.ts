@@ -9,9 +9,9 @@ import { fileFilter, fileStorage } from '../utils/multer';
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
 // TODO fix this
-const DestinationApi = Router();
+const DestinationController = Router();
 const service = new DestinationService();
-DestinationApi.get('/', async (req: Request, res: Response) => {
+DestinationController.get('/', async (req: Request, res: Response) => {
 
     const filters: getAllDataFilters = req.query;
     try {
@@ -29,7 +29,7 @@ DestinationApi.get('/', async (req: Request, res: Response) => {
     }
 });
 
-DestinationApi.post('/', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
+DestinationController.post('/', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
     const payload: IDestination = {
         name: req.body.name,
         banner: req.baseUrl + req.file?.path,
@@ -49,7 +49,7 @@ DestinationApi.post('/', upload.single('banner'), auth, isAdmin, async (req: Req
     }
 });
 
-DestinationApi.patch('/:id', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
+DestinationController.patch('/:id', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
     const payload: IDestination = {
         name: req.body.name,
         banner: req.file?.path,
@@ -69,7 +69,7 @@ DestinationApi.patch('/:id', upload.single('banner'), auth, isAdmin, async (req:
     }
 });
 
-DestinationApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+DestinationController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
     try {
         await service.DeleteDestination(req.params.id);
         return res.status(201).send({
@@ -84,7 +84,7 @@ DestinationApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response)
     }
 });
 
-DestinationApi.get('/:id', async (req: Request, res: Response) => {
+DestinationController.get('/:id', async (req: Request, res: Response) => {
     try {
         const data = await service.GetDestinationById(req.params.id);
         return res.status(200).send({
@@ -99,7 +99,7 @@ DestinationApi.get('/:id', async (req: Request, res: Response) => {
     }
 });
 
-DestinationApi.get('/detail/:slug', async (req: Request, res: Response) => {
+DestinationController.get('/detail/:slug', async (req: Request, res: Response) => {
     try {
         const data = await service.GetDestinationBySlug(req.params.slug);
         return res.status(200).send({
@@ -114,4 +114,4 @@ DestinationApi.get('/detail/:slug', async (req: Request, res: Response) => {
     }
 });
 
-export default DestinationApi;
+export default DestinationController;

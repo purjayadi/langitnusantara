@@ -1,6 +1,6 @@
 import { Request, Response, Router } from 'express';
-import { ITeam } from '../interfaces';
-import { TeamService } from '../services';
+import { IGallery } from '../interfaces';
+import { GalleryService } from '../services';
 import { getAllDataFilters } from '../dto';
 import multer from 'multer';
 import { fileFilter, fileStorage } from '../utils/multer';
@@ -8,13 +8,13 @@ import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
 const upload = multer({ storage: fileStorage, fileFilter: fileFilter });
 
-const TeamApi = Router();
-const service = new TeamService();
+const GalleryController = Router();
+const service = new GalleryService();
 
-TeamApi.get('', async (req: Request, res: Response) => {
+GalleryController.get('', async (req: Request, res: Response) => {
   const filters: getAllDataFilters = req.query;
   try {
-    const data = await service.Team(filters);
+    const data = await service.Gallery(filters);
     const results = paginate(data, filters?.page, filters?.limit);
     return res.status(200).send({
       success: true,
@@ -28,17 +28,13 @@ TeamApi.get('', async (req: Request, res: Response) => {
   }
 });
 
-TeamApi.post('', auth, isAdmin, upload.single('photo'), async (req: Request, res: Response) => {
-  const payload: ITeam = {
-    name: req.body.name,
-    photo: req.file?.path,
-    position: req.body.position,
-    facebook: req.body.facebook,
-    twitter: req.body.twitter,
-    instagram: req.body.instagram
+GalleryController.post('', upload.single('name'), auth, isAdmin, async (req: Request, res: Response) => {
+  const payload: IGallery = {
+    name: req.file?.path,
+    isSlider: req.body.isSlider
   };
   try {
-    const data = await service.CreateTeam(payload);
+    const data = await service.CreateGallery(payload);
     return res.status(200).send({
       success: true,
       data: data
@@ -51,20 +47,16 @@ TeamApi.post('', auth, isAdmin, upload.single('photo'), async (req: Request, res
   }
 });
 
-TeamApi.patch('/:id', auth, isAdmin, upload.single('photo'), async (req: Request, res: Response) => {
-  const payload: ITeam = {
-    name: req.body.name,
-    photo: req.file?.path,
-    position: req.body.position,
-    facebook: req.body.facebook,
-    twitter: req.body.twitter,
-    instagram: req.body.instagram
+GalleryController.patch('/:id', upload.single('name'), auth, isAdmin, async (req: Request, res: Response) => {
+  const payload: IGallery = {
+    name: req.file?.path,
+    isSlider: req.body.isSlider
   };
   try {
-    await service.UpdateTeam(req.params.id, payload);
+    await service.UpdateGallery(req.params.id, payload);
     return res.status(200).send({
       success: true,
-      message: 'Update Team successfully'
+      message: 'Update gallery successfully'
     });
   } catch (error: any) {
     return res.status(500).send({
@@ -74,12 +66,12 @@ TeamApi.patch('/:id', auth, isAdmin, upload.single('photo'), async (req: Request
   }
 });
 
-TeamApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+GalleryController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
-    await service.DeleteTeam(req.params.id);
+    await service.DeleteGallery(req.params.id);
     return res.status(201).send({
       success: true,
-      message: 'Delete Team successfully'
+      message: 'Delete gallery successfully'
     });
   } catch (error: any) {
     return res.status(500).send({
@@ -89,9 +81,9 @@ TeamApi.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-TeamApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+GalleryController.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   try {
-    const data = await service.GetTeamById(req.params.id);
+    const data = await service.GetGalleryById(req.params.id);
     return res.status(200).send({
       success: true,
       data: data
@@ -104,4 +96,4 @@ TeamApi.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-export default TeamApi;
+export default GalleryController;

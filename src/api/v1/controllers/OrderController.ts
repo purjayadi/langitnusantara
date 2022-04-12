@@ -6,10 +6,10 @@ import { paginate } from '../utils/paginate';
 import { isAdmin, auth } from '../utils/auth';
 import Logger from '../utils/logger';
 
-const OrderApi = Router();
+const OrderController = Router();
 const service = new OrderService();
 
-OrderApi.get('/', auth, async (req: Request, res: Response) => {
+OrderController.get('/', auth, async (req: Request, res: Response) => {
   const filters: getAllDataFilters = req.query;
   // @ts-ignore
   const user: IUser = req.user;
@@ -29,7 +29,7 @@ OrderApi.get('/', auth, async (req: Request, res: Response) => {
   }
 });
 
-OrderApi.post('/', auth, async (req: Request, res: Response) => {
+OrderController.post('/', auth, async (req: Request, res: Response) => {
   const payload: IOrder = req.body;
   try {
     if (!payload.payment) {
@@ -58,7 +58,7 @@ OrderApi.post('/', auth, async (req: Request, res: Response) => {
   }
 });
 
-OrderApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+OrderController.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   const payload: IOrder = req.body;
   try {
     await service.UpdateOrder(req.params.id, payload);
@@ -74,7 +74,7 @@ OrderApi.patch('/:id', auth, isAdmin, async (req: Request, res: Response) => {
   }
 });
 
-OrderApi.delete('/:id', auth, async (req: Request, res: Response) => {
+OrderController.delete('/:id', auth, async (req: Request, res: Response) => {
   try {
     await service.DeleteOrder(req.params.id);
     return res.status(201).send({
@@ -89,7 +89,7 @@ OrderApi.delete('/:id', auth, async (req: Request, res: Response) => {
   }
 });
 
-OrderApi.get('/:id', auth, async (req: Request, res: Response) => {
+OrderController.get('/:id', auth, async (req: Request, res: Response) => {
   try {
     const data = await service.GetOrderById(req.params.id);
     return res.status(200).send({
@@ -104,4 +104,4 @@ OrderApi.get('/:id', auth, async (req: Request, res: Response) => {
   }
 });
 
-export default OrderApi;
+export default OrderController;
