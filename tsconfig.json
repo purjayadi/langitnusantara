@@ -11,7 +11,7 @@
     "resolveJsonModule": true,
     "strict": true,    
     "skipLibCheck": true,
-    "outDir": "build",
+    "outDir": "dist",
     "moduleResolution": "node",
     "paths": {
       "@models/*": ["/src/database/models/*"],
