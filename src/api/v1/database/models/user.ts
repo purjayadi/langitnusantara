@@ -8,7 +8,7 @@ import bcrypt from 'bcrypt';
 class User
   extends Model<IUser, UserInput>
   implements IUser {
-  public id!: string;
+  declare id: string;
   public provider!: string;
   public firstName!: string;
   public lastName!: string;

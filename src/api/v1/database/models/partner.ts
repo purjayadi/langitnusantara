@@ -8,7 +8,7 @@ import { IPartner, PartnerInput } from '../../interfaces';
 class Partner
   extends Model<IPartner, PartnerInput>
   implements IPartner {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public image!: string;
 
@@ -30,7 +30,14 @@ Partner.init(
     },
     image: {
       type: DataTypes.STRING,
-      defaultValue: 'banner.jpg'
+      defaultValue: 'banner.jpg',
+      get() {
+        const rawValue = this.getDataValue('image');
+        // remove string from string
+        const url:string = process.env.URL || 'http://localhost';
+        const value = rawValue?.replace('public', url);
+        return value;
+      }
     }
   },
   {

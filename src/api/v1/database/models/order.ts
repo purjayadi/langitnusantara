@@ -12,7 +12,7 @@ import OrderDetail from './OrderDetail';
 class Order
   extends Model<IOrder, OrderInput>
   implements IOrder {
-  public id!: string;
+  declare id: string;
   public packageId!: string;
   public noInvoice!: string;
   public in!: Date;

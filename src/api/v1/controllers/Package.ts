@@ -127,4 +127,20 @@ PackageApi.get('/detail/:id', async (req: Request, res: Response) => {
   }
 });
 
+PackageApi.get('/price/:id', async (req: Request, res: Response) => {
+  const pax: number = req.body.adult;  
+  try {
+    const data = await service.findPrice(req.params.id, pax);
+    return res.status(200).send({
+      success: true,
+      data: data,
+    });
+  } catch (error: any) {
+    return res.status(500).send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
 export default PackageApi;

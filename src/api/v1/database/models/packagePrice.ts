@@ -7,9 +7,11 @@ import { IPackagePrice, PackagePriceInput } from '../../interfaces';
 class PackagePrice
   extends Model<IPackagePrice, PackagePriceInput>
   implements IPackagePrice {
-  public id!: string;
+  declare id: string;
   public packageId!: string;
   public description!: string;
+  public min!: number;
+  public max!: number;
   public price!: number;
 
   // timestamps!
@@ -32,6 +34,14 @@ PackagePrice.init(
       },
       onUpdate: 'CASCADE',
       onDelete: 'SET NULL' 
+    },
+    min: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    max: {
+      type: DataTypes.INTEGER,
+      allowNull: false
     },
     description: {
       type: DataTypes.STRING,

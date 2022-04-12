@@ -7,7 +7,7 @@ import { ICategory, CategoryInput } from '../../interfaces';
 class Category
   extends Model<ICategory, CategoryInput>
   implements ICategory {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public icon!: string;
   public color!: string;

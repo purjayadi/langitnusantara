@@ -15,7 +15,7 @@ var slug = require('slug');
 class Package
   extends Model<IPackage, PackageInput>
   implements IPackage {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public slug!: string;
   public banner!: string;
@@ -69,7 +69,14 @@ Package.init(
     },
     banner: {
       type: DataTypes.STRING,
-      defaultValue: 'banner.jpg'
+      defaultValue: 'banner.jpg',
+      get() {
+        const rawValue = this.getDataValue('banner');
+        // remove string from string
+        const url:string = process.env.URL || 'http://localhost';
+        const value = rawValue?.replace('public', url);
+        return value;
+      }
     },
     description: {
       type: DataTypes.TEXT,

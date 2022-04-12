@@ -7,7 +7,7 @@ import { IItinerary, IItineraryInput } from '../../interfaces';
 class Itinerary
   extends Model<IItinerary, IItineraryInput>
   implements IItinerary {
-  public id!: string;
+  declare id: string;
   public packageId!: string;
   public title!: string;
   public day!: number;

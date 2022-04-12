@@ -7,7 +7,7 @@ import { IPaymentChanel, PaymentChanelInput } from '../../interfaces';
 class PaymentChanel
   extends Model<IPaymentChanel, PaymentChanelInput>
   implements IPaymentChanel {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public chanelCode!: string;
   public chanelCategory!: string;
@@ -40,7 +40,14 @@ PaymentChanel.init(
     },
     logo: { 
       type: DataTypes.STRING, 
-      allowNull: true
+      allowNull: true,
+      get() {
+        const rawValue = this.getDataValue('logo');
+        // remove string from string
+        const url:string = process.env.URL || 'http://localhost';
+        const value = rawValue?.replace('public', url);
+        return value;
+      }
     },
     isActive: {
       type: DataTypes.BOOLEAN,

@@ -7,7 +7,7 @@ import { IFeature, FeatureInput } from '../../interfaces';
 class Feature
   extends Model<IFeature, FeatureInput>
   implements IFeature {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public description!: string;
   public icon!: string;

@@ -8,7 +8,7 @@ var slug = require('slug');
 class Page
   extends Model<IPage, PageInput>
   implements IPage {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public slug!: string;
   public description!: string;

@@ -8,7 +8,7 @@ import { IHotel, HotelInput } from '../../interfaces';
 class Hotel
   extends Model<IHotel, HotelInput>
   implements IHotel {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public address!: string;
   public description!: string;

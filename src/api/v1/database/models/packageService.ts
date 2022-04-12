@@ -8,7 +8,7 @@ import Service from './service';
 class PackageService
   extends Model<IPackageService, PackageServiceInput>
   implements IPackageService {
-  public id!: string;
+  declare id: string;
   public packageId!: string;
   public serviceId!: string;
   public type!: string;

@@ -7,7 +7,7 @@ import { IReview, ReviewInput } from '../../interfaces';
 class Review
   extends Model<IReview, ReviewInput>
   implements IReview {
-  public id!: string;
+  declare id: string;
   public packageId!: string;
   public name!: string;
   public email!: string;

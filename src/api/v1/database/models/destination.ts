@@ -11,7 +11,7 @@ var slug = require('slug');
 class Destination
     extends Model<IDestination, DestinationInput>
     implements IDestination {
-    public id!: string;
+    declare id: string;
     public name!: string;
     public slug!: string;
     public banner!: string;
@@ -41,6 +41,13 @@ Destination.init(
         banner: {
             type: DataTypes.STRING,
             allowNull: false,
+            get() {
+                const rawValue = this.getDataValue('banner');
+                // remove string from string
+                const url:string = process.env.URL || 'http://localhost';
+                const value = rawValue?.replace('public', url);
+                return value;
+            }
         },
         isFeatured: {
             type: DataTypes.BOOLEAN,

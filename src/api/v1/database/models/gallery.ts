@@ -3,12 +3,13 @@ import { DataTypes, Model } from 'sequelize';
 import db from '../../../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IGallery, GalleryInput } from '../../interfaces';
+require('dotenv').config();
 
 //dto
 class Gallery
   extends Model<IGallery, GalleryInput>
   implements IGallery {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public image!: string;
   public isSlider!: boolean;
@@ -28,14 +29,12 @@ Gallery.init(
     name: {
       type: DataTypes.STRING,
       allowNull: false,
-    },
-    image: {
-      type: DataTypes.VIRTUAL,
       get() {
-        return `${this.name}`;
-      },
-      set() {
-        throw new Error('Do not try to set the `fullName` value!');
+        const rawValue = this.getDataValue('name');
+        // remove string from string
+        const url:string = process.env.URL || 'http://localhost';
+        const value = rawValue?.replace('public', url);
+        return value;
       }
     },
     isSlider: {

@@ -7,7 +7,7 @@ import { ISession, SessionInput } from '../../interfaces';
 class Session
   extends Model<ISession, SessionInput>
   implements ISession {
-  public id!: string;
+  declare id: string;
   public userId!: string;
   public expires!: Date;
   public data!: string;

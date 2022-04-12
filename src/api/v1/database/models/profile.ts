@@ -7,7 +7,7 @@ import { IProfile, ProfileInput } from '../../interfaces';
 class Profile
   extends Model<IProfile, ProfileInput>
   implements IProfile {
-  public id!: string;
+  declare id: string;
   public name!: string;
   public phone!: string;
   public email!: string;
@@ -44,11 +44,25 @@ Profile.init(
     },
     logo: {
       type: DataTypes.STRING,
-      defaultValue: 'logo.png'
+      defaultValue: 'logo.png',
+      get() {
+        const rawValue = this.getDataValue('logo');
+        // remove string from string
+        const url:string = process.env.URL || 'http://localhost';
+        const value = rawValue?.replace('public', url);
+        return value;
+      }
     },
     favicon: {
       type: DataTypes.STRING,
-      defaultValue: 'favicon.png'
+      defaultValue: 'favicon.png',
+      get() {
+        const rawValue = this.getDataValue('favicon');
+        // remove string from string
+        const url:string = process.env.URL || 'http://localhost';
+        const value = rawValue?.replace('public', url);
+        return value;
+      }
     },
     description: {
       type: DataTypes.STRING,

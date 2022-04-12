@@ -7,7 +7,7 @@ import { IOrderDetail, OrderDetailInput } from '../../interfaces';
 class OrderDetail
     extends Model<IOrderDetail, OrderDetailInput>
     implements IOrderDetail {
-    public id!: string;
+    declare id: string;
     public orderId!: string;
     public externalId!: string;
     public chanelCode!: string;

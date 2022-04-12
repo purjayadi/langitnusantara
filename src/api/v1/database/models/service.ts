@@ -8,7 +8,7 @@ import { IService, ServiceInput } from '../../interfaces';
 class Service
   extends Model<IService, ServiceInput>
   implements IService {
-  public id!: string;
+  declare id: string;
   public name!: string;
 
   // timestamps!

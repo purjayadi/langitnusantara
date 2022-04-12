@@ -7,7 +7,7 @@ import { IOrderPayment, OrderPaymentInput } from '../../interfaces';
 class OrderPayment
   extends Model<IOrderPayment, OrderPaymentInput>
   implements IOrderPayment {
-  public id!: string;
+  declare id: string;
   public source!: string;
   public externalId!: string;
   public orderId!: string;

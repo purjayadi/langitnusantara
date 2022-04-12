@@ -7,7 +7,7 @@ import { ITeam, TeamInput } from '../../interfaces';
 class Team
     extends Model<ITeam, TeamInput>
     implements ITeam {
-    public id!: string;
+    declare id: string;
     public name!: string;
     public position!: string;
     public photo!: string;
@@ -38,6 +38,13 @@ Team.init(
     photo: {
         type: DataTypes.STRING,
         allowNull: false,
+        get() {
+            const rawValue = this.getDataValue('photo');
+            // remove string from string
+            const url:string = process.env.URL || 'http://localhost';
+            const value = rawValue?.replace('public', url);
+            return value;
+        }
     },
     facebook: {
         type: DataTypes.STRING,
