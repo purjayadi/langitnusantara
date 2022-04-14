@@ -45,7 +45,14 @@ PackagePrice.init(
     },
     description: {
       type: DataTypes.STRING,
-      allowNull: true
+      allowNull: true,
+      get() {
+        const min:number = this.getDataValue('min');
+        const max:number = this.getDataValue('max');
+        const description:any = this.getDataValue('description');
+        const value = min + '-' + max + ' ' + description;
+        return value;
+      }
     },
     price: {
         type: DataTypes.DECIMAL,
