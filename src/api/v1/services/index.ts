@@ -18,6 +18,14 @@ import paymentEvent from './paymentGateway/PaymentEvent.service';
 import OrderPaymentService from './payment/OrderPaymentService';
 import DestinationService from './Destination.service';
 import OutletService from './paymentGateway/OutletService';
+import TagService from './accounting/TagService';
+import GroupService from './accounting/GroupService';
+import PeriodeService from './accounting/PeriodeService';
+import JournalTypeService from './accounting/JournalTypeService';
+import TaxService from './accounting/TaxService';
+import AccountService from './accounting/AccountService';
+import BeginningBalanceService from './accounting/BeginningBalanceService';
+import JournalService from './accounting/JournalService';
 
 export {
     CategoryService,
@@ -40,4 +48,12 @@ export {
     OrderPaymentService,
     DestinationService,
     OutletService,
+    TagService,
+    GroupService,
+    PeriodeService,
+    JournalTypeService,
+    TaxService,
+    AccountService,
+    BeginningBalanceService,
+    JournalService,
 };

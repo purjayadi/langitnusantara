@@ -19,3 +19,8 @@ export * from './paymentGateway/Ewallet.interface';
 export * from './paymentGateway/GeneralPayment.interface';
 export * from './paymentGateway/RoInterface';
 export * from './DestinationInterface';
+export * from './accounting/GroupInterface';
+export * from './accounting/AccountingInterface';
+export * from './accounting/BeginningBalanceInterface';
+export * from './accounting/PeriodeInterface';
+export * from './accounting/JournalInterface';

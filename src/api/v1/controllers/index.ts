@@ -18,6 +18,11 @@ import Payment from './payment/Payment';
 import Tag from './accounting/TagController';
 import GroupController from './accounting/GroupController';
 import PeriodeController from './accounting/PeriodeController';
+import JournalTypeController from './accounting/JournalTypeController';
+import TaxController from './accounting/TaxController';
+import AccountController from './accounting/AccountController';
+import BeginningBalanceController from './accounting/BeginningBalanceController';
+import JournalController from './accounting/JournalController';
 
 export {
     Category,
@@ -39,5 +44,10 @@ export {
     Payment,
     Tag,
     GroupController,
-    PeriodeController
+    PeriodeController,
+    JournalTypeController,
+    TaxController,
+    AccountController,
+    BeginningBalanceController,
+    JournalController
 };

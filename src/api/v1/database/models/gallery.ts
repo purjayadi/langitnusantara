@@ -30,7 +30,7 @@ Gallery.init(
       type: DataTypes.STRING,
       allowNull: false,
       get() {
-        const rawValue = this.getDataValue('name');
+        const rawValue:any = this.getDataValue('name');
         // remove string from string
         const url:string = process.env.URL || 'http://localhost';
         const value = rawValue?.replace('public', url);

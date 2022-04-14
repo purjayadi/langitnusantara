@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { Gallery, Category, Auth, Feature, Hotel, Order, Package, Partner, Profile, Review, Service, Team, User, Callback, PaymentChanel,  Destination, Payment } from '../controllers';
+import { Gallery, Category, Auth, Feature, Hotel, Order, Package, Partner, Profile, Review, Service, Team, User, Callback, PaymentChanel,  Destination, Payment, Tag, GroupController, PeriodeController, JournalTypeController, TaxController, AccountController, BeginningBalanceController, JournalController } from '../controllers';
 
 const routers = Router();
 routers.use('/category', Category);
@@ -19,5 +19,13 @@ routers.use('/payment-chanel', PaymentChanel);
 routers.use('/auth', Auth);
 routers.use('/destination', Destination);
 routers.use('/payment', Payment);
+routers.use('/accounting/tag', Tag);
+routers.use('/accounting/group', GroupController);
+routers.use('/accounting/periode', PeriodeController);
+routers.use('/accounting/journal-type', JournalTypeController);
+routers.use('/accounting/journal', JournalController);
+routers.use('/accounting/tax', TaxController);
+routers.use('/accounting/account', AccountController);
+routers.use('/accounting/balance', BeginningBalanceController);
 
 export default routers;

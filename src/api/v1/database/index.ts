@@ -17,6 +17,14 @@ import TransactionRepository from './repository/paymentGateway/TransactionReposi
 import OrderPaymentRepository from './repository/payment/OrderPaymentRepository';
 import OutletRepository from './repository/paymentGateway/OutletRepository';
 import DestinationRepository from './repository/DestinationRepository';
+import TagRepository from './repository/accounting/TagRepository';
+import GroupRepository from './repository/accounting/GroupRepository';
+import PeriodeRepository from './repository/accounting/PeriodeRepository';
+import JournalTypeRepository from './repository/accounting/JournalTypeRepository';
+import TaxRepository from './repository/accounting/TaxRepository';
+import AccountRepository from './repository/accounting/AccountingRepository';
+import BeginningBalanceRepository from './repository/accounting/BeginningBalanceRepository';
+import JournalRepository from './repository/accounting/JournalRepository';
 
 export {
     ServiceRepository,
@@ -38,4 +46,12 @@ export {
     OrderPaymentRepository,
     DestinationRepository,
     OutletRepository,
+    TagRepository,
+    GroupRepository,
+    PeriodeRepository,
+    JournalTypeRepository,
+    TaxRepository,
+    AccountRepository,
+    BeginningBalanceRepository,
+    JournalRepository
 };
