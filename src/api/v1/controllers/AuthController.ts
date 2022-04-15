@@ -29,10 +29,13 @@ AuthController.post('/register', async (req: Request, res: Response) => {
 
 AuthController.post('/login', async (req: Request, res: Response, next: NextFunction) => {
     passport.authenticate('local', { session: false }, (err, user) => {
-        if (!user) return res.status(401).json({
-            success: false,
-            message: 'Invalid email or password'
-        });
+        Logger.debug(user);
+        if (!user) {
+            return res.status(401).json({
+                success: false,
+                message: 'Invalid email or password'
+            });
+        }
         req.logIn(user, (err) => {
             if (err) throw err;
             const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
@@ -40,6 +43,7 @@ AuthController.post('/login', async (req: Request, res: Response, next: NextFunc
                 success: true,
                 message: 'Login successfully',
                 accessToken: accessToken,
+                user: user
             });
         });
     })(req, res, next);
