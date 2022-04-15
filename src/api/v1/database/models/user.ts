@@ -22,8 +22,6 @@ class User
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
   public readonly deletedAt!: Date;
-  // eslint-disable-next-line no-unused-vars
-  comparePassword: ((passwd: any, cb: any) => void) | undefined;
 }
 
 User.init(
@@ -122,9 +120,6 @@ User.beforeSave((user) => {
   }
 });
 
-User.prototype.comparePassword = function (passwd) {
-  return bcrypt.compare(passwd, this.password);
-};
 
 User.addScope('withoutPassword', {
   attributes: { exclude: ['password'] }

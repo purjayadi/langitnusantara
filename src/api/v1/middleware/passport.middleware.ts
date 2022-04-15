@@ -7,6 +7,7 @@ import User from '../database/models/user';
 import { UserInput } from '../interfaces';
 import Logger from '../utils/logger';
 import { Op } from 'sequelize';
+import bcrypt from 'bcrypt';
 require('dotenv').config();
 
 passport.use(
@@ -19,10 +20,16 @@ passport.use(
         async (email, password, done) => {
             const user = await User.findOne({ where: { email: email }, });
             //@ts-ignore
-            if (user && (user.comparePassword(password, done))) {
-                done(null, user);
+            if (!user) {
+                return done(null, false);
             } else {
-                done(null, false);
+                bcrypt.compare(password, user.password).then(isMatch => {
+                    if (isMatch) {
+                        return done(null, user);
+                    } else {
+                        return done(null, false);
+                    }
+                });
             }
         }
     ));
