@@ -97,7 +97,7 @@ PackageController.delete('/:id', auth, isAdmin, async (req: Request, res: Respon
   }
 });
 
-PackageController.get('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+PackageController.get('/:id', async (req: Request, res: Response) => {
   try {
     const data = await service.GetPackageById(req.params.id);
     return res.status(200).send({
