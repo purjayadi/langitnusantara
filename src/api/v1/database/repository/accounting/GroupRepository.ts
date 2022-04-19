@@ -14,7 +14,8 @@ class GroupRepository {
                 where: {
                     ...(filters?.isActive && { isActive: filters?.isActive }),
                     parentId: null
-                }
+                },
+                order: [['code', 'asc']]
             });
             return allGroup;
     }
