@@ -61,8 +61,7 @@ Order.init(
         allowNull: false
     },
     out: {
-        type: DataTypes.DATEONLY,
-        allowNull: false
+        type: DataTypes.DATEONLY
     },
     adult: {
       type: DataTypes.NUMBER,
