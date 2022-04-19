@@ -7,9 +7,18 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
       },
+      code: {
+        type: Sequelize.STRING,
+        unique: true,
+        allowNull: false
+      },
       name: {
         type: Sequelize.STRING,
         unique: true
+      },
+      parentId: {
+        type: Sequelize.UUID,
+        allowNull: true,
       },
       isActive: {
         type: Sequelize.BOOLEAN,
