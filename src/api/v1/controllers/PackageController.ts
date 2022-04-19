@@ -128,7 +128,8 @@ PackageController.get('/detail/:id', async (req: Request, res: Response) => {
 });
 
 PackageController.get('/price/:id', async (req: Request, res: Response) => {
-  const pax: number = req.body.adult;  
+  // @ts-ignore
+  const pax: number = req.query.adult;  
   try {
     const data = await service.findPrice(req.params.id, pax);
     return res.status(200).send({
