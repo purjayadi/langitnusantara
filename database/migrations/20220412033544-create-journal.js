@@ -69,7 +69,7 @@ module.exports = {
           key: 'id' // key in Target model that we're referencing
         },
         onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
+        onDelete: 'RESTRICT' 
       },
       createdAt: {
         allowNull: false,
@@ -81,7 +81,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Journals');
   }
 };
