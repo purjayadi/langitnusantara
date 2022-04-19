@@ -54,6 +54,7 @@ class ReportRepository {
                     [Op.eq]: null
                 }
             },
+            order: [['code', 'ASC']],
             group: ['Group.id', 'subGroup.id', 'subGroup->account.id']
         });
         Logger.info(groups);
@@ -99,6 +100,7 @@ class ReportRepository {
                         [Op.eq]: null
                     }
                 },
+                order: [['code', 'ASC']],
                 group: ['Group.id', 'subGroup.id', 'subGroup->account.id']
             });
             Logger.info(groups);
