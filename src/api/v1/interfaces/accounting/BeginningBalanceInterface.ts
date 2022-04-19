@@ -3,8 +3,8 @@ import { Optional } from 'sequelize';
 export interface IBeginningBalance{
     id: string;
     accountId: string;
-    debit: number;
-    credit: number;
+    bbDebit: number;
+    bbCredit: number;
     balance: number;
     userId: string;
     periodeId: string;

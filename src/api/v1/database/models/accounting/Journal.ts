@@ -1,8 +1,13 @@
 'use strict';
 import { DataTypes, Model } from 'sequelize';
-import db from '../../../../../config/db';
+import db from '../../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IJournal, JournalInput } from '../../../interfaces';
+import Account from './account';
+import Periode from './periode';
+import Tag from './tag';
+import JournalType from './journalType';
+import User from '../user';
 
 // make class journal objects
 class Journal extends Model<IJournal, JournalInput> implements IJournal {
@@ -10,6 +15,7 @@ class Journal extends Model<IJournal, JournalInput> implements IJournal {
     public ref!: string;
     public debit!: number;
     public credit!: number;
+    public balance!: number;
     public date!: Date;
     public periodeId!: string;
     public accountId!: string;
@@ -23,7 +29,10 @@ class Journal extends Model<IJournal, JournalInput> implements IJournal {
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
+    account: any;
+    tag: any;
 }
+
 
 // initial journal objects
 Journal.init(
@@ -37,8 +46,7 @@ Journal.init(
             allowNull: false,
         },
         accountId: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.UUID,
             references: {
                 model: 'Accounts', // name of Target model
                 key: 'id' // key in Target model that we're referencing
@@ -47,8 +55,7 @@ Journal.init(
             onDelete: 'RESTRICT'
         },
         periodeId: {
-            type: DataTypes.STRING,
-            allowNull: false,
+            type: DataTypes.UUID,
             references: {
                 model: 'Periodes', // name of Target model
                 key: 'id' // key in Target model that we're referencing
@@ -115,6 +122,24 @@ Journal.beforeBulkCreate((journals) => {
     for (const journal of journals) {
         journal.id = uuid();
     }
+});
+
+
+Account.hasMany(Journal, { foreignKey: 'accountId', as: 'journal' });
+Journal.belongsTo(Account, { foreignKey: 'accountId', as: 'account' });
+Journal.belongsTo(Periode, { foreignKey: 'periodeId', as: 'periode' });
+Journal.belongsTo(Tag, { foreignKey: 'tagId', as: 'tag' });
+Journal.belongsTo(JournalType, { foreignKey: 'journalTypeId', as: 'type' });
+Journal.belongsTo(User, { foreignKey: 'userId', as: 'user' });
+
+Journal.addScope('includeAss', {
+    include: [
+        { model: Account, as: 'account', attributes: ['name'], required: true },
+        { model: Periode, as: 'periode', attributes: ['startDate', 'endDate'] },
+        { model: Tag, as: 'tag', attributes: ['name'] },
+        { model: JournalType, as: 'type', attributes: ['name'] },
+        { model: User, as: 'user', attributes: ['firstName', 'lastName'] }
+    ]
 });
 
 export default Journal;

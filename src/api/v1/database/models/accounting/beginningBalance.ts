@@ -1,6 +1,6 @@
 'use strict';
 import { DataTypes, Model } from 'sequelize';
-import db from '../../../../../config/db';
+import db from '../../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IBeginningBalance, BeginningBalanceInput } from '../../../interfaces';
 import Account from './account';
@@ -12,8 +12,8 @@ class BeginningBalance
     implements IBeginningBalance {
     declare id: string;
     public accountId!: string;
-    public debit!: number;
-    public credit!: number;
+    public bbDebit!: number;
+    public bbCredit!: number;
     public balance!: number;
     public userId!: string;
     public periodeId!: string;
@@ -22,6 +22,8 @@ class BeginningBalance
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
+    periode: any;
+    account: any;
 }
 
 // initial beginning balance
@@ -41,11 +43,11 @@ BeginningBalance.init(
             onUpdate: 'CASCADE',
             onDelete: 'RESTRICT'
         },
-        debit: {
+        bbDebit: {
             type: DataTypes.DECIMAL,
             allowNull: false,
         },
-        credit: {
+        bbCredit: {
             type: DataTypes.DECIMAL,
             allowNull: false,
         },
@@ -82,6 +84,11 @@ BeginningBalance.belongsTo(Account, {
     foreignKey: 'accountId',
     targetKey: 'id',
     as: 'account'
+});
+
+Account.hasMany(BeginningBalance, {
+    foreignKey: 'accountId',
+    as: 'beginningBalances'
 });
 
 BeginningBalance.belongsTo(Periode, {

@@ -26,6 +26,7 @@ export interface IJournal{
     userId: string;
     tagId: string;
     ref: string;
+    balance?: number;
     reduce?: (any);
     map?: (any);
 }

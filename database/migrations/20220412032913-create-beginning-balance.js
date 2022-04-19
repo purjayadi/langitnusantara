@@ -16,11 +16,11 @@ module.exports = {
         onUpdate: 'CASCADE',
         onDelete: 'CASCADE' 
       },
-      debit: {
+      bbDebit: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },
-      credit: {
+      bbCredit: {
         type: Sequelize.DECIMAL,
         allowNull: false,
       },

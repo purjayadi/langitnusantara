@@ -1,8 +1,10 @@
 'use strict';
-import { DataTypes, Model } from 'sequelize';
-import db from '../../../../../config/db';
+import { DataTypes, Model, Sequelize } from 'sequelize';
+import db from '../../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IGroup, GroupInput } from '../../../interfaces';
+import Account from './account';
+import Journal from './Journal';
 
 class Group
     extends Model<IGroup, GroupInput>
@@ -17,6 +19,8 @@ class Group
     public readonly createdAt!: Date;
     public readonly updatedAt!: Date;
     public readonly deletedAt!: Date;
+    children: any;
+    subGroup: any;
 }
 
 Group.init(
@@ -35,7 +39,7 @@ Group.init(
         },
         parentId: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: true,
         },
         isActive: {
             type: DataTypes.BOOLEAN,
@@ -52,18 +56,70 @@ Group.beforeCreate((Group) => {
     Group.id = uuid();
 });
 
-Group.belongsTo(Group, {
+Group.hasMany(Group, {
     foreignKey: 'parentId',
-    targetKey: 'id',
-    as: 'group',
+    as: 'subGroup',
 });
 
-Group.addScope('group', {
+Group.hasMany(Account, {
+    foreignKey: 'groupId',
+    as: 'account'
+});
+
+Account.belongsTo(Group, {
+    foreignKey: 'groupId',
+    targetKey: 'id',
+    as: 'group'
+});
+
+
+Group.addScope('children', {
     include: {
         model: Group,
-        as: 'group',
-        attributes: ['name'],
+        as: 'subGroup',
+        attributes: ['id','name'],
+        include: [
+            {
+                model: Group,
+                as: 'subGroup',
+                attributes: ['id','name'],
+                include: [
+                    {
+                        model: Group,
+                        as: 'subGroup',
+                        attributes: ['id','name']
+                    }
+                ]
+            }
+        ]
     }
+});
+
+Group.addScope('subGroup', {
+    include: {
+        model: Group,
+        as: 'subGroup',
+        attributes: ['name'],
+        include: [
+            {
+                model: Account,
+                as: 'account',
+                attributes: ['id', 'name',
+                    [Sequelize.fn('SUM', Sequelize.col('debit')), 'debit'],
+                    [Sequelize.fn('SUM', Sequelize.col('credit')), 'credit'],
+                    [Sequelize.literal('SUM(debit) - SUM(credit)'), 'balance'],
+                ],
+                include: [
+                    {
+                        attributes: [],
+                        model: Journal,
+                        as: 'journal',
+                        required: true
+                    }
+                ]
+            }
+        ]
+    },
 });
 
 export default Group;

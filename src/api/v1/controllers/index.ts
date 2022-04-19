@@ -23,6 +23,8 @@ import TaxController from './accounting/TaxController';
 import AccountController from './accounting/AccountController';
 import BeginningBalanceController from './accounting/BeginningBalanceController';
 import JournalController from './accounting/JournalController';
+import LedgerController from './accounting/LedgerController';
+import ReportController from './accounting/ReportController';
 
 export {
     Category,
@@ -49,5 +51,7 @@ export {
     TaxController,
     AccountController,
     BeginningBalanceController,
-    JournalController
+    JournalController,
+    LedgerController,
+    ReportController,
 };

@@ -26,6 +26,8 @@ import TaxService from './accounting/TaxService';
 import AccountService from './accounting/AccountService';
 import BeginningBalanceService from './accounting/BeginningBalanceService';
 import JournalService from './accounting/JournalService';
+import LedgerService from './accounting/LedgerService';
+import ReportService from './accounting/ReportService';
 
 export {
     CategoryService,
@@ -56,4 +58,6 @@ export {
     AccountService,
     BeginningBalanceService,
     JournalService,
+    LedgerService,
+    ReportService
 };

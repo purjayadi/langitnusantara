@@ -7,17 +7,9 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.UUID,
       },
-      code: {
-        type: Sequelize.STRING,
-        unique: true
-      },
       name: {
         type: Sequelize.STRING,
         unique: true
-      },
-      parentId:{
-        type: Sequelize.UUID,
-        allowNull: true
       },
       isActive: {
         type: Sequelize.BOOLEAN,
@@ -33,7 +25,7 @@ module.exports = {
       }
     });
   },
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable('Groups');
   }
 };

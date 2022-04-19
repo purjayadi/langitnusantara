@@ -1,9 +1,10 @@
 'use strict';
 import { DataTypes, Model } from 'sequelize';
-import db from '../../../../../config/db';
+import db from '../../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IAccount, AccountInput } from '../../../interfaces';
 import Group from './group';
+import User from '../user';
 
 class Account
     extends Model<IAccount, AccountInput>
@@ -19,6 +20,9 @@ class Account
     public parentId!: string;
     public userId!: string;
     public isActive!: boolean;
+    public credit!: number;
+    public debit!: number;
+    public balance!: number;
 
     // timestamps!
     public readonly createdAt!: Date;
@@ -59,7 +63,7 @@ Account.init(
                 key: 'id' // key in Target model that we're referencing
             },
             onUpdate: 'CASCADE',
-            onDelete: 'SET NULL' 
+            onDelete: 'SET NULL'
         },
         isGroup: {
             type: DataTypes.BOOLEAN,
@@ -113,11 +117,7 @@ Account.beforeCreate((Account) => {
     Account.id = uuid();
 });
 
-Account.belongsTo(Group, {
-    foreignKey: 'groupId',
-    targetKey: 'id',
-    as: 'group'
-});
+Account.belongsTo(User, { foreignKey: 'userId', as: 'user' });
 
 Account.belongsTo(Account, {
     foreignKey: 'parentId',

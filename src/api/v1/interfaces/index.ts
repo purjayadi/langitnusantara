@@ -24,3 +24,4 @@ export * from './accounting/AccountingInterface';
 export * from './accounting/BeginningBalanceInterface';
 export * from './accounting/PeriodeInterface';
 export * from './accounting/JournalInterface';
+export * from './accounting/ReportInterface';

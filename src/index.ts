@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import db from './config/db';
+import db from './api/v1/config/db';
 import passport from './api/v1/middleware/passport.middleware';
 import Logger from './api/v1/utils/logger';
 import morganMiddleware from './api/v1/middleware/morganMiddleware';

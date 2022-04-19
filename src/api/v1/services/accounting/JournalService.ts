@@ -21,8 +21,8 @@ class JournalService {
         return this.repository.Update(code, payload);
     }
 
-    async DeleteJournal(id: string) {
-        return this.repository.DeleteById(id);
+    async DeleteJournal(code: string) {
+        return this.repository.Delete(code);
     }
 
     async GetJournalById(id: string) {

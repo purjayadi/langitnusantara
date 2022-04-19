@@ -3,7 +3,7 @@ import { IUser } from '../interfaces';
 import passport from '../middleware/passport.middleware';
 import { UserService } from '../services';
 import jwt from 'jsonwebtoken';
-import { JWT_SECRET } from '../../../config/passport';
+import { JWT_SECRET } from '../config/passport';
 import Logger from '../utils/logger';
 import { auth, isAdmin } from '../utils/auth';
 

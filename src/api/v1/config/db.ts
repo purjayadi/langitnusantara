@@ -1,8 +1,8 @@
 // import sequelize
 import diff from 'microdiff';
 import { Dialect, Model, Sequelize } from 'sequelize';
-import localCache from '../api/v1/lib/local-cache';
-import Logger from '../api/v1/utils/logger';
+import localCache from '../lib/local-cache';
+import Logger from '../utils/logger';
 require('dotenv').config();
 
 const isTest = process.env.NODE_ENV === 'test';

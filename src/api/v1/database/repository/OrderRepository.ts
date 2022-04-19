@@ -8,7 +8,9 @@ import { OrderPaymentInput } from '../../interfaces/Payment.interface';
 import { paymentEvent } from '../../services';
 import User from '../models/user';
 import OrderDetail from '../models/OrderDetail';
+import db from '../../config/db';
 
+// TODO change status to paid on ewallet and outlet not yet
 export class OrderRepository {
     event: paymentEvent;
 
@@ -153,9 +155,10 @@ export class OrderRepository {
     }
 
     async UpdateStatusOrder(payload: OrderPaymentInput) {
+        const t = await db.transaction();
         try {
             let status: string;
-            const makePayment = await OrderPayment.create(payload);
+            const makePayment = await OrderPayment.create(payload, { transaction: t });
             if (!makePayment){
                 throw new Error('Ops, unable to create payment');
             }
@@ -170,12 +173,17 @@ export class OrderRepository {
                 }
             });
             payment < order ? status = 'Down Payment' : status = 'Paid';
-            const updateOrder = await Order.update({ status: status }, { where: { noInvoice: payload.orderId } });
+            const updateOrder = await Order.update(
+                { status: status }, 
+                { where: { noInvoice: payload.orderId }, transaction: t 
+            });
             if (!updateOrder) {
                 throw new Error('Ops, unable to update order status');
             }
+            await t.commit();
             return updateOrder;
         } catch (error:any) {
+            await t.rollback();
             throw new Error('Ops, something wrong');
         }
     }

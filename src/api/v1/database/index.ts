@@ -25,6 +25,8 @@ import TaxRepository from './repository/accounting/TaxRepository';
 import AccountRepository from './repository/accounting/AccountingRepository';
 import BeginningBalanceRepository from './repository/accounting/BeginningBalanceRepository';
 import JournalRepository from './repository/accounting/JournalRepository';
+import LedgerRepository from './repository/accounting/LedgerRepository';
+import ReportRepository from './repository/accounting/ReportRepository';
 
 export {
     ServiceRepository,
@@ -53,5 +55,7 @@ export {
     TaxRepository,
     AccountRepository,
     BeginningBalanceRepository,
-    JournalRepository
+    JournalRepository,
+    LedgerRepository,
+    ReportRepository,
 };

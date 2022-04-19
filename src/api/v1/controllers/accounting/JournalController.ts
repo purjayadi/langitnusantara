@@ -52,16 +52,16 @@ JournalController.patch('/:code/update', auth, isAdmin, async (req: Request, res
             message: 'Update Journal successfully'
         });
     } catch (error: any) {
-        return res.status(error.statusCode).send({
+        return res.status(500).send({
             success: false,
             message: error.message
         });
     }
 });
 
-JournalController.delete('/:id', auth, isAdmin, async (req: Request, res: Response) => {
+JournalController.delete('/:code', auth, isAdmin, async (req: Request, res: Response) => {
     try {
-        await service.DeleteJournal(req.params.id);
+        await service.DeleteJournal(req.params.code);
         return res.status(201).send({
             success: true,
             message: 'Delete Journal successfully'

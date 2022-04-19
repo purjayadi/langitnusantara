@@ -1,6 +1,6 @@
 'use strict';
 import { DataTypes, Model } from 'sequelize';
-import db from '../../../../config/db';
+import db from '../../config/db';
 import { v4 as uuid } from 'uuid';
 import { IGallery, GalleryInput } from '../../interfaces';
 require('dotenv').config();

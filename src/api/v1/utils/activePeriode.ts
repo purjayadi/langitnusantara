@@ -14,3 +14,15 @@ export const activePeriode = async () => {
     });
     return periode;
 };
+
+export const getIdActivePeriode = async () => {
+    const periode = await Periode.findOne({
+        where: {
+            isActive: true
+        }
+    });
+    if (periode) {
+        return periode.id;
+    }
+    throw new Error('Unable to find active periode');
+}; 

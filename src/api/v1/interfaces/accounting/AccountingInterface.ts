@@ -12,6 +12,9 @@ export interface IAccount{
     parentId: string;
     userId: string;
     isActive: boolean;
+    debit?: number;
+    credit?: number;
+    balance?: number;
 }
 
 export interface AccountInput extends Optional<IAccount, 'id'> {}

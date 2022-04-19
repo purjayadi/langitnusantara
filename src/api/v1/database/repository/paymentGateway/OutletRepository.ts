@@ -1,4 +1,4 @@
-import x from '../../../../../config/xendit';
+import x from '../../../config/xendit';
 import { RoInput } from '../../../interfaces';
 
 const RetailOutlet = x.RetailOutlet;

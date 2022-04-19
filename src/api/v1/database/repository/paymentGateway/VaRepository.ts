@@ -1,4 +1,4 @@
-import x from '../../../../../config/xendit';
+import x from '../../../config/xendit';
 import { IVa } from '../../../interfaces';
 import { NotFoundError } from '../../../utils/not-found-error';
 

@@ -1,4 +1,4 @@
-import x from '../../../../../config/xendit';
+import x from '../../../config/xendit';
 import { ITransaction } from '../../../interfaces';
 
 const { Transaction } = x;

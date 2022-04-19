@@ -1,4 +1,4 @@
-import x from '../../../../../config/xendit';
+import x from '../../../config/xendit';
 import { EwalletInput } from '../../../interfaces';
 
 const { EWallet } = x;
