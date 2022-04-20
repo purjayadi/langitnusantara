@@ -96,12 +96,11 @@ AuthController.get('/google/callback',
     async (req: Request, res: Response) => {
         const user = req.user;
         const accessToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1h' });
-        const refreshToken = jwt.sign({ user }, JWT_SECRET || 'secret', { expiresIn: '1d' });
         return res.status(200).json({
             success: true,
             message: 'Login successfully',
             accessToken: accessToken,
-            refreshToken: refreshToken
+            user: user
         });
     }
 );
