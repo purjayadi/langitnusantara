@@ -33,6 +33,7 @@ export class OrderRepository {
     }
 
     async Create(payload: OrderInput): Promise<OrderOutput> {
+        const t = await db.transaction();
         let { count } = await Order.findAndCountAll({
             attributes: ['noInvoice']
         });
@@ -50,7 +51,7 @@ export class OrderRepository {
             amount: payload.amount,
             status: payload.status,
             userId: payload.userId
-        });
+        }, { transaction: t });
         if (!order) {
             throw new Error('Unable to create order');
         }
@@ -102,16 +103,22 @@ export class OrderRepository {
         Logger.debug(payloadPayment);
         const method = payload.payment?.chanelCategory;
         const payment = await this.event.MakePayment(method, payloadPayment);
-        
+        Logger.debug(payment);
         if (!payment) {
+            await t.rollback();
             throw new Error('Unable to create payment');
         }
-        await OrderDetail.create({
+        const orderDetail = await OrderDetail.create({
             orderId: order.id,
             chanelCode: payload.payment?.chanelCode,
             chanelCategory: payload.payment?.chanelCategory,
             externalId: payment.id
-        });
+        }, { transaction: t });
+        if (!orderDetail) {
+          await t.rollback();
+          throw new Error('Unable to create payment');
+        }
+        await t.commit();
         return payment;
     }
 
@@ -162,7 +169,7 @@ export class OrderRepository {
             if (!makePayment){
                 throw new Error('Ops, unable to create payment');
             }
-            const payment = await OrderPayment.sum('amount', { 
+            const payment = await OrderPayment.sum('amount', {
                 where: {
                     orderId: payload.orderId
                 }
@@ -174,8 +181,8 @@ export class OrderRepository {
             });
             payment < order ? status = 'Down Payment' : status = 'Paid';
             const updateOrder = await Order.update(
-                { status: status }, 
-                { where: { noInvoice: payload.orderId }, transaction: t 
+                { status: status },
+                { where: { noInvoice: payload.orderId }, transaction: t
             });
             if (!updateOrder) {
                 throw new Error('Ops, unable to update order status');
@@ -186,5 +193,16 @@ export class OrderRepository {
             await t.rollback();
             throw new Error('Ops, something wrong');
         }
+    }
+
+    async CancelOrderById(id: string){
+        const order = await Order.findByPk(id);
+        if (!order) {
+            // @todo throw custom error
+            throw new NotFoundError;
+        }
+        const payload = { status: 'Canceled' };
+        const updatedOrder = await (order as Order).update(payload);
+        return updatedOrder;
     }
 }

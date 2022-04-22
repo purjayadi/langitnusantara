@@ -91,7 +91,7 @@ AuthController.get('/google',
     passport.authenticate('google', { scope: ['profile', 'email']} )
 );
 
-AuthController.get('/google/callback',
+AuthController.get('/callback/google',
     passport.authenticate('google', { failureRedirect: '/api/v1/auth/google/failure' }),
     async (req: Request, res: Response) => {
         const user = req.user;

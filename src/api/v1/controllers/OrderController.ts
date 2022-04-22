@@ -104,4 +104,19 @@ OrderController.get('/:id', auth, async (req: Request, res: Response) => {
   }
 });
 
+OrderController.patch('/:id/cancel', auth, async (req: Request, res: Response) => {
+  try {
+    await service.CancelOrderById(req.params.id);
+    return res.status(200).send({
+      success: true,
+      message: 'Cancel order successfully',
+    });
+  } catch (error: any) {
+    return res.status(500).send({
+      success: false,
+      message: error.message,
+    });
+  }
+});
+
 export default OrderController;

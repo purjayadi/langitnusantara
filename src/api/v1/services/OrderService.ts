@@ -47,6 +47,10 @@ class OrderService {
         return this.repository.UpdateExternalIdByNoInvoice(noInvoice, externalId);
     }
 
+    async CancelOrderById(id: string) {
+        return this.repository.CancelOrderById(id);
+    }
+
 }
 
 export default OrderService;
