@@ -32,7 +32,7 @@ DestinationController.get('/', async (req: Request, res: Response) => {
 DestinationController.post('/', upload.single('banner'), auth, isAdmin, async (req: Request, res: Response) => {
     const payload: IDestination = {
         name: req.body.name,
-        banner: req.baseUrl + req.file?.path,
+        banner: req.file?.path,
         isFeatured: req.body.isFeatured
     };
     try {
