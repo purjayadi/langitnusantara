@@ -131,7 +131,7 @@ Order.addScope('package', {
     {
       model: Package,
       as: 'package',
-      attributes: ['name', 'banner'],
+      attributes: ['name', 'banner', 'noOfDay'],
       include: [  
         { 
           model: Category, 

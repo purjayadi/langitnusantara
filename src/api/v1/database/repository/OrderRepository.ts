@@ -24,10 +24,14 @@ export class OrderRepository {
             const allOrder = Order.scope(['package','user','detail', 'payment']).findAndCountAll({
                 attributes: ['id', 'noInvoice', 'in', 'out', 'adult', 'children', 'price', 'discount', 'amount', 'status'],
                 distinct: true,
+                order: [
+                    ['noInvoice', 'DESC']
+                ],
                 col: 'Order.id',
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
-                ...user?.isAdmin === false && { where: { userId: user.id } }
+                ...user?.isAdmin === false && { where: { userId: user.id } },
+                ...filters?.status && { where: { status: filters?.status } }
             });
             return allOrder;
     }
