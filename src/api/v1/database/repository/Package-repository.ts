@@ -49,7 +49,7 @@ class PackageRepository {
                     description: service.description,
                 });
             });
-            await PackageService.bulkCreate(dataService);  
+            await PackageService.bulkCreate(dataService);
         }
         if (payload.itinerary?.length) {
             let itineraries: any[] = [];
@@ -63,7 +63,7 @@ class PackageRepository {
                 });
             });
             // console.log(itineraries);
-            
+
             try {
                 await Itinerary.bulkCreate(itineraries);
             } catch (error) {
@@ -75,11 +75,13 @@ class PackageRepository {
             payload.price.map(price => {
                 prices.push({
                     packageId: res.id,
+                    min: price.min,
+                    max: price.max,
                     description: price.description,
                     price: price.price
                 });
             });
-            
+
             try {
                 await PackagePrice.bulkCreate(prices);
             } catch (error) {
@@ -130,7 +132,7 @@ class PackageRepository {
                 });
             });
             // console.log(itineraries);
-            
+
             try {
                 await Itinerary.bulkCreate(itineraries);
             } catch (error) {
@@ -153,7 +155,7 @@ class PackageRepository {
                     price: price.price
                 });
             });
-            
+
             try {
                 await PackagePrice.bulkCreate(prices);
             } catch (error) {
