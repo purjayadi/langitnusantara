@@ -4,8 +4,8 @@ import { PackageInput } from '../../interfaces';
 import PackageService from '../models/packageService';
 import Itinerary from '../models/itinerary';
 import PackagePrice from '../models/packagePrice';
-import Logger from '../../utils/logger';
 import Destination from '../models/destination';
+import db from '../../config/db';
 
 class PackageRepository {
     async Package(filters?: getAllDataFilters
@@ -38,131 +38,123 @@ class PackageRepository {
     }
 
     async Create(payload: PackageInput) {
-        const res = await Package.create(payload);
-        if (payload.services?.length) {
-            let dataService: any[] = [];
-            payload.services.map(service => {
-                dataService.push({
-                    packageId: res.id,
-                    serviceId: service.id,
-                    type: service.type,
-                    description: service.description,
+        const t = await db.transaction();
+        const res = await Package.create(payload, { transaction: t });
+        try {
+            if (payload.services?.length) {
+                let dataService: any[] = [];
+                payload.services.map(service => {
+                    dataService.push({
+                        packageId: res.id,
+                        serviceId: service.id,
+                        type: service.type,
+                        description: service.description,
+                    });
                 });
-            });
-            await PackageService.bulkCreate(dataService);
-        }
-        if (payload.itinerary?.length) {
-            let itineraries: any[] = [];
-            payload.itinerary.map(itinerary => {
-                itineraries.push({
-                    packageId: res.id,
-                    day: itinerary.day,
-                    title: itinerary.title,
-                    meta: itinerary.meta,
-                    description: itinerary.description,
-                });
-            });
-            // console.log(itineraries);
-
-            try {
-                await Itinerary.bulkCreate(itineraries);
-            } catch (error) {
-                console.log(error);
+                await PackageService.bulkCreate(dataService, { transaction: t });
             }
-        }
-        if (payload.price?.length) {
-            let prices: any[] = [];
-            payload.price.map(price => {
-                prices.push({
-                    packageId: res.id,
-                    min: price.min,
-                    max: price.max,
-                    description: price.description,
-                    price: price.price
+            if (payload.itinerary?.length) {
+                let itineraries: any[] = [];
+                payload.itinerary.map(itinerary => {
+                    itineraries.push({
+                        packageId: res.id,
+                        day: itinerary.day,
+                        title: itinerary.title,
+                        meta: itinerary.meta,
+                        description: itinerary.description,
+                    });
                 });
-            });
-
-            try {
-                await PackagePrice.bulkCreate(prices);
-            } catch (error) {
-                Logger.debug(error);
+                await Itinerary.bulkCreate(itineraries, { transaction: t });
             }
+            if (payload.price?.length) {
+                let prices: any[] = [];
+                payload.price.map(price => {
+                    prices.push({
+                        packageId: res.id,
+                        min: price.min,
+                        max: price.max,
+                        description: price.description,
+                        price: price.price
+                    });
+                });
+                await PackagePrice.bulkCreate(prices, { transaction: t });
+            }
+            await t.commit();
+            return res;
+        } catch (error) {
+            await t.rollback();
+            throw new Error('Unable to create package');
         }
-        return res;
     }
 
     async UpdateById(id: string, payload: Partial<PackageInput>) {
+        const t = await db.transaction();
         const res = await Package.findByPk(id);
         if (!res) {
             // @todo throw custom error
             throw new Error('not found');
         }
-        const updatedPackage = await (res as Package).update(payload);
-        if (payload.services?.length) {
-            await PackageService.destroy({
-                where: {
-                    packageId: updatedPackage.id
-                }
-            });
-            let dataService: any[] = [];
-            payload.services.map(service => {
-                dataService.push({
-                    packageId: res.id,
-                    serviceId: service.id,
-                    type: service.type,
-                    description: service.description,
+        try {
+            const updatedPackage = await (res as Package).update(payload, { transaction: t });
+            if (payload.services?.length) {
+                await PackageService.destroy({
+                    where: {
+                        packageId: updatedPackage.id
+                    }, transaction: t
                 });
-            });
-            await PackageService.bulkCreate(dataService);
-        }
-        if (payload.itinerary?.length) {
-            await Itinerary.destroy({
-                where: {
-                    packageId: updatedPackage.id
-                }
-            });
-            let itineraries: any[] = [];
-            payload.itinerary.map(itinerary => {
-                itineraries.push({
-                    packageId: res.id,
-                    day: itinerary.day,
-                    title: itinerary.title,
-                    meta: itinerary.meta,
-                    description: itinerary.description,
+                let dataService: any[] = [];
+                payload.services.map(service => {
+                    dataService.push({
+                        packageId: res.id,
+                        serviceId: service.id,
+                        type: service.type,
+                        description: service.description,
+                    });
                 });
-            });
-            // console.log(itineraries);
-
-            try {
-                await Itinerary.bulkCreate(itineraries);
-            } catch (error) {
-                console.log(error);
+                await PackageService.bulkCreate(dataService, { transaction: t });
             }
-        }
-        if (payload.price?.length) {
-            await PackagePrice.destroy({
-                where: {
-                    packageId: updatedPackage.id
-                }
-            });
-            let prices: any[] = [];
-            payload.price.map(price => {
-                prices.push({
-                    packageId: res.id,
-                    min: price.min,
-                    max: price.max,
-                    description: price.description,
-                    price: price.price
+            if (payload.itinerary?.length) {
+                await Itinerary.destroy({
+                    where: {
+                        packageId: updatedPackage.id
+                    }, transaction: t
                 });
-            });
-
-            try {
-                await PackagePrice.bulkCreate(prices);
-            } catch (error) {
-                Logger.debug(error);
+                let itineraries: any[] = [];
+                payload.itinerary.map(itinerary => {
+                    itineraries.push({
+                        packageId: res.id,
+                        day: itinerary.day,
+                        title: itinerary.title,
+                        meta: itinerary.meta,
+                        description: itinerary.description,
+                    });
+                });
+                await Itinerary.bulkCreate(itineraries, { transaction: t });
             }
+            if (payload.price?.length) {
+                await PackagePrice.destroy({
+                    where: {
+                        packageId: updatedPackage.id
+                    }, transaction: t
+                });
+                let prices: any[] = [];
+                payload.price.map(price => {
+                    prices.push({
+                        packageId: res.id,
+                        min: price.min,
+                        max: price.max,
+                        description: price.description,
+                        price: price.price
+                    });
+                });
+
+                await PackagePrice.bulkCreate(prices, { transaction: t });
+            }
+            return updatedPackage;
+        } catch (error) {
+            await t.rollback();
+            throw new Error('Unable to update package');
         }
-        return updatedPackage;
     }
 
     async DeleteById(id: string): Promise<boolean> {
