@@ -41,9 +41,6 @@ module.exports = {
       noOfDay: {
         type: Sequelize.INTEGER
       },
-      userId: {
-        type: Sequelize.STRING
-      },
       isFeatured: {
         type: Sequelize.BOOLEAN,
         defaultValue: false
