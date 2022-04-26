@@ -44,7 +44,7 @@ class AccountRepository {
             return account;
         } catch (error) {
             await t.rollback();
-            throw new Error('Error insert Beginning Balance');
+            throw error;
         }
         
     }
