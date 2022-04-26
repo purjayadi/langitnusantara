@@ -50,7 +50,7 @@ PackageController.post('', upload.single('banner'), auth, isAdmin, async (req: R
   } catch (error: any) {
     return res.status(500).send({
       success: false,
-      message: error.errors,
+      message: error.message,
     });
   }
 });
