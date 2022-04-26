@@ -83,7 +83,7 @@ class PackageRepository {
             return res;
         } catch (error) {
             await t.rollback();
-            return error;
+            throw error;
         }
     }
 
