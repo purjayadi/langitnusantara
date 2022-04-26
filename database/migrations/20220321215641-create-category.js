@@ -15,7 +15,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       isActive: {
-        type: Sequelize.BOOLEAN
+        type: Sequelize.BOOLEAN,
+        defaultValue: true
       },
       color: {
         type: Sequelize.STRING
