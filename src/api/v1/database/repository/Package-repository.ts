@@ -83,7 +83,7 @@ class PackageRepository {
             return res;
         } catch (error) {
             await t.rollback();
-            throw new Error('Unable to create package');
+            return error;
         }
     }
 
