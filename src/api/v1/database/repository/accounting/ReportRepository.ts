@@ -70,6 +70,8 @@ class ReportRepository {
                 ['code', 'ASC'],
                 [{ model: Group, as: 'subGroup' }, { model: Group, as: 'subGroup' }, 'code', 'ASC'],
             ],
+            raw: true,
+            nest: true,
             group: ['Group.id', 'subGroup.id', 'subGroup->subGroup.id', 'subGroup->subGroup->account.id']
         });
         return groups;
@@ -128,6 +130,8 @@ class ReportRepository {
                 ['code', 'ASC'],
                 [{ model: Group, as: 'subGroup' }, { model: Group, as: 'subGroup' }, 'code', 'ASC'],
             ],
+            raw: true,
+            nest: true,
             group: ['Group.id', 'subGroup.id', 'subGroup->subGroup.id', 'subGroup->subGroup->account.id']
         });
         Logger.info(groups);
