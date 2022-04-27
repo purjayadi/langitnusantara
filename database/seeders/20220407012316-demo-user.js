@@ -10,7 +10,7 @@ module.exports = {
   async up (queryInterface, Sequelize) {
     const users = [
       {
-        id: faker.datatype.uuid(),
+        id: 'bf2be0db-8e26-4beb-9228-166430aa6289',
         firstName: 'Admin',
         lastName: 'Admin',
         email: 'admin@admin.com',
