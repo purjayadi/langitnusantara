@@ -11,101 +11,128 @@ class ReportRepository {
     async TrialBalance(filters?: getAllDataFilters
     ) {
         const groups = await Group.findAll({
-            attributes: ['name'],
+            attributes: ['code', 'name'],
+            where: {
+                '$Group.parentId$': {
+                    [Op.eq]: null
+                }
+            },
             include: {
                 model: Group,
                 as: 'subGroup',
-                attributes: ['name'],
+                required: false,
+                attributes: ['code', 'name'],
                 include: [
                     {
-                        model: Account,
-                        as: 'account',
-                        attributes: ['id', 'name','posBalance',
-                            [Sequelize.fn('SUM', Sequelize.col('balance')), 'beginningBalance'],
-                            [Sequelize.fn('SUM', Sequelize.col('debit')), 'debit'],
-                            [Sequelize.fn('SUM', Sequelize.col('credit')), 'credit'],
-                            // eslint-disable-next-line quotes
-                            [Sequelize.literal(`(case when "posBalance" = 'Debit' then SUM(debit) - SUM(credit) else SUM(credit) - SUM(debit) end)`), 'balance'],
-                        ],
+                        model: Group,
+                        as: 'subGroup',
+                        required: false,
+                        attributes: ['code', 'name'],
                         include: [
                             {
-                                model: BeginningBalance,
-                                as: 'beginningBalances',
-                                attributes: [],
-                                where: {
-                                    ...(filters?.periodeId && { periodeId: filters?.periodeId }),
-                                }
-                            },
-                            {
-                                attributes: [],
-                                model: Journal,
-                                as: 'journal',
-                                required: true,
-                                where: {
-                                    ...(filters?.periodeId && { periodeId: filters?.periodeId }),
-                                }
+                                model: Account,
+                                as: 'account',
+                                required: false,
+                                attributes: ['id', 'name', 'posBalance',
+                                    [Sequelize.fn('SUM', Sequelize.col('balance')), 'beginningBalance'],
+                                    [Sequelize.fn('SUM', Sequelize.col('debit')), 'debit'],
+                                    [Sequelize.fn('SUM', Sequelize.col('credit')), 'credit'],
+                                    // eslint-disable-next-line quotes
+                                    [Sequelize.literal(`(case when "posBalance" = 'Debit' then SUM(debit) - SUM(credit) else SUM(credit) - SUM(debit) end)`), 'balance'],
+                                ],
+                                include: [
+                                    {
+                                        model: BeginningBalance,
+                                        as: 'beginningBalances',
+                                        attributes: [],
+                                        required: false,
+                                        where: {
+                                            ...(filters?.periodeId && { periodeId: filters?.periodeId }),
+                                        }
+                                    },
+                                    {
+                                        attributes: [],
+                                        model: Journal,
+                                        as: 'journal',
+                                        required: false,
+                                        // required: true,
+                                        where: {
+                                            ...(filters?.periodeId && { periodeId: filters?.periodeId }),
+                                        }
+                                    }
+                                ]
                             }
                         ]
                     }
                 ]
             },
-            where: {
-                parentId: {
-                    [Op.eq]: null
-                }
-            },
-            order: [['code', 'ASC']],
-            group: ['Group.id', 'subGroup.id', 'subGroup->account.id']
+            order: [
+                ['code', 'ASC'],
+                [{ model: Group, as: 'subGroup' }, { model: Group, as: 'subGroup' }, 'code', 'ASC'],
+            ],
+            group: ['Group.id', 'subGroup.id', 'subGroup->subGroup.id', 'subGroup->subGroup->account.id']
         });
-        Logger.info(groups);
-        return  groups;
+        return groups;
     }
 
     async BalanceSheet() {
-            const groups = await Group.findAll({
-                attributes: ['name'],
-                include: {
-                    model: Group,
-                    as: 'subGroup',
-                    attributes: ['name'],
-                    include: [
-                        {
-                            model: Account,
-                            as: 'account',
-                            attributes: ['id', 'name','posBalance',
-                                // eslint-disable-next-line quotes
-                                [Sequelize.literal(`(case when "posBalance" = 'Debit' then SUM(debit) - SUM(credit) else SUM(credit) - SUM(debit) end)`), 'balance'],
-                            ],
-                            where: {
-                                posBalance: 'Debit'
-                            },
-                            include: [
-                                {
-                                    model: BeginningBalance,
-                                    as: 'beginningBalances',
-                                    attributes: [],
+        const groups = await Group.findAll({
+            attributes: ['code', 'name'],
+            where: {
+                '$Group.parentId$': {
+                    [Op.eq]: null
+                }
+            },
+            include: {
+                model: Group,
+                as: 'subGroup',
+                required: false,
+                attributes: ['code', 'name'],
+                include: [
+                    {
+                        model: Group,
+                        as: 'subGroup',
+                        required: false,
+                        attributes: ['code', 'name'],
+                        include: [
+                            {
+                                model: Account,
+                                as: 'account',
+                                required: false,
+                                attributes: ['id', 'name', 'posBalance',
+                                    // eslint-disable-next-line quotes
+                                    [Sequelize.literal(`(case when "posBalance" = 'Debit' then SUM(debit) - SUM(credit) else SUM(credit) - SUM(debit) end)`), 'balance'],
+                                ],
+                                where: {
+                                    posBalance: 'Debit'
                                 },
-                                {
-                                    attributes: [],
-                                    model: Journal,
-                                    as: 'journal',
-                                    required: true,
-                                }
-                            ]
-                        }
-                    ]
-                },
-                where: {
-                    parentId: {
-                        [Op.eq]: null
+                                include: [
+                                    {
+                                        model: BeginningBalance,
+                                        as: 'beginningBalances',
+                                        attributes: [],
+                                    },
+                                    {
+                                        attributes: [],
+                                        model: Journal,
+                                        as: 'journal',
+                                        required: false,
+                                    }
+                                ]
+                            }
+                        ]
                     }
-                },
-                order: [['code', 'ASC']],
-                group: ['Group.id', 'subGroup.id', 'subGroup->account.id']
-            });
-            Logger.info(groups);
-            return  groups;
-        }
+                ]
+            },
+            order: [
+                ['code', 'ASC'],
+                [{ model: Group, as: 'subGroup' }, { model: Group, as: 'subGroup' }, 'code', 'ASC'],
+            ],
+            group: ['Group.id', 'subGroup.id', 'subGroup->subGroup.id', 'subGroup->subGroup->account.id']
+        });
+        Logger.info(groups);
+        return groups;
+    }
 
 }
 
