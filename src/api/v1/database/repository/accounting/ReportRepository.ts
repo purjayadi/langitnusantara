@@ -11,7 +11,7 @@ class ReportRepository {
     async TrialBalance(filters?: getAllDataFilters
     ) {
         const groups = await Group.findAll({
-            attributes: ['code', 'name'],
+            attributes: ['id', 'code', 'name'],
             where: {
                 '$Group.parentId$': {
                     [Op.eq]: null
@@ -21,13 +21,13 @@ class ReportRepository {
                 model: Group,
                 as: 'subGroup',
                 required: false,
-                attributes: ['code', 'name'],
+                attributes: ['id', 'code', 'name'],
                 include: [
                     {
                         model: Group,
                         as: 'subGroup',
                         required: false,
-                        attributes: ['code', 'name'],
+                        attributes: ['id', 'code', 'name'],
                         include: [
                             {
                                 model: Account,
@@ -75,6 +75,7 @@ class ReportRepository {
         let data: any = [];
         groups.forEach((group: any) => {
             data.push({
+                id: group.id,
                 code: group.code,
                 name: group.name,
                 golongan: 'Group',
@@ -86,6 +87,7 @@ class ReportRepository {
             });
             group.subGroup.forEach((subGroup: any) => {
                 data.push({
+                    id: subGroup.id, 
                     code: subGroup.code,
                     name: subGroup.name,
                     golongan: 'Group',
@@ -97,6 +99,7 @@ class ReportRepository {
                 });
                 subGroup.subGroup.forEach((subSubGroup: any) => {
                     data.push({
+                        id: subSubGroup.id,
                         code: subSubGroup.code,
                         name: subSubGroup.name,
                         golongan: 'Group',
@@ -110,6 +113,7 @@ class ReportRepository {
                         Logger.debug(account);
 
                         data.push({
+                            id: account.id,
                             code: account.code,
                             name: account.name,
                             golongan: 'Ledger',
@@ -129,7 +133,7 @@ class ReportRepository {
 
     async BalanceSheet() {
         const groups = await Group.findAll({
-            attributes: ['code', 'name'],
+            attributes: ['id', 'code', 'name'],
             where: {
                 '$Group.parentId$': {
                     [Op.eq]: null
@@ -139,13 +143,13 @@ class ReportRepository {
                 model: Group,
                 as: 'subGroup',
                 required: false,
-                attributes: ['code', 'name'],
+                attributes: ['id', 'code', 'name'],
                 include: [
                     {
                         model: Group,
                         as: 'subGroup',
                         required: false,
-                        attributes: ['code', 'name'],
+                        attributes: ['id', 'code', 'name'],
                         include: [
                             {
                                 model: Account,
@@ -185,6 +189,7 @@ class ReportRepository {
         let data: any = [];
         groups.forEach((group: any) => {
             data.push({
+                id: group.id,
                 code: group.code,
                 name: group.name,
                 golongan: 'Group',
@@ -193,6 +198,7 @@ class ReportRepository {
             });
             group.subGroup.forEach((subGroup: any) => {
                 data.push({
+                    id: subGroup.id,
                     code: subGroup.code,
                     name: subGroup.name,
                     golongan: 'Group',
@@ -201,6 +207,7 @@ class ReportRepository {
                 });
                 subGroup.subGroup.forEach((subSubGroup: any) => {
                     data.push({
+                        id: subSubGroup.id,
                         code: subSubGroup.code,
                         name: subSubGroup.name,
                         golongan: 'Group',
@@ -209,6 +216,7 @@ class ReportRepository {
                     });
                     subSubGroup.account.forEach((account: any) => {
                         data.push({
+                            id: account.id,
                             code: account.code,
                             name: account.name,
                             golongan: 'Ledger',
