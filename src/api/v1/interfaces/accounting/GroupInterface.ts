@@ -6,6 +6,7 @@ export interface IGroup{
     code: string;
     parentId: string;
     isActive: boolean;
+    subGroup?: IGroup;
 }
 
 export interface GroupInput extends Optional<IGroup, 'id'> {}

@@ -33,7 +33,7 @@ class ReportRepository {
                                 model: Account,
                                 as: 'account',
                                 required: false,
-                                attributes: ['id', 'name', 'posBalance',
+                                attributes: ['id', 'code', 'name', 'posBalance',
                                     [Sequelize.fn('SUM', Sequelize.col('balance')), 'beginningBalance'],
                                     [Sequelize.fn('SUM', Sequelize.col('debit')), 'debit'],
                                     [Sequelize.fn('SUM', Sequelize.col('credit')), 'credit'],
@@ -72,7 +72,59 @@ class ReportRepository {
             ],
             group: ['Group.id', 'subGroup.id', 'subGroup->subGroup.id', 'subGroup->subGroup->account.id']
         });
-        return groups;
+        let data: any = [];
+        groups.forEach((group: any) => {
+            data.push({
+                code: group.code,
+                name: group.name,
+                golongan: 'Group',
+                level: 1,
+                beginningBalance: 0,
+                debit: 0,
+                credit: 0,
+                balance: 0,
+            });
+            group.subGroup.forEach((subGroup: any) => {
+                data.push({
+                    code: subGroup.code,
+                    name: subGroup.name,
+                    golongan: 'Group',
+                    level: 2,
+                    beginningBalance: 0,
+                    debit: 0,
+                    credit: 0,
+                    balance: 0,
+                });
+                subGroup.subGroup.forEach((subSubGroup: any) => {
+                    data.push({
+                        code: subSubGroup.code,
+                        name: subSubGroup.name,
+                        golongan: 'Group',
+                        level: 3,
+                        beginningBalance: 0,
+                        debit: 0,
+                        credit: 0,
+                        balance: 0,
+                    });
+                    subSubGroup.account.forEach((account: any) => {
+                        Logger.debug(account);
+
+                        data.push({
+                            code: account.code,
+                            name: account.name,
+                            golongan: 'Ledger',
+                            level: 4,
+                            beginningBalance: account.beginningBalance ? account.beginningBalance : 0,
+                            debit: account.debit ? account.debit : 0,
+                            credit: account.credit ? account.credit : 0,
+                            balance: account.balance ? account.balance : 0,
+                        });
+                    });
+
+                });
+            });
+        });
+        return data;
     }
 
     async BalanceSheet() {
@@ -99,7 +151,7 @@ class ReportRepository {
                                 model: Account,
                                 as: 'account',
                                 required: false,
-                                attributes: ['id', 'name', 'posBalance',
+                                attributes: ['id', 'code', 'name', 'posBalance',
                                     // eslint-disable-next-line quotes
                                     [Sequelize.literal(`(case when "posBalance" = 'Debit' then SUM(debit) - SUM(credit) else SUM(credit) - SUM(debit) end)`), 'balance'],
                                 ],
@@ -130,8 +182,45 @@ class ReportRepository {
             ],
             group: ['Group.id', 'subGroup.id', 'subGroup->subGroup.id', 'subGroup->subGroup->account.id']
         });
+        let data: any = [];
+        groups.forEach((group: any) => {
+            data.push({
+                code: group.code,
+                name: group.name,
+                golongan: 'Group',
+                level: 1,
+                balance: 0,
+            });
+            group.subGroup.forEach((subGroup: any) => {
+                data.push({
+                    code: subGroup.code,
+                    name: subGroup.name,
+                    golongan: 'Group',
+                    level: 2,
+                    balance: 0,
+                });
+                subGroup.subGroup.forEach((subSubGroup: any) => {
+                    data.push({
+                        code: subSubGroup.code,
+                        name: subSubGroup.name,
+                        golongan: 'Group',
+                        level: 3,
+                        balance: 0,
+                    });
+                    subSubGroup.account.forEach((account: any) => {
+                        data.push({
+                            code: account.code,
+                            name: account.name,
+                            golongan: 'Ledger',
+                            level: 4,
+                            balance: account.balance ? account.balance : 0,
+                        });
+                    });
+                });
+            });
+        });
         Logger.info(groups);
-        return groups;
+        return data;
     }
 
 }

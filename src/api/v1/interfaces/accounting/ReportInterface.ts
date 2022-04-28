@@ -1,17 +1,10 @@
-export interface trialBalance{
+export interface ITrialBalance{
+    code: string;
     name: string;
-    subGroup?: [
-        {
-            name: string;
-            account: [
-                {
-                    name: string;
-                    debit: number;
-                    credit: number;
-                    balance: number;
-                }
-            ]
-        }
-    ];
-    push?: any;
+    golongan: string;
+    level: number;
+    beginningBalance: number;
+    debit: number;
+    credit: number;
+    balance: number;
 }
