@@ -80,10 +80,10 @@ class ReportRepository {
                 name: group.name,
                 golongan: 'Group',
                 level: 1,
-                beginningBalance: 0,
-                debit: 0,
-                credit: 0,
-                balance: 0,
+                beginningBalance: '-',
+                debit: '-',
+                credit: '-',
+                balance: '-',
             });
             group.subGroup.forEach((subGroup: any) => {
                 data.push({
@@ -92,10 +92,10 @@ class ReportRepository {
                     name: subGroup.name,
                     golongan: 'Group',
                     level: 2,
-                    beginningBalance: 0,
-                    debit: 0,
-                    credit: 0,
-                    balance: 0,
+                    beginningBalance: '-',
+                    debit: '-',
+                    credit: '-',
+                    balance: '-',
                 });
                 subGroup.subGroup.forEach((subSubGroup: any) => {
                     data.push({
@@ -104,10 +104,10 @@ class ReportRepository {
                         name: subSubGroup.name,
                         golongan: 'Group',
                         level: 3,
-                        beginningBalance: 0,
-                        debit: 0,
-                        credit: 0,
-                        balance: 0,
+                        beginningBalance: '-',
+                        debit: '-',
+                        credit: '-',
+                        balance: '-',
                     });
                     subSubGroup.account.forEach((account: any) => {
                         Logger.debug(account);
@@ -194,7 +194,7 @@ class ReportRepository {
                 name: group.name,
                 golongan: 'Group',
                 level: 1,
-                balance: 0,
+                balance: '-',
             });
             group.subGroup.forEach((subGroup: any) => {
                 data.push({
@@ -203,7 +203,7 @@ class ReportRepository {
                     name: subGroup.name,
                     golongan: 'Group',
                     level: 2,
-                    balance: 0,
+                    balance: '-',
                 });
                 subGroup.subGroup.forEach((subSubGroup: any) => {
                     data.push({
@@ -212,7 +212,7 @@ class ReportRepository {
                         name: subSubGroup.name,
                         golongan: 'Group',
                         level: 3,
-                        balance: 0,
+                        balance: '-',
                     });
                     subSubGroup.account.forEach((account: any) => {
                         data.push({
