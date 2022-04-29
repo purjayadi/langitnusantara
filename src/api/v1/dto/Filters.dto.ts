@@ -12,4 +12,6 @@ export class getAllDataFilters {
     public readonly startDate?: Date;
     public readonly endDate?: Date;
     public readonly status?: string;
+    public readonly posBalance?: string;
+    public readonly posReport?: string;
 }

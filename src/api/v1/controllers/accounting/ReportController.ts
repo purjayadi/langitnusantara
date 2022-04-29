@@ -23,8 +23,9 @@ ReportController.get('/trial-balance', auth, isAdmin, async (req: Request, res: 
 });
 
 ReportController.get('/balance-sheet', auth, isAdmin, async (req: Request, res: Response) => {
+    const filters: getAllDataFilters = req.query;
     try {
-        const data = await service.GetBalanceSheet();
+        const data = await service.GetBalanceSheet(filters);
         return res.status(200).send({
             success: true,
             data: data

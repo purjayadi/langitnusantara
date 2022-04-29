@@ -131,7 +131,8 @@ class ReportRepository {
         return data;
     }
 
-    async BalanceSheet() {
+    async BalanceSheet(filters?: getAllDataFilters
+        ) {
         const groups = await Group.findAll({
             attributes: ['id', 'code', 'name'],
             where: {
@@ -142,25 +143,25 @@ class ReportRepository {
             include: {
                 model: Group,
                 as: 'subGroup',
-                required: false,
+                required: true,
                 attributes: ['id', 'code', 'name'],
                 include: [
                     {
                         model: Group,
                         as: 'subGroup',
-                        required: false,
+                        required: true,
                         attributes: ['id', 'code', 'name'],
                         include: [
                             {
                                 model: Account,
                                 as: 'account',
-                                required: false,
-                                attributes: ['id', 'code', 'name', 'posBalance',
+                                required: true,
+                                attributes: ['id', 'code', 'name', 'posBalance', 'posReport',
                                     // eslint-disable-next-line quotes
                                     [Sequelize.literal(`(case when "posBalance" = 'Debit' then SUM(debit) - SUM(credit) else SUM(credit) - SUM(debit) end)`), 'balance'],
                                 ],
                                 where: {
-                                    posBalance: 'Debit'
+                                    [Op.and]: [{ posReport: filters?.posReport }, { posBalance: filters?.posBalance }]
                                 },
                                 include: [
                                     {
@@ -188,6 +189,7 @@ class ReportRepository {
         });
         let data: any = [];
         groups.forEach((group: any) => {
+            Logger.debug(group);
             data.push({
                 id: group.id,
                 code: group.code,
@@ -227,7 +229,6 @@ class ReportRepository {
                 });
             });
         });
-        Logger.info(groups);
         return data;
     }
 

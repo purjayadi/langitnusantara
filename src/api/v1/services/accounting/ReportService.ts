@@ -12,8 +12,8 @@ class ReportService {
         return this.repository.TrialBalance(filters);
     }
 
-    async GetBalanceSheet(){
-        return this.repository.BalanceSheet();
+    async GetBalanceSheet(filters: getAllDataFilters){
+        return this.repository.BalanceSheet(filters);
     }
 }
 
