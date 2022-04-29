@@ -1,10 +1,12 @@
 export interface ITrialBalance{
+    id?: string;
     code: string;
     name: string;
     golongan: string;
     level: number;
-    beginningBalance: number;
-    debit: number;
-    credit: number;
-    balance: number;
+    beginningBalance: string;
+    debit: string;
+    credit: string;
+    balance: string;
+    dataValues: ITrialBalance;
 }
