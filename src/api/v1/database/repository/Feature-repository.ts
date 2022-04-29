@@ -10,6 +10,9 @@ class FeatureRepository {
             const allFeature = Feature.findAndCountAll({
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
+                order: [
+                    ['createdAt', 'ASC'],
+                ],
             });
             return allFeature;
     }

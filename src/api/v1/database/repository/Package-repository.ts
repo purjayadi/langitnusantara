@@ -14,9 +14,6 @@ class PackageRepository {
         const offset = filters?.page ? (+filters?.page * limit) - limit : 1;
         const allPackage = Package.scope(['category', 'services', 'itinerary', 'price', 'reviews']).findAndCountAll({
             attributes: ['id', 'name', 'slug', 'description', 'noOfDay', 'isFeatured', 'banner'],
-            order: [
-                ['packageServices', 'type', 'ASC']
-            ],
             include: [
                 {
                     model: Destination,
@@ -32,7 +29,10 @@ class PackageRepository {
             ...filters?.limit && { limit: limit },
             where: {
                 ...(filters?.isFeatured && { isFeatured: filters?.isFeatured })
-            }
+            },
+            order: [
+                ['packageServices', 'type', 'ASC']
+            ],
         });
         return allPackage;
     }

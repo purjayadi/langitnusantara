@@ -10,6 +10,9 @@ class PartnerRepository {
             const allPartner = Partner.findAndCountAll({
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
+                order: [
+                    ['createdAt', 'ASC'],
+                ],
             });
             return allPartner;
     }

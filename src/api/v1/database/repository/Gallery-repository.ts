@@ -10,6 +10,9 @@ class GalleryRepository {
             const allGallery = Gallery.findAndCountAll({
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
+                order: [
+                    ['createdAt', 'ASC'],
+                ],
             });
             return allGallery;
     }

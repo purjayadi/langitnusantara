@@ -10,6 +10,9 @@ class HotelRepository {
             const allHotel = Hotel.findAndCountAll({
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
+                order: [
+                    ['createdAt', 'ASC'],
+                ],
             });
             return allHotel;
     }

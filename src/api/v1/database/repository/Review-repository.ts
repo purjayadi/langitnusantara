@@ -10,6 +10,9 @@ class ReviewRepository {
             const allReview = Review.findAndCountAll({
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
+                order: [
+                    ['createdAt', 'ASC'],
+                ],
             });
             return allReview;
     }

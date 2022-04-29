@@ -15,7 +15,10 @@ class DestinationRepository {
                 ...filters?.limit && { limit: limit },
                 where: {
                     ...(filters?.isFeatured && { isFeatured: filters?.isFeatured })
-                }
+                },
+                order: [
+                    ['createdAt', 'ASC'],
+                ],
             });
             return allDestination;
     }

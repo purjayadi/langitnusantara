@@ -10,6 +10,9 @@ class UserRepository {
         const allUser = User.scope('withoutPassword').findAndCountAll({
             ...filters?.page && { offset: offset },
             ...filters?.limit && { limit: limit },
+            order: [
+                ['createdAt', 'ASC'],
+            ],
         });
         return allUser;
     }

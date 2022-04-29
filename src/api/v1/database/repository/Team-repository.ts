@@ -10,6 +10,9 @@ class TeamRepository {
             const allTeam = Team.findAndCountAll({
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
+                order: [
+                    ['createdAt', 'ASC'],
+                ],
             });
             return allTeam;
     }

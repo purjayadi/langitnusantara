@@ -10,6 +10,9 @@ class CategoryRepository {
             const allCategory = Category.findAndCountAll({
                 ...filters?.page && { offset: offset },
                 ...filters?.limit && { limit: limit },
+                order: [
+                    ['createdAt', 'ASC'],
+                ],
             });
             return allCategory;
     }
