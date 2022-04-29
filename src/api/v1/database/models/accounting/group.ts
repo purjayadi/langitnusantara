@@ -83,6 +83,14 @@ Group.addScope('children', {
                 model: Group,
                 as: 'subGroup',
                 attributes: ['id', 'code', 'name'],
+                include: [
+                    {
+                        model: Account,
+                        as: 'account',
+                        required: false,
+                        attributes: ['id', 'code', 'name'],
+                    }
+                ]
             }
         ]
     }
