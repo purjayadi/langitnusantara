@@ -1,3 +1,4 @@
+import { getIdActivePeriode } from './../../../utils/activePeriode';
 import Journal from '../../models/accounting/Journal';
 import { getAllDataFilters, paginate } from '../../../dto';
 import { JournalInput, JournalOutput } from '../../../interfaces';
@@ -33,13 +34,14 @@ class JournalRepository {
         if (sumDebit !== sumCredit) {
             throw new Error('Debit and Credit must be equal');
         }
+        const periodeId = await getIdActivePeriode();
         payload.map((item: any) => {
             data.push({
                 date: item.date,
                 code: item.code,
                 journalTypeId: item.journalTypeId,
                 accountId: item.accountId,
-                periodeId: item.periodeId,
+                periodeId: periodeId,
                 debit: item.debit,
                 credit: item.credit,
                 note: item.note,
@@ -74,13 +76,14 @@ class JournalRepository {
             if (sumDebit !== sumCredit) {
                 throw new Error('Debit and Credit must be equal');
             }
+            const periodeId = await getIdActivePeriode();
             payload.map((item: any) => {
                 data.push({
                     date: item.date,
                     code: item.code,
                     journalTypeId: item.journalTypeId,
                     accountId: item.accountId,
-                    periodeId: item.periodeId,
+                    periodeId: periodeId,
                     debit: item.debit,
                     credit: item.credit,
                     note: item.note,
